@@ -1,0 +1,205 @@
+* {
+	padding: 0;
+	border: 0;
+	margin: 0;
+	font-family: "Microsoft YaHei";
+	list-style-type: none;
+}
+
+a {
+	cursor: pointer;
+	text-decoration: none;
+}
+
+html,body {
+	height: 100%; /* 浏览器窗口高度 */
+}
+
+body {
+	min-width: 1000px;
+	position: relative;
+}
+
+#wrapper {
+	width: 100%;
+	height: 100%;
+	background:url(../img/index/index_bg.jpg) no-repeat;
+	background-size: cover; /* 分开失效 */
+	background-position: 0 center;
+	position: fixed;
+	
+	z-index: -2;
+}
+
+/* 导航 */
+
+nav {
+	height: 50px;
+	background-color: rgba(228,50,50,0.8);
+	position: fixed;
+	width: 100%;
+	*box-shadow: 0px 1px 24px rgba(0,0,0,0.5);
+	z-index: 100;
+	color: white;
+}
+
+nav h1 {
+	margin-left: 30px;
+}
+
+nav h1 a {
+	font-size: 22px;
+	font-weight: 100;
+	line-height: 50px;
+	letter-spacing: 2px;
+	color: white;
+}
+
+nav ul {
+	position: absolute;
+	right: 50px;
+	top: 0;
+	
+}
+
+nav ul li {
+	float: left;
+	width: 96px;
+	text-align: center;
+	position: relative;
+}
+
+nav ul li a {
+	height: 50px;
+	display: block;
+	line-height: 50px;
+	text-decoration: none;
+	color: white;
+}
+
+nav ul li:hover a {
+	color: #F4F94E;
+}
+
+
+nav ul li #memorylist {
+	height: 90px;
+	width: 100%;
+	background-color: white;
+	position: absolute;
+	top: 50px;
+	left: 50%;
+	margin-left: -58px;
+	padding: 0 10px;
+	z-index: -3;
+	border-radius: 0 0 20px 20px;
+	
+	visibility:hidden;
+}
+
+nav ul li:hover #memorylist {
+	visibility: visible;
+	height: 150px;
+	transition: all 0.3s;
+	-moz-transition: all 0.3s;
+	-webkit-transition: all 0.3s;
+	-o-transition: all 0.3s;
+	overflow: hidden;
+}
+
+
+
+nav ul li #memorylist li {
+	color: black;
+	height: 30px;
+	width: 116px;
+	line-height: 30px;
+	margin-left: -10px;
+	visibility:hidden;
+	cursor: pointer;
+}
+
+nav ul li #memorylist li a {
+	line-height: 30px;
+	color: black;
+}
+
+nav ul li:hover #memorylist li {
+	height: 50px;
+	visibility: visible;
+	transition: height 0.3s;
+	-moz-transition: height 0.3s;
+	-webkit-transition: height 0.3s;
+	-o-transition: height 0.3s;
+}
+
+nav ul li:hover #memorylist li a {
+	line-height: 50px;
+}
+
+nav ul li #memorylist li:hover {
+	background: #F6255C;
+}
+
+nav ul li #memorylist li:hover a {
+	color: white;
+}
+
+
+/* 侧边栏 */
+#sidebar {
+	top: 0;
+	bottom: 0;
+	right: -300px;
+	width: 300px;
+	background-color: #EE233C;
+	position: fixed;
+	z-index: 200;
+	transition: all 0.3s;
+	-moz-transition: all 0.3s;
+	-webkit-transition: all 0.3s;
+	-o-transition: all 0.3s;
+	overflow: auto;
+}
+
+#sidebar #closebar {
+	color: white;
+	width: 70px;
+	height: 40px;
+	text-align: center;
+	letter-spacing: 3px;
+	position: absolute;
+	right: 20px;
+	top: 20px;
+	line-height: 30px;
+	cursor: pointer;
+}
+
+#sidebar #closebar:hover {
+	color: #F4F644;
+}
+
+#sidebar img {
+	width: 200px;
+	position: absolute;
+	right: 50px;
+	top: 80px;
+	border: 2px solid #F39999;
+	border-radius: 10px;
+}
+
+#sidebar h3 {
+	color: white;
+	font-weight: 100;
+	letter-spacing: 4px;
+	text-align: center;
+	margin-top: 260px;
+}
+
+#sidebar p {
+	padding: 0 20px;
+	letter-spacing: 2px;
+	color: white;
+	line-height: 2;
+	margin-top: 35px;
+}

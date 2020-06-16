@@ -1,0 +1,63 @@
+/*甜蜜瞬间title*/
+#sweettitle {
+	width: 60%;
+	position: relative;
+	left: 20%;
+	height: 200px;
+	background-color: rgba(103,62,62,0.7);
+	top: 80px;
+}
+
+#sweettitle h2 {
+	font-size: 40px;
+	color: white;
+	text-align: center;
+	letter-spacing: 5px;
+	font-weight: 100;
+	top: 10px;
+	position: relative;
+}
+
+#sweettitle p {
+	text-align: center;
+	color: white;
+	position: relative;
+	top: 60px;
+	font-size: 18px;
+	letter-spacing: 2px;
+	font-weight: 100;
+}
+
+/*图片瀑布流*/
+
+#waterfull {
+	top: 100px;
+	position: relative;
+	
+}
+
+.waterimg {
+	position: absolute;
+	width: 400px;
+}
+
+.waterimg:hover {
+	box-shadow: 1px 1px 10px #000; 
+}
+
+.waterimg img {
+	width: 400px;
+
+}
+
+.waterimg p {
+	width: 100%;
+	height: 40px;
+	line-height: 40px;
+	color: white;
+	text-align: center;
+	background-color: rgba(0,0,0,0.7);
+	margin-top: -44px;
+	position: relative;
+	overflow: hidden;
+}
