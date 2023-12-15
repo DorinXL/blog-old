@@ -71,8 +71,11 @@
                             </a>
                         </li>
                         <li>
-                            <a href="https://www.cnblogs.com/DorinXL/" target="_blank" class="pt-link">
-                                    <span class="nav-menu-icon"><i class="lnr lnr-book"></i></span>Blog
+<!--                            <a href="https://www.cnblogs.com/DorinXL/" target="_blank" class="pt-link">-->
+<!--                                    <span class="nav-menu-icon"><i class="lnr lnr-book"></i></span>Blog-->
+<!--                            </a>-->
+                            <a href="#blog" class="pt-link">
+                                <span class="nav-menu-icon"><i class="lnr lnr-briefcase"></i></span>Blog
                             </a>
                         </li>
                         <li>
@@ -442,9 +445,41 @@
                             </figure>
                         </a>
                     </div>
+                </div>
             </div>
         </section>
         <!--Porfolio Section End-->
+
+        <!--Blog Section Start-->
+        <section id="blog" class="blog-section pt-page">
+            <div class="section-container">
+                <!--Page Heading-->
+                <div class="page-heading">
+              <span class="icon">
+                <i class="lnr lnr-book"></i>
+              </span>
+                    <h2>My Blogs.</h2></div>
+                <div id="blog-posts" class="row blogs-masonry">
+                    <!-- 这里将会通过 JavaScript 动态添加博客文章 -->
+                </div>
+                <div class="pagination">
+                    <button id="prevPage">Previous</button>
+                    <button id="nextPage">Next</button>
+                </div>
+            </div>
+        </section>
+        <!--Blog Section End-->
+
+<!--        test start-->
+<!--        <div id="blog-posts" class="blog-posts">-->
+<!--            &lt;!&ndash; 这里将会通过 JavaScript 动态添加博客文章 &ndash;&gt;-->
+<!--        </div>-->
+<!--        <div class="pagination">-->
+<!--            <button id="prevPage">Previous</button>-->
+<!--            <button id="nextPage">Next</button>-->
+<!--        </div>-->
+
+        <!--        test end-->
     </div>
     <!--Main End-->
 
@@ -475,5 +510,7 @@
     particlesJS.load('particles-js', 'js/particles1.json', function () {
         console.log('callback - particles.js config loaded')
     });</script>
+
+<script src="js/blog.js"></script>
 </body>
 </html>
