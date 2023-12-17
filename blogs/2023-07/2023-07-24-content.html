@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<script src="https://cdn.jsdelivr.net/npm/texme@1.2.2"></script>
+<meta name="referrer" content="no-referrer">
+<head>
+    <meta charset="UTF-8">
+    <title>解析数论之数论函数【其一】</title>
+</head>
+<body>
+<textarea>
+    > ###### @Coding: Typora+LaTeX
+>
+> ###### @Author : [DorinXL](https://dorinxl.gitee.io/)（[博客](https://www.cnblogs.com/DorinXL/)）
+>
+> ###### @Time : 2023/7/24 16:54
+
+## 目录
+
+- Chapter1 数论函数介绍
+- Chapter2 数论函数的狄利克雷乘积
+- Chapter3 莫比乌斯反转
+
+## Chapter1 数论函数介绍
+
+> 在正整数上定义的实数或复数的函数称为数论函数。
+
+### Section1 莫比乌斯函数$\mu(n)$
+
+- **Definition**：
+  $$
+  根据算术基本定理，将大于1的自然数n分解为若干个质数乘积形式\\
+  n=p_1^{\alpha_1}p_2^{\alpha_2} \cdots p_k^{\alpha_k}\\
+  \mu(n)=
+  \begin{cases}
+  1,&\text{if $n=1$}\\
+  (-1)^k,&\text{if ${\alpha_1}={\alpha_2}= \cdots ={\alpha_k}=1$}\\
+  0,&\text{otherwise}
+  \end{cases}
+  $$
+  对于出现莫比乌斯函数的计算来说，我们更加关注于组成n的若干素数乘积，他们的幂是否都是1。
+
+- **Examples**:
+
+| n        | 1    | 2    | 3    | 4    | 5    | 6    | 7    | 8    | 9    | 10   |
+| -------- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- |
+| $\mu(n)$ | 1    | -1   | -1   | 0    | -1   | 1    | -1   | 0    | 0    | 1    |
+
+- **Theorem:**
+
+  - Th1:如果$n\ge1$，我们有：
+    $$
+    \sum_{d|n}\mu(d)=[\dfrac{1}{n}]=
+    \begin{cases}
+    1,&\text{if $n=1$}\\
+    0,&\text{if $n>1$}
+    \end{cases}
+    $$
+
+
+  > **Proof**:
+  >
+  > 对于$n=1$，显然成立。
+  >
+  > 对于$n>1$，将$n$分解为$n={p_1^{\alpha_1}}\cdots{p_k^{\alpha_k}}$,我们知道${p^{\alpha}}$的因子只能是$1,p,p^2,\cdots,p^\alpha$，而$n$由很多素数幂组成，在此基础上，我们只考虑那些会让$\mu$不为0的展开项，所以我们展开求和公式：
+  > $$
+  > \begin{align*}
+  > \sum_{d|n}\mu(d)&=\mu(1)+\mu(p_1)+\cdots+\mu(p_k)\\
+  > &+\mu(p_1p_2)+\cdots+\mu(p_1p_2p_3)+\cdots+\mu(p_1\cdots p_k)\\
+  > &=1+C_{k}^{1}(-1)+C_{k}^{2}(-1)^{2}+\cdots+C_{k}^{k}(-1)^k\\
+  > &=(1-1)^k(二项式定理)\\
+  > &=0\\
+  > \end{align*}
+  > $$
+  >
+
+- **Note**:
+
+  > 二项式定理：
+  > $$
+  > (x+y)^n=\tbinom{n}{0}x^ny^0+\tbinom{n}{1}x^{n-1}y^1+\cdots+\tbinom{n}{n}x^0y^n
+  > $$
+  >
+
+### Section2 欧拉函数$\varphi(n)$
+
+- **Definition**：
+
+  欧拉函数$\varphi(n)$被定义为不大于n并且与n互素的数的个数。
+
+- **Examples**:
+
+| n            | 1    | 2    | 3    | 4    | 5    | 6    | 7    | 8    | 9    | 10   |
+| ------------ | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- |
+| $\varphi(n)$ | 1    | 1    | 2    | 2    | 4    | 2    | 6    | 4    | 6    | 4    |
+
+- **Theorem:**
+
+  - Th1：如果$n\ge1$，我们有：
+    $$
+    \sum_{d|n}\varphi(d)=n
+    $$
+
+
+  > **Proof**：
+  >
+  > 用$S$表示不大于$n$的集合$\{1,2,\cdots,n\}$，接下来将$S$分解为若干个不相交的集合$A$，$A(d)=\{k|(k,n)=d,1\le k\le n\}$。集合A里面装的是对于$n$的所有因子，在$S$的范围内与$n$的最大公因数为相同$n$的因子的数放在一起。例如对于$n=10$：
+  > $$
+  > S=\{1,2,3,4,5,6,7,8,9,10\}\\
+  > A(1)=\{1,3,7,9\}\\
+  > A(2)=\{2,4,6,8\}\\
+  > A(5)=\{5\}\\
+  > A(10)=\{10\}\\
+  > $$
+  > 现在我们想用一个符号表示$A$中的符号，我们选择$f(d)$来表示$A(d)$中的个数，那么就有：
+  > $$
+  > \sum_{d|n}f(d)=n
+  > $$
+  > 现在我们把$(k,n)=d,0 < k \le n$转化为$(\dfrac{k}{d},\dfrac{n}{d})=1,0 < \dfrac{k}{d} \le \dfrac{n}{d}$，如此一来我们就可以找到$A(d)$的数量与$\varphi(\dfrac{k}{d})$之间的关系：$f(d)=\varphi(\dfrac{n}{d})$，于是
+  > $$
+  > \sum_{d|n}\varphi(\dfrac{n}{d})=n=\sum_{d|n}\varphi(d)
+  > $$
+
+  - Th2：如果$n\ge1$，我们有：
+    $$
+    \varphi(n)=\sum_{d|n}\mu(d){\dfrac{n}{d}}
+    $$
+
+
+  > **Proof**:
+  >
+  > 基于欧拉函数的定义我们可以将其改写为：
+  > $$
+  > \varphi(n)=\sum_{k=1}^{n}[\dfrac{1}{(n,k)}]
+  > $$
+  > 我们使用莫比乌斯函数的定理来改写这个式子：
+  > $$
+  > \varphi(n)=\sum_{k=1}^{n}[\dfrac{1}{(n,k)}]=\sum_{k=1}^{n}\sum_{d|(n,k)}\mu(d)=\sum_{k=1}^{n}\sum_{d|n\\d|k}\mu(d)
+  > $$
+  > 如何解读上面的求和条件呢？对于n的一个固定的因子d，我们需要满足$k,1\le k \le n$是d的倍数求和。所以我们用$k=qd$代替：
+  > $$
+  > \varphi(n)=\sum_{d|n}\sum_{q=1}^{\dfrac{n}{d}}\mu(d)=\sum_{d|n}\mu(d)\sum_{q=1}^{\dfrac{n}{d}}1=\sum_{d|n}\mu(d)\dfrac{n}{d}
+  > $$
+  >
+
+  - Th3：如果$n>1$，我们有：
+    $$
+    \varphi(n)=n\prod_{p|n}(1-\dfrac{1}{p})
+    $$
+
+  > **Proof**:
+  >
+  > 对于$n=1$，没有素数整除$1$，这个式子没有意义。
+  >
+  > 对于$n>1$，令$p_1,p_2,\cdots,p_r$为n的不同素因子，那么我们有：
+  > $$
+  > \begin{align*}
+  > \prod_{p|n}(1-\dfrac{1}{p})&=\prod_{i=1}^{n}(1-\dfrac{1}{p_i})\\
+  > &=(1-\dfrac{1}{p_1})(1-\dfrac{1}{p_2})\cdots(1-\dfrac{1}p_r{})\\
+  > &=1-\sum\dfrac{1}{p_i}+\sum\dfrac{1}{p_ip_j}-\sum\dfrac{1}{p_ip_jp_k}+\cdots+\dfrac{(-1)^k}{p_ip_2\cdots p_k}(这一行的分母可以看作n的因子，分子可以看作\mu(d)，因为如果出现素数平方幂会等于0)\\
+  > &=\sum_{d|n}\dfrac{\mu(d)}{d}
+  > \end{align*}
+  > $$
+  > 所以有
+  > $$
+  > \varphi(n)=\sum_{d|n}\mu(d)\dfrac{n}{d}=n\sum_{d|n}\dfrac{\mu(d)}{d}=n\prod_{p|n}(1-\dfrac{1}{p})
+  > $$
+
+  - Th4：欧拉函数有如下性质：
+    1. 对于素数$P$与$\alpha\ge1$,有$\varphi(P^\alpha)=p^{\alpha}-p^{\alpha-1}$。
+    2. $\varphi(mn)=\varphi(m)\varphi(n)(\dfrac{d}{\varphi(d)})$，这里$d=(m,n)$。
+    3. $\varphi(mn)=\varphi(m)\varphi(n)$，如果$(m,n)=1$。
+    4. $a|b$得出$\varphi(a)|\varphi(b)$
+    5. 当$n\ge3$时，$\varphi(n)$是偶数，而且，如果$n$有$r$个不同的奇素因子时，$2^r|\varphi(n)$。
+
+  > **Proof**:
+  >
+  > 4.1：在$\varphi(n)=n\prod\limits_{p|n}(1-\dfrac{1}{p})$中取$n=P^\alpha$得证。
+  >
+  > 4.2：假设有$m,n$两个整数，$mn$积的每一个素因数也是$m$或者$n$的素因数，我们将$p|m,p|n$的素因子$p$遍历出来，会出现重复的因子，为了防止多余计算，我们将多出来的这些出现过的因子除去，于是结合Th3就有了下面的式子：
+  > $$
+  > \dfrac{\varphi(mn)}{mn}=\prod_{p|mn}(1-\dfrac{1}{p})=\dfrac{\prod_{p|m}(1-\dfrac{1}{p})\prod_{p|n}(1-\dfrac{1}{p})}{\prod_{p|(m,n)}(1-\dfrac{1}{p})}=\dfrac{\dfrac{\varphi(m)}{m} \dfrac{\varphi(n)}{n}}{\dfrac{\varphi(d)}{d}}
+  > $$
+  > 4.3：是4.2的特殊情况
+  >
+  > 4.4：由$a|b$我们得出$b=ac,1\le c \le b$，如果$c=b$，那么$a=1$，$\varphi(a)|\varphi(b)$成立。
+  >
+  > 如果$c<b$：
+  > $$
+  > \varphi(b)=\varphi(ac)=\varphi(a)\varphi(c)\dfrac{d}{\varphi(d)}=d\varphi(a)\dfrac{\varphi(c)}{\varphi(d)},d=(a,c)
+  > $$
+  > 接下来使用归纳法，假设对所有小于$b$的整数，$\varphi(a)|\varphi(b)$成立，那么作为小于$b$的$c$自然满足这一式子，那么既然$d=(a,c),d|c$，于是就有$\varphi(d)|\varphi(c)$，于是上面式子的右侧就变成了$\varphi(a)$的倍数。于是$\varphi(a)|\varphi(b)$成立。
+  >
+  > 4.5：我们假设$n是偶数，n=2^\alpha,\alpha\ge2$，那么由4.1我们知道$\varphi(n)$肯定是偶数。如果n至少有一个奇数素因子，我们写：
+  > $$
+  > \varphi(n)=n\prod_{p|n}\dfrac{p-1}{p}=\dfrac{n}{\prod_{p|n}p}\prod_{p|n}(p-1)=C(n)\prod_{p|n}(p-1)
+  > $$
+  > 对于上面的式子，$C(n)$是一个整数，而$\prod_{p|n}(p-1)$是一个偶数（因为有至少一个素因子的贡献），所以$\varphi(n)$是偶数。
+  >
+  > 如果$n$有$r$个不同的奇素因子时，每个素因子都能在上面的式子$\prod_{p|n}(p-1)$中提供一个因子2，于是就有$2^r|\varphi(n)$
+
+### Section3 恒等函数$I(n)$、单位函数$u(n)$
+
+- **Definition**：
+  $$
+  I(n)=[\dfrac{1}{n}]=
+  \begin{cases}
+  1,&\text{n=1}\\
+  0,&\text{n>1}
+  \end{cases}\\
+  u(n)=1
+  $$
+
+- **Theorem:**
+
+  - Th1：（该定理需要前置知识狄利克雷卷积）对所有的$f$，我们有$I*f=f*I=f$
+
+  > **Proof**：
+  >
+  > $$
+  > (f*I)(n)=\sum_{d|n}f(d)I(\dfrac{n}{d})=\sum_{d|n}f(d)[\dfrac{d}{n}]=f(n)
+  > $$
+
+
+### Section4 Mangoldt(曼戈尔特函数)$\Lambda(n)$
+
+- **Definition**：对每一个整数$n\ge1$，我们定义
+  $$
+  \Lambda(n)=
+  \begin{cases}
+  \log_{}{p}&如果n=p^m,p为素数，m\ge1 \\
+  0&其他
+  \end{cases}
+  $$
+
+- **Examples**:
+
+| n            | 1    | 2           | 3           | 4           | 5           | 6    | 7           | 8           | 9           | 10   |
+| ------------ | ---- | ----------- | ----------- | ----------- | ----------- | ---- | ----------- | ----------- | ----------- | ---- |
+| $\Lambda(n)$ | 0    | $\log{}{2}$ | $\log{}{3}$ | $\log{}{2}$ | $\log{}{5}$ | 0    | $\log{}{7}$ | $\log{}{2}$ | $\log{}{3}$ | 0    |
+
+- **Theorem:**
+
+  - Th1：若$n\ge1$，我们有
+    $$
+    \log{}{n}=\sum_{d|n}\Lambda(d)
+    $$
+
+  > **Proof**:
+  >
+  > $n=1$，两边都是0，成立
+  >
+  > $n>1$，算术基本定理：$n=\prod\limits_{k=1}^{r}p_k^{\alpha_k}$，两边取对数：
+  > $$
+  > \log{n}=\sum_{k=1}^{r}\alpha_k\log{p_k}
+  > $$
+  > 现在我们关注要证明的式子的右端$\log{}{n}=\sum_{d|n}\Lambda(d)$,对于$\Lambda()$来说，非零的项来自$p_k^{m}(m=1,2,\cdots,\alpha_k;k=1,2,\cdots,r)$，于是
+  > $$
+  > \sum_{d|n}\Lambda(d)=\sum_{k=1}^{r}\sum_{m=1}^{\alpha_k}\Lambda(p_k^m)=\sum_{k=1}^{r}\sum_{m=1}^{\alpha_k}\log{p_k}=\sum_{k=1}^{r}\alpha_k\log{p_k}=\log{n}
+  > $$
+
+  - Th2：若$n\ge1$，我们有
+    $$
+    \Lambda(n)=\sum_{d|n}\mu(d)\log{\dfrac{n}{d}}=-\sum_{d|n}\mu(d)\log{d}
+    $$
+
+  > **Proof**:
+  >
+  > 对上面的定理使用莫比乌斯反转：
+  > $$
+  > \log{}{n}=\sum_{d|n}\Lambda(d)\\
+  > \Updownarrow\\
+  > \Lambda(d)=\sum_{d|n}\mu(d)log(\dfrac{n}{d})=\log{n}\sum_{d|n}\mu(d)-\sum_{d|n}\mu(d)\log{d}=\log{n}\cdot I(n)-\sum_{d|n}\mu(d)\log{d}
+  > $$
+  > 对于所有的n，$\log{n}\cdot I(n)=0$，所以证明完毕。
+
+
+### Section5 Liouville(刘维尔函数)$\lambda(n)$
+
+- **Definition**：我们规定$\lambda(1)=1$，如果$n=p_1^{\alpha_1}\cdots p_k^{\alpha_ k}$，我们规定
+  $$
+  \lambda(n)=(-1)^{\alpha_1+\cdots +\alpha_k}
+  $$
+
+- **Theorem:**
+
+  - Th1：对每一个$n>1$，我们有
+    $$
+    \sum_{d|n}\lambda(d)=
+    \begin{cases}
+    1&\text{n是平方数}\\
+    0&\text{其他}
+    \end{cases}
+    $$
+
+  > **Proof**:
+  >
+  > 令$g(n)=\sum_{d|n}\lambda(d)$,$g$是积性的。运用算术基本定理我们只需要确定$g(p^\alpha)$：
+  > $$
+  > \begin{align*}
+  > g(p^\alpha)&=\sum_{d|p^\alpha}\lambda(d)\\
+  > &=1+\lambda(p)+\lambda(p^2)+\cdots+\lambda(p^\alpha)\\
+  > &=1-1+1-\cdots+(-1)^\alpha\\
+  > &=
+  > \begin{cases}
+  > 1&\text{$\alpha$是奇数}\\
+  > 0&\text{$\alpha$是偶数}
+  > \end{cases}
+  > \end{align*}
+  > $$
+  > 在这种情况下，$n=\prod\limits_{k=1}^{r}p_k^{\alpha_k},g(n)=\prod\limits_{k=1}^{r}g(p_k^{\alpha_k})$，如果有指数$\alpha$是奇数，那么$g(n)=0$，如果所有的$\alpha$都是偶数，那么$g(n)=1$。
+
+
+### Section6 除数函数$\sigma_{\alpha}(n)$
+
+- **Definition**：对于实数或复数$\alpha$以及任意整数$n>1$，我们规定：
+  $$
+  \sigma_\alpha(n)=\sum_{d|n}d^\alpha
+  $$
+  当$\alpha=0$时，$\sigma_{0}(n)$是n的因子个数，常用$d(n)$表示。
+
+  当$\alpha=1$时，$\sigma_{1}(n)$是n的因子之和，常用$\sigma(n)$表示。
+
+- **Theorem:**
+
+  - Th1：对$n\ge1$，我们有
+    $$
+    \sigma_{\alpha}^{-1}(n)=\sum_{d|n}d^{\alpha}\mu(d)\mu(\dfrac{n}{d})
+    $$
+
+  > **Proof**:
+  >
+  > 证明需要狄利克雷卷积相关知识：
+  >
+  > $\sigma_{\alpha}(n)=N^\alpha * u$
+  > $$
+  > \sigma_{\alpha}^{-1}(n)=(N^\alpha * u)^{-1}=(\mu N^\alpha)*u^{-1}=(\mu N^\alpha)*\mu
+  > $$
+  >
+
+  - Th2：
+    $$
+    \sigma_{\alpha}(p^a)=
+    \begin{cases}
+    a+1&\text{if $\alpha=1$},\\
+    \dfrac{p^{\alpha(a+1)}-1}{p^{\alpha}-1}&\text{if $\alpha \ne 1$}
+    \end{cases}
+    $$
+
+  > **Proof**:
+  > $$
+  > \sigma_{\alpha}(p^a)=1^\alpha+p^\alpha+p^{2\alpha}+\cdots+p^{a\alpha}=
+  > \begin{cases}
+  > a+1&\text{if $\alpha=1$},\\
+  > \dfrac{p^{\alpha(a+1)}-1}{p^{\alpha}-1}&\text{if $\alpha \ne 1$}
+  > \end{cases}
+  > $$
+
+
+## Chapter2 数论函数的狄利克雷乘积
+
+### Section1 <a id="section1">狄利克雷卷积</a>
+
+- **Definition：**如果$f$和$g$是两个数论函数，我们规定他们的狄利克雷卷积由下面的等式确定：
+  $$
+  h(n)=(f*g)(n)=\sum_{d|n}f(d)g(\dfrac{n}{d})
+  $$
+  上面的式子还可以改写成其他形式：
+  $$
+  h(n)=\sum_{d|n}f(d)g(\dfrac{n}{d})=\sum_{d|n}f(\frac{n}{d})g(d)=\sum_{xy=n}f(x)g(y)
+  $$
+
+- **Examples：**
+
+  - Ex1：$\mu*u=I$
+
+    > **Proof：**
+    > $$
+    > \mu*u=\sum_{d|n}\mu(d)u(\dfrac{n}{d})=\sum_{d|n}\mu(d)=I
+    > $$
+
+  - Ex2：$\mu*N=\varphi$
+
+    > **Proof：**
+    > $$
+    > \mu*N=\sum_{d|n}\mu(d)N(\dfrac{n}{d})=\sum_{d|n}\mu(d)\dfrac{n}{d}=\varphi
+    > $$
+
+  - Ex3：$u*N=\sigma_1$
+
+    > **Proof：**
+    > $$
+    > u*N=\sum_{d|n}u(d)N(\dfrac{n}{d})=\sum_{d|n}(d)=\sigma_1
+    > $$
+
+  - Ex4：$u*u=\sigma_0$
+
+    > **Proof：**
+    > $$
+    > u*u=\sum_{d|n}u(d)u(\dfrac{n}{d})=\sum_{d|n}1=\sigma_0
+    > $$
+
+  - Ex5：$u*\varphi=N$
+
+    > **Proof：**
+    > $$
+    > u*\varphi=\sum_{d|n}u(d)\varphi(\dfrac{n}{d})=\sum_{d|n}\varphi(d)=N
+    > $$
+
+- **Theorem:**
+
+  - Th1：狄利克雷卷积满足交换律，即$f*g=g*f$
+
+  > **Proof**:
+  >
+  > $$
+  > \begin{align*}
+  > f*g&=\sum_{xy=n}f(x)g(y)\\
+  > &=\sum_{xy=n}g(x)f(y)\\
+  > &=f*g\\
+  > \end{align*}
+  > $$
+
+  - Th2：狄利克雷卷积满足结合律，即$（f*g）*h=f*(g*h)$
+
+  > **Proof**:
+  > $$
+  > \begin{align*}
+  > （f*g）*h&=\sum_{xy=n}(f*g)(x)h(y)\\
+  > &=\sum_{xy=n}\sum_{ab=x}f(a)g(b)h(y)\\
+  > &=\sum_{abc=n}f(a)g(b)h(c)\\
+  > &=f*(g*h)(展开过程同上)
+  > \end{align*}
+  > $$
+  >
+
+  - Th3：狄利克雷卷积满足分配律，即$f*(g+h)=f*g+f*h$
+
+  > **Proof**:
+  > $$
+  > \begin{align*}
+  > f*(g+h)&=\sum_{xy=n}f(x)(g+h)(y)\\
+  > &=\sum_{xy=n}f(x)(g(y)+h(y))\\
+  > &=\sum_{xy=n}f(x)g(y)+\sum_{xy=n}f(x)h(y)\\
+  > &=f*g+f*h
+  > \end{align*}
+  > $$
+
+
+### Section2 狄利克雷逆
+
+- **Definition**：如果$f$是一个数论函数且$f(1)\ne0$，则存在唯一的一个称为$f$的狄利克雷逆函数的数论函数，使
+  $$
+  f*^{-1}*f=f^{-1}*f=I
+  $$
+
+- **Theorem:**
+
+  - Th1：我们计算$f^{-1}$的递推公式：
+    $$
+    f^{-1}=
+    \begin{cases}
+    \dfrac{1}{f(1)}&\text{$n=1$}\\
+    -\dfrac{1}{f(1)}\sum\limits_{d|n\\d<n}f(\dfrac{n}{d})f^{-1}(d)&\text{otherwise}
+    \end{cases}
+    $$
+
+  > **Proof**:
+  >
+  > 对$n=1$，$(f*f^{-1})(1)=I(1)=1 \Rightarrow f^{-1}=\dfrac{1}{f(1)}$
+  >
+  > 对$n\ge1$，
+  > $$
+  > \begin{align*}
+  > (f*f^{-1})(n)=\sum_{d|n}f(d)f^{-1}(\dfrac{n}{d})&=0\\
+  > f(1)f^{-1}(n)+\sum_{d|n\\d<n}f(\dfrac{n}{d})f^{-1}(d)&=0\\
+  > \end{align*}
+  > \\f^{-1}(n)=\dfrac{-1}{f(1)}\sum_{d|n\\d<n}f(\dfrac{n}{d})f^{-1}(d)
+  > $$
+
+  - Th2：$(f*g)^{-1}=f^{-1}*g^{-1}$
+
+  > **Proof**:
+  > $$
+  > (f*g)^{-1}=f^{-1}*g^{-1}\\
+  > (f*g)*(f*g)^{-1}=f^{-1}*g^{-1}*(f*g)\\
+  > I=f^{-1}*f*g*g^{-1}\\
+  > I=I*I=I
+  > $$
+
+
+## Chapter3 莫比乌斯反转
+
+- **Definition**：$f$,$g$是两个数论函数，如果有：
+  $$
+  f(n)=\sum_{d|n}g(d)\\
+  \Updownarrow\\
+  g(n)=\sum_{d|n}f(d)\mu(\dfrac{n}{d})
+  $$
+
+  > **Proof**:
+  >
+  > 证明$\Downarrow$：
+  > $$
+  > f(n)=\sum_{d|n}g(d)即f=g*u\\
+  > f*\mu=g*u*\mu=g*(u*\mu)=g*I=g
+  > $$
+  > 证明$\Uparrow$：
+  > $$
+  > g(n)=\sum_{d|n}f(d)\mu(\dfrac{n}{d})即g=f*\mu\\
+  > u*g=u*f*\mu=(u*\mu)*f=I*f=f
+  > $$
+  >
+
+</textarea>
+</body>
+</html>

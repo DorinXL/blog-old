@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<script src="https://cdn.jsdelivr.net/npm/texme@1.2.2"></script>
+<meta name="referrer" content="no-referrer">
+<head>
+    <meta charset="UTF-8">
+    <title>i春秋web作业2.24——web渗透环境搭建与基础</title>
+</head>
+<body>
+<p style="text-align: center;"><span style="font-size: 22pt;">Web安全工程师(入门班) </span></p>
+<p style="text-align: center;">【全国线上入门班53期】课后作业</p>
+<p style="text-align: center;">&nbsp;</p>
+<p style="text-align: center;"><span style="font-family: 宋体; font-size: 12pt;">2020-2-24 </span></p>
+<p style="text-align: center;"><span style="font-family: 宋体; font-size: 12pt;">DorinXL </span></p>
+<p style="text-align: center;">&nbsp;</p>
+<ol>
+    <li><span style="font-size: 10pt;"><strong>分别尝试安装一个Windows和Linux操作系统 </strong></span></li>
+</ol>
+<ul style="margin-left: 39pt;">
+    <li><span style="font-size: 9pt;">想要在虚拟机上装系统，首先需要下载对应的镜像文件(.iso)，接着选择上对应的镜像文件按照向导的提示进行安装。 </span></li>
+    <li><span style="font-size: 9pt;">在安装时也可以选择先安装一个包含空白硬盘的虚拟机，镜像文件可以之后在硬件设置中选择放入。 </span></li>
+    <li><img src="https://img2018.cnblogs.com/blog/1858293/202002/1858293-20200225230112844-589132592.png" alt="" /><span style="font-size: 9pt;">新建包含空白硬盘的虚拟机的时候要选好操作系统。 </span></li>
+    <li><span style="font-size: 9pt;">当向导结束后，开启虚拟机，按照操作系统提示进行设置，重启之后正常开机表示可以运行操作系统。 </span></li>
+    <li>
+        <div><img src="https://img2018.cnblogs.com/blog/1858293/202002/1858293-20200225230113195-360184004.png" alt="" /></div>
+        <p>&nbsp;</p>
+    </li>
+</ul>
+<p><strong>　　2）自己搭建一个网站 </strong></p>
+<ul style="margin-left: 42pt;">
+    <li><span style="font-size: 9pt;">我们可以通过一些搭配来完成基于虚拟机的网站的搭建（比如LAMP、LNMP等），也可以去各大服务器厂商处购买云服务器以保证更高的需求（阿里云、腾讯云等）。 </span></li>
+    <li><span style="font-size: 9pt;">以最简单的phpstudy为例<img src="https://img2018.cnblogs.com/blog/1858293/202002/1858293-20200225230113399-55241672.png" alt="" />： </span></li>
+    <li><img src="https://img2018.cnblogs.com/blog/1858293/202002/1858293-20200225230113607-1992236565.png" alt="" /><span style="font-size: 9pt;">启动phpstudy之后，在www文件夹下可以放置我们需要的网站源码。 </span></li>
+    <li><img src="https://img2018.cnblogs.com/blog/1858293/202002/1858293-20200225230113983-449792594.png" alt="" /><span style="font-size: 9pt;">如果想要部署其他网站也可以放置在www文件夹下，然后按照对应路径访问。 </span></li>
+    <li>
+        <div><span style="font-size: 9pt;">关于访问网站：我们在访问自己搭建的网站时，需要在url框中填入虚拟机的ip，查看ip可以用ipconfig指令来查看。 </span></div>
+        <p>&nbsp;</p>
+    </li>
+</ul>
+<p><strong>　　3）分析网站和浏览器之前通信的HTTP协议 </strong></p>
+<ul style="margin-left: 42pt;">
+    <li><span style="font-size: 9pt;">HTTP协议工作于客户端-服务端架构上。浏览器作为HTTP客户端通过URL向HTTP服务端即WEB服务器发送所有请求。 </span></li>
+    <li><span style="font-size: 9pt;">HTTP协议的特点：简单快速、灵活、无状态、无连接，支持B/S和C/S </span></li>
+    <li><span style="font-size: 9pt;">客户端向服务器发送一个http请求时，格式包含：请求行、请求头部、空行和请求数据四个部分<img src="https://img2018.cnblogs.com/blog/1858293/202002/1858293-20200225230114239-131065035.png" alt="" />。 </span></li>
+    <li><span style="font-size: 9pt;">以<a href="http://www.baidu.com">www.baidu.com</a>抓包为例：<img src="https://img2018.cnblogs.com/blog/1858293/202002/1858293-20200225230114420-1004422925.png" alt="" />。 </span></li>
+    <li><span style="font-size: 9pt;">服务器响应也有四个部分组成：状态行、消息报头、空行和响应正文<img src="https://img2018.cnblogs.com/blog/1858293/202002/1858293-20200225230114632-494998075.jpg" alt="" />。 </span></li>
+</ul>
+<p><strong>　　4）思考虚拟机的NAT模式与桥接模式的区别 </strong></p>
+<ul style="margin-left: 42pt;">
+    <li><span style="font-size: 9pt;">NAT模式：NAT是网络地址转换的意思，虚拟机通过把物理主机作为路由器来访问互联网，虚拟机和主机是从属关系。虚拟机之间可以相互访问。 </span></li>
+    <li><span style="font-size: 9pt;">桥接模式：虚拟机和主机之间在同一网段，属于并列关系，主机和虚拟机处于对等地位。 </span></li>
+</ul>
+<p><strong>　　5）如何保存虚拟机的多个运行状态 </strong></p>
+<ul style="margin-left: 42pt;">
+    <li><span style="font-size: 9pt;">拍摄快照可以保存任意时刻的虚拟机形态，在攻击靶机前最好对靶机进行拍摄快照，以便在靶机无法正常运行的时候回复到正常状态下。 </span></li>
+    <li><span style="font-size: 9pt;">恢复快照可以回到拍摄快照的时候。 </span></li>
+</ul>
+<p><strong>　　6）思考HTTP代理的作用 </strong></p>
+<ul style="margin-left: 42pt;">
+    <li><span style="font-family: 宋体; font-size: 9pt;">HTTP代理可以看作是中转站，开启代理之后可以对包内信息进行拆解、分析，以便进行下一步操作。 </span></li>
+    <li><span style="font-family: 宋体; font-size: 9pt;">代理可以隐藏真实IP，免受别人的攻击，也可以保护自己。 </span></li>
+</ul>
+<p style="text-align: center;">&nbsp;</p>
+</body>
+</html>

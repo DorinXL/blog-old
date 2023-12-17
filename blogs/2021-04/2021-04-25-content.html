@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<script src="https://cdn.jsdelivr.net/npm/texme@1.2.2"></script>
+<meta name="referrer" content="no-referrer">
+<head>
+    <meta charset="UTF-8">
+    <title>【个人向】ctf比赛出的一道逆向游戏题——GameTime题解</title>
+</head>
+<body>
+<textarea>
+    ## 前提：
+
+最近沉迷游戏开发，想着在不考虑上线的情况下和别人合作做几款产品出来。正好碰上校赛，那就用手边的一些小练习写个re题。
+
+打包项目的时候，如果不进行其他操作，项目中的cs代码，甭管有用的没用的，在打包时通通都会被打进Assembly-CSharp.dll中，运行的时候通过Mono调用。所以有一种保护项目的手段就是对导出工程的Assembly-CSharp.dll进行加密，加载的时候对之进行解密
+
+## wp：
+
+这个题大部分精力放在写游戏逻辑上了，所以没有对项目进行保护措施。
+
+直接进入GameTime!\GameStart_Data\Managed目录找Assembly-CSharp.dll文件，扔进dnspy或者其他的.net反编译工具里就能看到源码。
+
+![image-20210425125348912](https://img2020.cnblogs.com/blog/1858293/202104/1858293-20210425130416417-1188658214.png)
+
+看着文件挺多，但是绝大部分都是游戏逻辑，跟flag没什么关系。
+
+为了方便定位我直接把加密flag的cs代码命名成带有flag的文件，所以我们进入ScoreAndFlag里面看看：
+
+代码写的比较丑，但逻辑还是能看明白的，比如ScoreAdd:
+
+![image-20210425125552200](https://img2020.cnblogs.com/blog/1858293/202104/1858293-20210425130416771-1258754363.png)
+
+flag就是对“974”进行sha1的结果在来一次md5。
+
+![image-20210425125658232](https://img2020.cnblogs.com/blog/1858293/202104/1858293-20210425130416981-369114685.png)
+
+sha1最终返回的结果全部大写，这些结果在传给md5()，返回前三十位，就是flag了。
+
+所以这个题出的一般，因为他只是个垃圾小游戏，不是题。
+
+![image-20210425125724738](https://img2020.cnblogs.com/blog/1858293/202104/1858293-20210425130417275-968003280.png)
+
+## 题目文件：
+
+链接：https://pan.baidu.com/s/1dNlYwzzbDNHjcMo_2lUtiw
+提取码：kq1z
+
+感谢阅读。
+
+</textarea>
+</body>
+</html>

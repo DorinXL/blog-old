@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<script src="https://cdn.jsdelivr.net/npm/texme@1.2.2"></script>
+<meta name="referrer" content="no-referrer">
+<head>
+    <meta charset="UTF-8">
+    <title>素数分布的基本定理（一）</title>
+</head>
+<body>
+<textarea>
+    # 素数分布的基本定理（一）
+
+## 目录
+
+- Chapter1 切比雪夫函数$\psi(x)$和$\vartheta(x)$
+- Chapter2 $\vartheta(x)$与$\pi(x)$的关系
+- Chapter3 素数定理的等价形式
+
+## Chapter1 切比雪夫函数$\psi(x)$和$\vartheta(x)$
+
+- **Definition**：
+
+  - 对于$x>1$，$\psi(x)$定义为：
+    $$
+    \psi(x) = \sum_{n\le x}\Lambda(n) = \sum_{m\le \log_2{x}}\sum_{p\le x^{1/m}}\log{p}
+    $$
+
+  - 对于$x>0$，$\vartheta(x)$定义为：
+    $$
+    \vartheta(x) = \sum_{p\le x}\log{p}
+    $$
+
+- **Theorem:**
+
+  - Th1:Mangoldt函数$\Lambda(n)$的变化，即为什么：
+    $$
+    \sum_{n\le x}\Lambda(n) = \sum_{m\le \log_2{x}}\sum_{p\le x^{1/m}}\log{p}
+    $$
+
+  > **Proof**:
+  >
+  > 根据$\Lambda(n)$函数的定于，如果$n$不是某个素数的幂，那么$\Lambda(n)=0$。
+  >
+  > 于是我们可以将$\sum_{n\le x}\Lambda(n)$表示为
+  > $$
+  > \sum_{n\le x}\Lambda(n) =\sum_{m=1}^{\infty}\sum_{p^m\le x}\Lambda(p^m) = \sum_{m=1}^{\infty}\sum_{p\le x^{1/m}}\log p
+  > $$
+  > 关于后面的那个sum，其中的$p,x,m$三者形成了一个关系。实际上，p是从2开始的，也就是说$x^{1/m}<2$的话，sum是0。
+  >
+  > 我们将$x^{1/m}<2$这个条件进行变换：
+  > $$
+  > x^{1/m}<2\\
+  > \dfrac{1}{m}\log x < \log 2\\
+  > m > \dfrac{\log x}{\log 2} = \log_2{x}
+  > $$
+  > 于是我们得到了m和x的一个关系，于是就可以将前面sum的无穷转换为新的形式：
+  > $$
+  > \sum_{m=1}^{\infty}\sum_{p\le x^{1/m}}\log p = \sum_{m\le \log_2{x}}\sum_{p\le x^{1/m}}\log p
+  > $$
+  > 有了这样的形式，我们也可以将$\psi(x)$与$\vartheta(x)$联系起来：
+  > $$
+  > \psi(x) = \sum_{m\le \log_2{x}}\vartheta(x^{1/m})
+  > $$
+  >
+
+  - Th2:关于$\dfrac{\psi(x)}{x}$与$\dfrac{\vartheta(x)}{x}$两者之间的关系：其中一个趋于一个极限，那么另一个也趋于这个极限。也就是说：
+    $$
+    \lim_{x\rightarrow\infty}(\dfrac{\psi(x)}{x}-\dfrac{\vartheta(x)}{x})=0
+    $$
+
+
+  > **Proof**:
+  >
+  > 通过$\psi(x)$与$\vartheta(x)$的关系我们可以得到一个减法：
+  > $$
+  > \psi(x) - \vartheta(x) = \sum_{m\le \log_2{x}}\vartheta(x^{1/m}) - \vartheta(x) = \sum_{1 \le m \le \log_2{x}}\vartheta(x^{1/m})
+  > $$
+  > 现在目光聚集到$\vartheta$上，对于$\vartheta$的定义，我们可以写出不等式：
+  > $$
+  > \vartheta(x) = \sum_{p\le x}\log p \le x \log p
+  > $$
+  > 于是有
+  > $$
+  > \begin{align*}
+  > 0 \le \psi(x)-\vartheta(x) \le \sum_{2\le m \le \log_2x}x^{1/m}\log x^{1/m}\\
+  > \end{align*}\\
+  > 将其扩大，放缩为：\\
+  > \sum_{2\le m \le \log_2x}\log x^{1/m} \le (\log_2 x)\sqrt{x}\log\sqrt{x} = \dfrac{\log x}{\log 2}\dfrac{\sqrt{x}}{2}\log x = \dfrac{\sqrt{x}(\log x)^2}{2\log 2}
+  > $$
+  > 同时去除x最后得到：
+  > $$
+  > 0\le \dfrac{\psi(x)}{x} = \dfrac{\vartheta(x)}{x}\le \dfrac{(\log x)^2}{2\sqrt{x}\log2}
+  > $$
+  > 根据夹逼定理：
+  > $$
+  > \begin{align*}
+  > \lim_{x\rightarrow\infty} \dfrac{(\log x)^2}{2\sqrt{x}\log2}
+  > &= \dfrac{1}{2\log2}\lim_{x\rightarrow\infty}\dfrac{(\log x)^2}{\sqrt{x}}\\
+  > 洛必达：\\
+  > &=\dfrac{1}{2\log2}\lim_{x\rightarrow\infty}\dfrac{4\log x}{\sqrt{x}}\\
+  > 洛必达：\\
+  > &=\dfrac{2}{\log2}\lim_{x\rightarrow\infty}\dfrac{2}{\sqrt{x}}\\
+  > &=0
+  > \end{align*}
+  > $$
+  > 可以得出
+  > $$
+  > \lim_{x\rightarrow\infty}(\dfrac{\psi(x)}{x}-\dfrac{\vartheta(x)}{x})=0
+  > $$
+  >
+
+- **Note**:
+
+  >
+
+## Chapter2  $\vartheta(x)$与$\pi(x)$的关系
+
+- **Theorem:**
+
+  - Th1:（阿贝尔等式）对任一数论函数$a(n)$，令其部分和为
+    $$
+    A(x) = \sum_{n\le x}a(n)
+    $$
+    当$x<1$时，$A(x)=0$。如果函数$f$在区间$[y，x],(0<y<x)$上有连续导数，那么有：
+    $$
+    \sum_{y<n\le x}a(n)f(n) = A(x)f(x)-A(y)f(y)-\int_{y}^{x}A(t)f'(t)dt
+    $$
+
+  > **Proof**:
+  >
+  > 令$k = \lfloor x\rfloor,m = \lfloor y\rfloor$。这样一来$A(k)=A(x),A(m)=A(y)$
+  > $$
+  > \begin{align*}
+  > \sum_{y<n\le x}a(n)f(n)&=\sum_{n=m+1}^ka(n)f(n)\\
+  > &=\sum_{n=m+1}^k\{A(n)-A(n-1)\}f(n)\\
+  > &=\sum_{n=m+1}^kA(n)f(n)  -\sum_{n=m}^{k-1}A(n)f(n+1)\\
+  > &=\sum_{n=m+1}^{k-1}A(n)f(n)+A(k)f(k)-\sum_{n=m}^{k-1}A(n)f(n+1)\\
+  > &=\sum_{n=m+1}^{k-1}A(n)\{f(n)-f(n+1)\}+A(k)f(k)-A(m)f(m+1)\\
+  > &=-\sum_{n=m+1}^{k-1}A(n)\int_{n}^{n+1}f'(t)dt+A(k)f(k)-A(m)f(m+1)\\
+  > &=-\sum_{n=m+1}^{k-1}\int_{n}^{n+1}A(t)f'(t)dt+A(k)f(k)-A(m)f(m+1)\\
+  > &=-\int_{m+1}^{k}A(t)f'(t)dt+A(k)f(k)-A(m)f(m+1)\\
+  > 用同样的思想向着\int_y^x出发：
+  > &=-\int_{m+1}^{k}A(t)f'(t)dt-\{\int_k^xA(t)f'(t)dt+A(k)f(x)\}-\{\int_y^m+1A(t)f'(t)dt+A(m)f(y)\}\\
+  > &=A(x)f(x)-A(y)f(y)-\int_y^xA(t)f'(t)dt
+  > \end{align*}
+  > $$
+  >
+
+  - Th2:接下来我们分别用$\pi(x)$将$\vartheta(x)$表示出来，再用$\vartheta(x)$将$\pi(x)$表示出来：
+    $$
+    \vartheta(x) = \pi(x)\log x-\int_2^x\dfrac{\pi(t)}{t}dt\\
+    和\\
+    \pi(x) = \dfrac{\vartheta(x)}{\log x}+\int_2^x\dfrac{\vartheta(t)}{t\log^2t}dt
+    $$
+
+  > **Proof**:
+  >
+  > 我们知道，$\pi(x)$计算的是小于等于x的范围内有多少个素数，如果用求和的形式将其表示出来的话就是$\pi(x) = \sum_{p\le x}1$，我们可以用一个特征函数表示:
+  > $$
+  > a(n) =
+  > \begin{cases}
+  > 1,若n是素数\\
+  > 0,其他
+  > \end{cases}
+  > $$
+  > 所以$\pi(x) = \sum_{p\le x}1 = \sum_{1<n\le x}a(n)$
+  >
+  > 基于这个特征函数也可以将$\vartheta(x)$表示成$\vartheta(x) = \sum_{p\le x}\log p= \sum_{1<n\le x}a(n)\log n$
+  >
+  > 这两个函数在配合上面的阿贝尔等式，$f(n) = \log n $,我们就可以得到：
+  > $$
+  > \vartheta(x) = \pi(x)\log{x}-\pi(1)\log{1}-\int_1^x\pi(t)(\log t)'dt
+  > $$
+  > 当t<2的时候，$\pi(t)=0$，于是最终形式如下：
+  > $$
+  > \vartheta(x) = \pi(x)\log{x}-\int_2^x\dfrac{\pi(t)}{t}dt
+  > $$
+  > 接下来对$\pi(x)$进行转换。
+  >
+  > 如果我们想用$\vartheta(x)$将$\pi(x)$表示出来，可以用$b(n)=a(n)\log n$将$\vartheta(x)$表示为部分和$\vartheta(x)=\sum_{n\le x}b(n)$的形式，然后就可以使用$f(n)=\dfrac{1}{\log n}$阿贝尔等式展开了：
+  > $$
+  > \pi(x) = \sum_{y<n\le x}b(n)\dfrac{1}{\log n} = b(x)\dfrac{1}{\log x}-b(y)\dfrac{1}{\log y} - \int_y^xb(t)(\dfrac{1}{\log t})'dt
+  > $$
+  > 展开后得到：
+  > $$
+  > \pi(x) =\vartheta(x)\dfrac{1}{\log x}-\vartheta(y)\dfrac{1}{\log y} + \int_y^x\dfrac{\vartheta(t)}{t\log^2 t}dt
+  > $$
+  > 当$0<y<2$时，$\vartheta(y)=0$，最终我们得到：
+  > $$
+  > \pi(x) =\vartheta(x)\dfrac{1}{\log x} + \int_2^x\dfrac{\vartheta(t)}{t\log^2 t}dt
+  > $$
+  >
+
+- **Note**:
+
+## Chapter3 素数定理的等价形式
+
+- **Theorem:**
+
+  - Th1:下面这几个式子是等价的
+    $$
+    \begin{equation}
+    \lim_{x\rightarrow\infty}\dfrac{\pi(x)\log x}{x}=1\\
+    \lim_{x\rightarrow\infty}\dfrac{\vartheta(x)}{x}=1\\
+    \lim_{x\rightarrow\infty}\dfrac{\psi(x)}{x}=1
+     \end{equation}
+    $$
+
+
+  > **Proof**:
+  >
+  > 由C2.Th2得到
+  > $$
+  > \dfrac{\vartheta(x)}{x} = \dfrac{\pi(x)\log x}{x}-\dfrac{1}{x}\int_2^x\dfrac{\pi(t)}{t}dt\\
+  > 和\\
+  > \dfrac{\pi(x)\log x}{x} = \dfrac{\vartheta(x)}{x}+\dfrac{\log x}{x}\int_2^x\dfrac{\vartheta(t)}{t\log^2t}dt
+  > $$
+  > 证明$\dfrac{\vartheta(x)}{x}$和$\dfrac{\pi(x)\log x}{x}$的等价关系，只需要分别证明：
+  >
+  > （1）**$\lim_{x\rightarrow\infty}\dfrac{1}{x}\int_2^x\dfrac{\pi(t)}{t}dt=0$:**
+  >
+  > 通过第一个式子我们可以得到$\dfrac{\pi(x)}{x}=\Omicron(\dfrac{1}{\log x})$，于是
+  > $$
+  > \dfrac{1}{x}\int_2^x\dfrac{\pi(t)}{t}dt = \Omicron(\dfrac{1}{x}\int_2^x\dfrac{1}{\log t}dt)\\
+  > \int_2^x\dfrac{1}{\log t}dt = \int_2^{\sqrt x}\dfrac{1}{\log t}dt + \int_{\sqrt x}^x\dfrac{1}{\log t}dt \le \dfrac{\sqrt{x}}{\log 2}+\dfrac{x-\sqrt{x}}{\log \sqrt{x}}
+  > $$
+  > 乘起来
+  > $$
+  > \dfrac{1}{x}\int_2^x\dfrac{\pi(t)}{t}dt \le \dfrac{1}{x}\{\dfrac{\sqrt{x}}{\log 2}+\dfrac{x-\sqrt{x}}{\log \sqrt{x}}\}=\dfrac{1}{\sqrt{x}\log 2}+\dfrac{1-\dfrac{1}{\sqrt{x}}}{\log \sqrt{x}}\\
+  > \lim_{x\rightarrow\infty}\{\dfrac{1}{\sqrt{x}\log 2}+\dfrac{1-\dfrac{1}{\sqrt{x}}}{\log \sqrt{x}}\} = 0\\
+  > 所以\lim_{x\rightarrow\infty}\dfrac{1}{x}\int_2^x\dfrac{\pi(t)}{t}dt \rightarrow0
+  > $$
+  > （2）**$\lim_{x\rightarrow\infty}\dfrac{\log x}{x}\int_2^x\dfrac{\vartheta(t)}{t\log^2t}dt=0$：**
+  >
+  > 通过第二个式子我们可以得到$\vartheta(t)=\Omicron(t)$，于是
+  > $$
+  > \dfrac{\log x}{x}\int_2^x\dfrac{\vartheta(t)}{t\log^2t}dt = \Omicron(\dfrac{\log x}{x}\int_2^x\dfrac{1}{\log^2t}dt)\\
+  > \int_2^x\dfrac{1}{\log^2t}dt = \int_2^{\sqrt{x}}\dfrac{1}{\log^2t}dt + \int_{\sqrt{x}}^x\dfrac{1}{\log^2t}dt\le
+  > \dfrac{\sqrt{x}}{\log^22}+\dfrac{x-\sqrt{x}}{\log^2\sqrt{2}}
+  > $$
+  > 乘起来
+  > $$
+  > \dfrac{\log x}{x}\int_2^x\dfrac{\vartheta(t)}{t\log^2t}dt \le
+  > \dfrac{\log x}{x}\{\dfrac{\sqrt{x}}{\log^22}+\dfrac{x-\sqrt{x}}{\log^2\sqrt{x}}\} =
+  > \dfrac{\log x}{\sqrt{x}\log^22}+\dfrac{2(1-\dfrac{1}{\sqrt{x}})}{\log\sqrt{x}}\\
+  > lim_{x\rightarrow\infty}\{\dfrac{\log x}{\sqrt{x}\log^22}+\dfrac{2(1-\dfrac{1}{\sqrt{x}})}{\log\sqrt{x}}\} =0\\
+  > 所以：lim_{x\rightarrow\infty}\dfrac{\log x}{x}\int_2^x\dfrac{\vartheta(t)}{t\log^2t}dt \rightarrow0
+  > $$
+
+  - Th2:接下来我们将素数定理和第n个素数的渐进值联系起来**:令$p_n$是第n个素数**，下面几个渐进式是逻辑等价的。
+    $$
+    \begin{gather}
+    \lim_{x\rightarrow\infty}\dfrac{\pi(x)\log x}{x} = 1\\
+    \lim_{x\rightarrow\infty}\dfrac{\pi(x)\log{\pi(x)}}{x} = 1\\
+    \lim_{n\rightarrow\infty}\dfrac{p_n}{n\log n } = 1
+    \end{gather}
+    $$
+
+  > **Proof**:
+  >
+  > **第一个式子推第二个：**
+  >
+  > 对第一个式子两边取对数得
+  > $$
+  > \lim_{x\rightarrow\infty}[\log{\pi(x)}+\log{\log x}-\log{x}]=0\\
+  > \lim_{x\rightarrow\infty}\log x[{\dfrac{{\log \pi(x)}}{\log{x}}+\dfrac{\log{\log x}}{\log{x}}-1}]=0
+  > $$
+  > 当$x\rightarrow\infty$时，前面的$\log x\rightarrow\infty$，于是后面的$\lim_{x\rightarrow\infty}[{\dfrac{{\log\pi(x)}}{\log{x}}+\dfrac{\log{\log x}}{\log{x}}-1}]=0$。然而中间的又是0
+  >
+  > 即$\lim_{x\rightarrow\infty}{\dfrac{{\log\pi(x)}}{\log{x}}}=1$
+  >
+  > 于是$\lim_{x\rightarrow\infty}{\dfrac{{\log\pi(x)}}{\log{x}}\dfrac{\pi(x)\log x}{x}}=\lim_{x\rightarrow\infty}\dfrac{\pi(x)\log x}{x}=1$
+  >
+  > **第二个式子推第三个：**
+  >
+  > $p_n$是第n个素数，我们用x表示$p_n$。那么$\pi(x)=n，\pi(x)\log\pi(x) = n\log n$
+  >
+  > 于是$\lim_{x\rightarrow\infty}\dfrac{\pi(x)\log{\pi(x)}}{x} = \lim_{x\rightarrow\infty}\dfrac{n\log n}{p_n}=1$
+  >
+  > **第三个式子推第二个：**
+  >
+  > 式3成立，给定x，由不等式$p_n\le x < p_{n+1}$确定n，$n=\pi(x)$，于是有不等式：
+  > $$
+  > \dfrac{p_n}{n\log n} \le \dfrac{x}{n\log n } < \dfrac{p_{n+1}}{n\log n}=\dfrac{p_{n+1}}{(n+1)\log{(n+1)}}\dfrac{(n+1)\log{(n+1)}}{n\log n}
+  > $$
+  > 如此一来就构成了满足式3的$p_n,p_{n+1}$，根据夹逼可以知道$\lim_{x\rightarrow\infty}\dfrac{x}{n\log n}=1$
+  >
+  > 将n替换为$\pi(x)$就得到了式2
+  >
+  > **第二个式子推第一个：**
+  >
+  > 对式2取对数得
+  > $$
+  > \lim_{x\rightarrow\infty}[\log\pi(x) + \log \log{\pi(x)} - \log x] = 0 \\
+  > \lim_{x\rightarrow\infty}\log\pi(x)[1+\dfrac{\log\log\pi(x)}{\log\pi(x)}-\dfrac{\log x}{\log\pi(x)}] = 0 \\
+  > $$
+  > 外面的$\log\pi(x)\rightarrow\infty$，那么里面的就有$\lim_{x\rightarrow\infty}1+\dfrac{\log\log\pi(x)}{\log\pi(x)}-\dfrac{\log x}{\log\pi(x)} = 0 $，中间的$\lim_{x\rightarrow\infty}\dfrac{\log\log\pi(x)}{\log x}=0$
+  >
+  > 于是剩下的$\lim_{x\rightarrow\infty}\dfrac{\log x}{\log\pi(x)}=1$
+  >
+  > 结合式2得到$\lim_{x\rightarrow\infty}\dfrac{\log x}{\log\pi(x)}\dfrac{\pi(x)\log\pi(x)}{x}=\dfrac{\pi(x)\log x}{x}=1$
+  >
+  > 于是证出第一个式子。
+
+- **Note**:
+
+  >
+
+</textarea>
+</body>
+</html>

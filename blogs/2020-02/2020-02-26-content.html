@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<script src="https://cdn.jsdelivr.net/npm/texme@1.2.2"></script>
+<meta name="referrer" content="no-referrer">
+<head>
+    <meta charset="UTF-8">
+    <title>i春秋web作业2.25——WebShell</title>
+</head>
+<body>
+<p style="text-align: center;"><span style="font-size: 22pt;">Web安全工程师(入门班) </span></p>
+<p style="text-align: center;">【全国线上入门班53期】课后作业</p>
+<p style="text-align: center;">&nbsp;</p>
+<p style="text-align: center;"><span style="font-family: 宋体; font-size: 12pt;">2020-2-25 </span></p>
+<p style="text-align: center;"><span style="font-family: 宋体; font-size: 12pt;">DorinXL </span></p>
+<p style="text-align: center;">&nbsp;</p>
+<ol>
+    <li>
+        <div style="text-align: justify;"><span style="font-family: 楷体; font-size: 10pt;"><strong>请思考：XXE漏洞的原理的是什么？有哪些危害？ </strong></span></div>
+    </li>
+</ol>
+<ul style="margin-left: 39pt;">
+    <li>
+        <div style="text-align: justify;"><span style="font-size: 9pt;">XXE漏洞全称<strong>XML External Entity Injection</strong>，即xml外部实体注入漏洞。实在应用程序加载xml文件的时候，因为没有禁止外部实体的加载，导致可能加载上恶意文件或代码。 </span></div>
+    </li>
+    <li>
+        <div style="text-align: justify;"><span style="font-size: 9pt;">XXE的危害包括但不限于任意<strong>文件读取</strong>、<strong>端口扫描</strong>、<strong>Dos攻击</strong>等。 </span></div>
+    </li>
+    <li>
+        <div style="text-align: justify;"><span style="font-size: 9pt;">如果想要防御XXE攻击，最直接的办法就是禁止xml中包含自有的DTD，从而达到一种过滤的效果。 </span></div>
+    </li>
+</ul>
+<p><span style="font-family: 楷体;"><strong>　　2）寻找OWASP 近年漏洞的排名变化，思考未来哪些方面会成为Web应用主要安全威胁？ </strong></span></p>
+<ul style="margin-left: 42pt;">
+    <li>
+        <div style="text-align: justify;"><span style="font-size: 9pt;">根据往期top10的排名，个人认为注入威胁或将继续大范围存在。几乎所有的数据源都可以成为注入点，虽然注入漏洞可以很容易的被扫描器或其它工具发现，但想要做到近乎完美的严格过滤很困难。 </span></div>
+    </li>
+    <li>
+        <div style="text-align: justify;"><span style="font-size: 9pt;">安全配置错误、不足的日志记录和监控，这些威胁我认为建设者和防御者要承担一部分责任，属于设计上的漏洞。 </span></div>
+    </li>
+    <li>
+        <div style="text-align: justify;"><span style="font-size: 9pt;">使用包含已知漏洞的组件这一项虽然不会大面积增长，但却可能持续存在，打个补丁能解决的问题，往往会像牛皮糖一样死缠烂打，一环扣一环的进行下去。 </span></div>
+    </li>
+    <li>
+        <div style="text-align: justify;"><span style="font-size: 9pt;">新增加的风险类型XXE或许将淡出视线。 </span></div>
+    </li>
+</ul>
+<p><span style="font-family: 楷体;"><strong>　　3）请思考：都有哪些PHP函数可以替代eval？ </strong></span></p>
+<ul style="margin-left: 42pt;">
+    <li>
+        <div style="text-align: justify;"><span style="font-size: 9pt;">eval() 函数把字符串按照 PHP 代码来执行。</span></div>
+    </li>
+    <li>
+<pre><code><span style="font-family: Calibri; font-size: 9pt;">system不能替代eval，https://www.cnblogs.com/xiaozi/p/7834367.html
+</span></code></pre>
+    </li>
+</ul>
+<p><span style="font-family: 楷体;"><strong>　　4）请使用中国菜刀对网站数据库进行管理操作。 </strong></span></p>
+<ul style="margin-left: 42pt;">
+    <li>
+        <div style="text-align: justify;"><span style="font-size: 9pt;">实验条件有提示了，那我们注册好进入上传的页面，审计代码后f12删除检查函数： </span></div>
+    </li>
+    <li>
+        <div style="text-align: justify;"><img src="https://img2018.cnblogs.com/blog/1858293/202002/1858293-20200225230242056-1353749287.png" alt="" /></div>
+    </li>
+    <li>
+        <div style="text-align: justify;"><span style="font-size: 9pt;">写好一句话木马：<img src="https://img2018.cnblogs.com/blog/1858293/202002/1858293-20200225230242509-1830710713.png" alt="" /> </span></div>
+    </li>
+    <li>
+        <div style="text-align: justify;"><span style="font-size: 9pt;">上传成功：<img src="https://img2018.cnblogs.com/blog/1858293/202002/1858293-20200225230242965-1227725247.png" alt="" /> </span></div>
+    </li>
+    <li>
+        <div style="text-align: justify;"><span style="font-size: 9pt;">菜刀连接： </span></div>
+    </li>
+    <li>
+        <div style="text-align: justify;"><img src="https://img2018.cnblogs.com/blog/1858293/202002/1858293-20200225230243575-1912081798.png" alt="" /></div>
+    </li>
+    <li>
+        <div style="text-align: justify;"><img src="https://img2018.cnblogs.com/blog/1858293/202002/1858293-20200225230243786-1664286805.png" alt="" /></div>
+    </li>
+    <li>
+        <div style="text-align: justify;"><span style="font-size: 9pt;">成功进入： </span></div>
+    </li>
+    <li>
+        <div style="text-align: justify;"><img src="https://img2018.cnblogs.com/blog/1858293/202002/1858293-20200225230244129-287653039.png" alt="" /></div>
+    </li>
+    <li>
+        <div style="text-align: justify;"><span style="font-size: 9pt;">找到flag：<img src="https://img2018.cnblogs.com/blog/1858293/202002/1858293-20200225230244394-506476082.png" alt="" /> </span></div>
+    </li>
+    <li>
+        <div style="text-align: justify;"><span style="font-size: 12pt;"><strong>关于数据库的一些姿势： </strong></span></div>
+    </li>
+    <li>
+        <div style="text-align: justify;"><img src="https://img2018.cnblogs.com/blog/1858293/202002/1858293-20200225230244602-1030755578.png" alt="" /></div>
+    </li>
+    <li>
+        <div style="text-align: justify;"><img src="https://img2018.cnblogs.com/blog/1858293/202002/1858293-20200225230244799-520918257.png" alt="" /></div>
+    </li>
+    <li>
+        <div style="text-align: justify;"><span style="font-size: 12pt;">以本实验为例： </span></div>
+    </li>
+    <li>
+        <div style="text-align: justify;"><img src="https://img2018.cnblogs.com/blog/1858293/202002/1858293-20200225230245015-1012842696.png" alt="" /></div>
+    </li>
+    <li>
+        <div style="text-align: justify;"><img src="https://img2018.cnblogs.com/blog/1858293/202002/1858293-20200225230245236-545748512.png" alt="" /></div>
+    </li>
+    <li>
+        <div style="text-align: justify;"><span style="font-size: 9pt;">找到jieqi（杰奇）system（系统）users（用户）中的admin以及密码，md5解密一下<span style="font-family: 宋体;">21232f297a57a5a743894a0e4a801fc3</span>：<br /><img src="https://img2018.cnblogs.com/blog/1858293/202002/1858293-20200225230245573-854876984.png" alt="" />
+				</span></div>
+
+    </li>
+    <li>
+        <div style="text-align: justify;"><img src="https://img2018.cnblogs.com/blog/1858293/202002/1858293-20200225230245791-1525641103.png" alt="" /></div>
+
+    </li>
+    <li>
+        <div style="text-align: justify;"><span style="font-size: 9pt;">实验完毕。</span></div>
+
+    </li>
+
+</ul>
+</body>
+</html>

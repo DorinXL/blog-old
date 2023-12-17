@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<script src="https://cdn.jsdelivr.net/npm/texme@1.2.2"></script>
+<meta name="referrer" content="no-referrer">
+<head>
+    <meta charset="UTF-8">
+    <title>[MRCTF]Xor</title>
+</head>
+<body>
+<textarea>
+    ### F5的时候遇到以下问题
+
+![image-20200913190019364](https://img2020.cnblogs.com/blog/1858293/202009/1858293-20200913190543182-1470295316.png)
+
+# 1. 按空格，找到出错地址
+
+
+
+![image-20200913190058061](https://img2020.cnblogs.com/blog/1858293/202009/1858293-20200913190543594-264907755.png)
+&nbsp;
+
+# 2. 双击进入函数，然后退出再F5，恢复正常
+
+### 原因是因为IDA不能正确识别这个call的参数，或者是参数出错。
+&nbsp;
+
+# 3. F5之后解题
+
+### 简单的XOR加密一下，从0到len-1对每一位进行运算，逆着推一边就出flag。
+
+![image-20200913185937457](https://img2020.cnblogs.com/blog/1858293/202009/1858293-20200913190543932-1692492868.png)
+
+```c/c++
+#include<iostream>
+#include<cstring>
+using namespace std;
+int main(){
+	char s[] = "MSAWB~FXZ:J:`tQJ\"N@ bpdd}8g";
+	for(int i = 0;i < strlen(s);i++){
+		cout<<(char)(s[i] ^ i);
+	}
+}
+```
+
+###### flag:MRCTF{@_R3@1ly_E2_R3verse!}
+
+</textarea>
+</body>
+</html>

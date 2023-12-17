@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<script src="https://cdn.jsdelivr.net/npm/texme@1.2.2"></script>
+<meta name="referrer" content="no-referrer">
+<head>
+    <meta charset="UTF-8">
+    <title>Unity Shader入门精要读书笔记 第三章 Unity Shader基础</title>
+</head>
+<body>
+<textarea>
+    # Unity Shader入门精要读书笔记 第三章 Unity Shader基础
+
+## 前言
+
+Unity Shader的出现就是为了提供一个地方能够让开发者更轻松的管理着色器代码以及渲染设置，而不需要同各种shader文件一样管理多个文件、函数等。
+
+## 3.1 Unity Shader概述
+
+### 	3.1.1 材质和Unity Shader
+
+​	在Unity中，我们需要配合使用材质(Material)和Unity Shader才能达到需要的效果。Unity Shader定义渲染所需的代码、属性和指令，而材质允许我们自己调节这些属性，并赋给相应的模型。
+
+### 	3.1.2 Unity中的材质
+
+​	Unity中的材质需要结合一个GameObject的mesh或者Particle Systems(粒子系统)来工作。
+
+### 	3.1.3 Unity中的Shader
+
+​	Unity中的shader文件同渲染管线的shader不同，所以笔记中会同原著一样称为**Unity Shader**。
+
+​	在创建Unity Shader时，unity为我们提供了四种模板：
+
+​
+
+| Standard Surface Shader | 产生一个包含标准光照模型的表面着色器模板            |
+| ----------------------- | --------------------------------------------------- |
+| Unlit Shader            | 不包含光照（但包含雾效）的基本的顶点/片元着色器     |
+| Image Effect Shader     | 为各种屏幕后处理效果提供基本模板                    |
+| Compute Shader          | 利用GPC的并行性来进行一些与常规渲染流水线无关的计算 |
+
+​	由于《入门精要》这本书重点在如何在Unity中编写顶点/片元着色器，后续学习中通常会用Unlit Shader来生成一个基本的顶点/片元着色器模板。
+
+​	单独的Unity Shader不能发挥作用，必须同材质material结合起来。其本质上是一个文本文件，Unity Shader的导入设置面板可以看到该shader的一些相关信息（例如是否是固定函数着色器(fixed function)、是否投射阴影(cast shadows)、使用的渲染队列(Render queue)、属性(properties)列表等）。
+
+## 3.2 Unity Shader的基础：ShaderLab
+
+​	Unity专门提供了一种为Unity Shader服务的语言——**ShaderLab**，Unity Shader为控制渲染过程提供了一层抽象，帮助开发者更简单的完成工作。ShaderLab时Unity提供的编写Unity Shader的一种说明性语言，使用一些嵌套在花括号内的语义来描述一个Unity Shader文件的结构。类似CgFX和Direct3D Effects(.FX)语言，定义了显示一个材质所需的所有东西，而**不仅是着色器代码**。
+
+![image-20220702001109888](https://img2022.cnblogs.com/blog/1858293/202207/1858293-20220703234038360-2058615356.png)
+
+​	一个Unity Shader的基础结构如下：
+
+```
+Shader "ShaderName"{
+	Properties{
+		//属性
+	}
+	SubShader{
+		//显卡A使用的子着色器
+	}
+		SubShader{
+		//显卡B使用的子着色器
+	}
+	Fallback "VertexLit"
+}
+```
+
+​	Unity会在背后根据使用的平台将这些结构编译成真正的代码和Shader文件，开发者只需要和Unity Shader打交道就行。
+
+## 3.3 Unity Shader的结构
+
+### 	3.3.1 给Shader起名字
+
+​	用	`Shader "name"{ }`就可以给Unity Shader命名，同时会出现在材质面板的下拉列表里。
+
+​	也可以添加前缀来有序组织位置分布，例如`Shader "Custom/MyShader"{}`的效果如图：
+
+![image-20220702001328694](https://img2022.cnblogs.com/blog/1858293/202207/1858293-20220703234039393-605995405.png)
+
+
+
+### 	3.3.2 材质和Unity Shader的桥梁：Properties
+
+​	Properties中包含一系列属性，这些属性会出现在材质面板中。
+
+​	其定义方式为 `_名字("面板属性名",类型)=默认值`，如：
+
+```
+Properties{
+	Name("Display name",propertyType) = DefaultValue
+	Name("Display name",propertyType) = DefaultValue
+	//更多属性
+}
+```
+
+​	属性的名字通常用一个**下划线**开始。显示名字是出现在材质面板上的名字，同时需要指定类型和默认值。
+
+​	以下是Properties语义块支持的属性类型:
+
+| 属性类型       | 默认值的定义语法              | 例子                                 |
+| :------------- | :---------------------------- | :----------------------------------- |
+| Int            | number                        | _Int("Int",Int) = 2                  |
+| Float          | number                        | _Float("Float",Float) = 1.5          |
+| Range(min,max) | number                        | _Range("Range",Range(0.0,5.0)) = 3.0 |
+| Color          | (number,number,number,number) | _Color("Color",Color) = (1,1,1,1)    |
+| Vector         | (number,number,number,number) | _Vector("Vector",Vector) = (6,2,3,1) |
+| 2D             | "defaulttexture"{}            | _2D("2D",2D) = ""{}                  |
+| Cube           | "defaulttexture"{}            | _Cube(“Cube”,Cube) = "white"{}       |
+| 3D             | "defaulttexture"{}            | _3D("3D",3D) = "black"{}             |
+
+​	Int、Float、Range：数字类型的属性，默认值是单独的数字。
+
+​	Color、Vector：默认值是括号包围的四维向量。
+
+​	2D、Cube、3D：默认值是字符串和花括号，字符串要么为空，要么是内置的纹理名称；花括号用于指定一些纹理属性，在Unitu5.0之后被移除。
+
+### 	3.3.3 重量级成员：SubShader
+
+​	一个Unity Shader可以包含多个SubShader语义块，至少要有一个。加载unity shader时会扫描所有SubShader，选择第一个能在目标平台运行的SubShader；如果都不支持，那么使用Fallback指定的UnityShader。
+
+​	SubShader的结构如下：
+
+```
+SubShader{
+	//可选
+	[Tags]
+	//可选
+	[RenderSetup]
+	Pass{
+	}
+	//其他的pass
+}
+```
+
+​	挨个介绍：
+
+1. 标签Tags和状态RenderSetup都是可选的，在SubShader中的设置会适用到所有pass。
+
+2. 标签Tags是一个键值对，都是字符串，*代表着SubShader希望以怎样、何时来渲染此对象。*
+
+3. 状态RenderSetup可以*设置显卡的各种状态*，并应用到所有的pass。
+
+4. Pass语义块则是*一次**完整的渲染流程***
+
+   来说说Pass：
+
+   ```
+   Pass{
+   	[Name]
+   	[Tags]
+   	[RenderSetup]
+   	//code
+   }
+   ```
+
+   显然我们可以定义pass的名称，我们也可以引用其他Unity Shader的pass，如：`UsePass "MyShader/MYPASSNAME"`,值得注意的是，*unity内部会把所有Pass名称转换为大写字母*，所有我们这里也要用大写字母。
+
+   Pass内部也可以设置标签/渲染状态，用于告诉渲染引擎如何渲染该物体。
+
+### 	3.3.4 留后路：Fallback
+
+​	Fallback规定了当所有的SubShader都不能在显卡上运行的时候所使用的Shader。
+
+​	开发者可以关闭Fallback，但是这会影响投影的投射。因为Fallback使用的内置shader包含了一个通用的Pass，这会造成阴影投射的效果。
+
+### 3.3.5 其他语义
+
+​	比如CustomEditor语言扩展自定义编辑界面。
+
+​	比如Category语义对Unity Shader中的命令分组。
+
+## 3.4 Unity Shader的形式
+
+​	在Unity中有三种形式来编写Unity Shader：
+
+```
+Shader "MyShader"{
+	Properties{
+		//所需的各种属性
+	}
+	SubShader{
+		//真正意义上的Shader代码会出现在这里
+		//表面着色器（Subface Shader） 或者
+		//顶点/片元着色器（Vertex/Fragment Shader） 或者
+		//固定函数着色器（Fixed Function Shader）
+	}
+	SubShader{
+		//同上
+	}
+}
+```
+
+### 3.4.1 表面着色器
+
+​	**表面着色器（Sruface Shader）**是Unity自己创造的一种着色器代码类型，代码量少；本质上还是顶点/片元着色器，可以看作是Unity对顶点/片元着色器的高层抽象。
+
+​	表面着色器的价值在于Unity帮我们处理了很多光照细节。
+
+```
+Shader "Custom/Simple Surface shader" {
+	Subshader{
+		Tags {"RenderType" = "opaque" }
+		CGPROGRAM
+		#pragma surface surf Lambert
+		struct Input {
+			float4 color : COLOR;
+		};
+		void surf ( Input IN, inout SurfaceOutput o){
+			o.Albedo = 1;
+		)
+		ENDCG
+	}
+	Fallback "Diffuse"
+}
+```
+
+​	表面着色器定义在SubShader中的*CGPROGRAM*和*ENDCG*中。不在Pass中是因为不关心有几个pass，Unity会做好Pass的事情。
+
+​	*CGPROGRAM*和*ENDCG*中的代码使用CG/HLSL编写。
+
+### 3.4.2 顶点/片元着色器
+
+​	基本同表面着色器一致，但是*CGPROGRAM*和*ENDCG*需要写在Pass内，用来定义每个Pass自己的代码。
+
+### 3.4.3 固定函数着色器
+
+​	旧版本设备不支持可编程管线着色器，所以使用固定函数着色器。
+
+​	固定函数着色器使用ShaderLab语法而不是CG/HLSL。
+
+​	Unity5.2之后，所有固定函数着色器会在底层被编译成对应的顶点/片元着色器，真正意义上的固定函数着色器不复存在。
+
+## 3.6 注意的地方
+
+​	3.6.1 Unity Shader不是Shader
+
+​	**Unity Shader实际上是一个ShaderLab文件，以.shader为后缀名的文件。**
+
+​	Unity Shader**高度封装**，不需要编写特定类型的顶点/片元Shader，可以通过指令开启渲染设置，方便的修改一些属性。
+
+​	同时由于Unity Shader的高度封装，一些Shader类型和语法受限。
+
+​	3.6.2 Unity Shader和CG/HLSL的关系
+
+​	Unity Shader用ShaderLab语言编写，但是对于顶点/片元着色器会嵌套CG/HLSL代码来实现。
+
+## 3.7 资料
+
+​	官方文档：[http://docs.unity3d.com/Manual/SL-Reference.html](http://docs.unity3d.com/Manual/SL-Reference.html)
+
+​	官方简单着色器编写教程：[http://docs.unity3d.com/Manual/ShaderTut1.html](http://docs.unity3d.com/Manual/ShaderTut1.html) [http://docs.unity3d.com/Manual/ShaderTut1.html](http://docs.unity3d.com/Manual/ShaderTut1.html)
+
+​	NVIDIA提供的CG文档：http://http.developer.nvidia.com/CG
+
+​	NVIDIA提供的系列教程：http://http.developer.nvidia.com/CGTutorial/cG_tutorial_chapter01.html
+
+</textarea>
+</body>
+</html>

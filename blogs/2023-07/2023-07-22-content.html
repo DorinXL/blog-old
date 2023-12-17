@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<script src="https://cdn.jsdelivr.net/npm/texme@1.2.2"></script>
+<meta name="referrer" content="no-referrer">
+<head>
+    <meta charset="UTF-8">
+    <title>解析数论之数论函数【其二】</title>
+</head>
+<body>
+<textarea>
+
+> ###### @Coding: Typora+LaTeX
+>
+> ###### @Author : [DorinXL](https://dorinxl.gitee.io/)（[博客](https://www.cnblogs.com/DorinXL/)）
+>
+> ###### @Time : 2023/7/20 16:33
+
+## 目录
+
+- Chapter1 积性函数与狄利克雷乘积
+- Chapter2 广义卷积
+- Chapter3 形式幂级数和数论函数的贝尔级数
+- Chapter4 数论函数的导数
+
+## Chapter1 积性函数与狄利克雷乘积
+
+- **Definition**：
+
+  - 有数论函数$f$,如果$f$不恒为零，且对任意的$(m,n)=1$有$f(mn)=f(m)f(n)$，那么这个数论函数$f$被称为是**积性**的。
+  - 如果对于任意的$m,n$都有$f(mn)=f(m)f(n)$，那么这个数论函数$f$被称为是**完全积性**的。
+
+- **Examples**:
+
+  1. 令幂函数$f_\alpha(n) = n^\alpha$,这里的$\alpha$是固定的实数或复数。这个函数是完全积性函数。$u=f_0$是完全积性的。
+
+     > $$
+     > \begin{align*}
+     > f_\alpha(mn) &= (mn)^\alpha \\
+     > &=(m^\alpha)(n^\alpha) \\
+     > &=f_\alpha(m)f_\alpha(n) \\
+     > \end{align*}
+     > $$
+
+  2. 恒等函数$I(n)=[\dfrac{1}{n}]$是完全积性的。
+
+     > $$
+     > I(mn) = [\dfrac{1}{mn}]
+     > =\begin{cases}1,&\text{if $m,n=1$} \\
+     > 0,&\text{if $m>1 || n>1$}\end{cases}
+     > $$
+     >
+     > $$
+     > I(m)I(n) = [\dfrac{1}{m}][\dfrac{1}{n}]
+     > =\begin{cases}1,&\text{if $m,n=1$} \\
+     > 0,&\text{if $m>1 || n>1$}\end{cases}
+     > $$
+     >
+     >
+
+  3. 莫比乌斯函数$\mu()$是积性的但不是完全积性的.
+
+     > 考虑两个互素的整数$m,n$。
+     >
+     > 若$m,n$中任意一个的因子表示为$p^\alpha,\alpha\ge2$,那么有
+     > $$
+     > \mu(mn)=\mu(m)\mu(n) = 0
+     > $$
+     > 若$m,n$中没有上述情况，那么可以将$m,n$表示为：
+     > $$
+     > m = p_1p_2 \cdots p_s \\
+     > n = q_1q_2 \cdots q_t \\
+     > \Downarrow \\
+     > \mu(m) = (-1)^s \\
+     > \mu(n) = (-1)^t \\
+     > \mu(mn) = (-1)^{(s+t)} = \mu(m)\mu(n)
+     > $$
+     > 这表明莫比乌斯函数$\mu$是积性函数。但其不是完全积性函数，因为：
+     > $$
+     > \mu(4)=0 \\
+     > \mu(2)\mu(2) = 1
+     > $$
+
+  4. 欧拉函数$\varphi()$是积性函数但不是完全积性函数。
+
+     > 是积性函数：由欧拉函数的性质可以得到：
+     > $$
+     > \varphi(mn) = \varphi(m)\varphi(n)
+     > $$
+     > 不是完全积性函数：
+     > $$
+     > \varphi(4) = 2\\
+     > \varphi(2)\varphi(2) = 1
+     > $$
+
+  5. 如果$f,g$是积性函数/完全积性函数，那么$fg,\dfrac{f}{g}$也是积性函数/完全积性函数。
+
+     > 以$fg$为例：
+     > $$
+     > \begin{align*}
+     > fg(mn) &= f(mn)g(mn) \\
+     > &= f(m)f(n)g(m)g(n) \\
+     > &= f(m)g(m)f(n)g(n) \\
+     > &= fg(m)fg(n)
+     > \end{align*}
+     > $$
+
+- **Theorem:**
+
+  - Th1:如果$f$是积性的，那么$f(1)=1$
+
+    > **Proof:**
+    >
+    > 对任意n，有$(n,1)=1$，由积性函数的性质我们可以得到：$f$不恒为零，且有$f(n)=f(1)f(n)$，于是存在n，使$f(n)\neq0,f(1)=1$
+
+  - Th2:给定$f$，且$f(1)=1$，那么：
+
+    - $f$是积性的 $\Longleftrightarrow$ $f(p_1^{\alpha_1}p_2^{\alpha_2}\cdots p_r^{\alpha_ r}) =f(p_1^{\alpha_1})f(p_2^{\alpha_2})\cdots f(p_r^{\alpha_r})$
+    - 如果$f$是积性的，那么：$f$是完全积性的 $\Longleftrightarrow$ $f(p^\alpha) = f(p)^\alpha$
+
+    > **Proof：**
+    >
+    > Th2.1: 如果$f$是积性的，显然$p_1^{\alpha_1}p_2^{\alpha_2}\cdots p_r^{\alpha_ r}$中的$p_1^{\alpha_1},p_2^{\alpha_2},\cdots ,p_r^{\alpha_ r}$这些数字都是互素的，那么根据积性函数的定义就有：
+    > $$
+    > f(p_1^{\alpha_1}p_2^{\alpha_2}\cdots p_r^{\alpha_ r})
+    > =f(p_1^{\alpha_1}p_2^{\alpha_2}\cdots p_{r-1}^{\alpha_ {r-1}})f(p_r^{\alpha_r})
+    > =f(p_1^{\alpha_1})f(p_2^{\alpha_2})\cdots f(p_r^{\alpha_r})
+    > $$
+    > 反过来，我们有$f(p_1^{\alpha_1}p_2^{\alpha_2}\cdots p_r^{\alpha_ r}) =f(p_1^{\alpha_1})f(p_2^{\alpha_2})\cdots f(p_r^{\alpha_r})$，想证明$f$是积性函数， 我们取$(m,n)=1,m=p_1^{\alpha_1}p_2^{\alpha_2}\cdots p_r^{\alpha_ r},n=q_1^{\beta_1}q_2^{\beta_2}\cdots q_t^{\beta_ t}$.
+    > $$
+    > \begin{align*}
+    > f(mn)&=f(p_1^{\alpha_1}p_2^{\alpha_2}\cdots p_r^{\alpha_ r}q_1^{\beta_1}q_2^{\beta_2}\cdots q_t^{\beta_ t})\\
+    > &=f(p_1^{\alpha_1})f(p_2^{\alpha_2})\cdots f(p_r^{\alpha_r})f(q_1^{\beta_1})f(q_2^{\beta_2})\cdots f(q_r^{\beta_r})\\
+    > &=f(p_1^{\alpha_1}p_2^{\alpha_2}\cdots p_r^{\alpha_ r})f(q_1^{\beta_1}q_2^{\beta_2}\cdots q_t^{\beta_ t})\\
+    > &=f(m)f(n)
+    > \end{align*}
+    > $$
+    > Th2.2:如果$f$是完全积性的，那么
+    > $$
+    > f(p^\alpha) = f(p^{\alpha-1})f(p) = f(p)^\alpha
+    > $$
+    > 反过来，我们有$f$是积性函数，$f(p^\alpha) = f(p)^\alpha$,想证明$f$是完全积性函数，我们取整数$m,n\ge1,m=p_1^{\alpha_1}p_2^{\alpha_2}\cdots p_r^{\alpha_ r},n=p_1^{\beta_1}p_2^{\beta_2}\cdots p_t^{\beta_ t}.\alpha和\beta可能为0$
+    > $$
+    > \begin{align*}
+    > f(m)f(n)&=f(p_1^{\alpha_1}p_2^{\alpha_2}\cdots p_r^{\alpha_ r})f(p_1^{\beta_1}p_2^{\beta_2}\cdots p_t^{\beta_ t})\\
+    > &=f(p_1^{\alpha_1})f(p_2^{\alpha_2})\cdots f(p_r^{\alpha_r})f(p_1^{\beta_1})f(p_2^{\beta_2})\cdots f(p_r^{\beta_r})\\
+    > &=f(p_1)^{\alpha_1}f(p_2)^{\alpha_2}\cdots f(p_r)^{\alpha_r}f(p_1)^{\beta_1}f(p_2)^{\beta_2}\cdots f(p_r)^{\beta_r}\\
+    > &=f(p_1)^{\alpha_1+\beta_1}f(p_2)^{\alpha_2+\beta_2}\cdots f(p_r)^{\alpha_r+\beta_r}\\
+    > &=f(p_1^{\alpha_1+\beta_1})f(p_2^{\alpha_2+\beta_2})\cdots f(p_r^{\alpha_r+\beta_r})\\
+    > &=f(mn)
+    > \end{align*}
+    > $$
+
+  - Th3:如果$f$和$g$是积性的，那么他们的狄利克雷卷积也是积性的。
+
+    > **Proof**:令$h=f*g$，选取互素的整数$m,n$，那么：
+    > $$
+    > h(mn) = \sum_{c|mn}f(c)g(\dfrac{mn}{c})
+    > $$
+    > $m,n$的每一个因子c都可以写成$c=ab$的形式，其中$a|m,b|n,(a,b)=1$
+    > $$
+    > \begin{align*}
+    > h(m)h(n)&=f(m)g(m)f(n)g(n) \\
+    > &=\sum_{a|m}f(a)g(\dfrac{m}{a})\sum_{b|n}f(b)g(\dfrac{n}{b}) \\
+    > &=\sum_{a|m\\b|n}f(a)f(b)g(\dfrac{m}{a})g(\dfrac{n}{b}) \\
+    > 根据整除的推论：\\
+    > (m,n)=1,mn的因子可以唯一由\\
+    > m的因子和n的因子的乘积表示
+    > &=\sum_{ab|mn}f(ab)g(\dfrac{mn}{ab}) \\
+    > &=h(mn)
+    > \end{align*}
+    > $$
+    > **Node:**两个完全积性函数的狄利克雷乘积不一定是完全积性的。
+
+  - Th4：如果$g$和$f*g$都是积性的，那么$f$也是积性的。
+
+    > **Proof：**
+    >
+    > 假设$f$不是积性的，那么我们如果推出$f*g$不是积性的，即可通过矛盾证明该结论。
+    >
+    > 选择$(m,m)=1$使得$f(mn) \ne f(m)f(n)$，让$m,n$尽量的小。
+    >
+    > 如果$mn=1$，那么$f(1) \ne f(1)f(1),f(1)\ne 1$。因为$h(1)=(f*g)(1)=f(1)g(1)=f(1)\ne 1$，所以h不是积性函数。
+    >
+    > 如果$mn>1$，选择$(a,b)=1,ab<mn$，使得$f(ab)=f(a)f(b)$。
+    > $$
+    > \begin{align*}
+    > (f*g)(mn)&=\sum\limits_{a|m\\b|n\\ab<mn}f(ab)g(\dfrac{mn}{ab})+f(mn)g(1)\\
+    > &=\sum_{a|m}f(a)g(\dfrac{m}{a})+\sum_{b|n}f(b)g(\dfrac{n}{b})-f(m)f(n)+f(mn)\\
+    > &=(f*g)(m)(f*g)(n)-f(n)f(m)+f(mn)
+    > \end{align*}
+    > $$
+    > 而$f(mn)\ne f(m)f(n)$，所以$h(mn)\ne h(m)h(n)$，$h$不是积性的。
+
+  - Th5：如果$g$是积性的，那么它的狄利克雷逆$g^{-1}$也是积性的。
+
+    > 我们知道$g$是积性的，而$g*g^{-1}=I$也是积性的，那么根据Th4我们得出Th5。
+
+  - Th6：如果$f$是积性的，那么有：$f$是完全积性的 $\Longleftrightarrow$ $f^{-1}(n) = \mu(n)f(n)$,对所有的$n\ge1$
+
+    > **Proof：**
+    >
+    > 证明$\Rightarrow$:想通过“$f$是完全积性的”这一条件证明“$f^{-1}(n) = \mu(n)f(n)$”,我们设$g(n)=\mu(n)f(n)$
+    > $$
+    > \begin{align*}
+    > (g*f)(n)&=\sum_{d|n}\mu(d)f(d)f(\dfrac{n}{d})\\
+    > &=\sum_{d|n}\mu(d)f(n)\\
+    > &=f(n)\sum_{d|n}\mu(d)\\
+    > &=f(n)I(n) \\
+    > &=I(n)
+    > \end{align*}
+    > $$
+    > 既然有$(g*f)=I$，那么有$f^{-1}(n) = \mu(n)f(n)$
+    >
+    > 证明$\Leftarrow$：想通过“$f$是积性的，且$f^{-1}(n) = \mu(n)f(n)$”这一条件证明“$f$是完全积性的”,我们只需要证出对所有素数$p$有$f(p^\alpha)=f(p)^\alpha$即可。
+    > $$
+    > \begin{align*}
+    > 我们有(f*f^{-1}&=I)\\
+    > 那么\\
+    > \sum_{d|n}f^{-1}(d)f(\dfrac{n}{d})&=0 \quad (n>1)\\
+    > \sum_{d|n}\mu(d)f(d)f(\dfrac{n}{d})&=0\\
+    > 取n=p^\alpha,有\\
+    > \mu(1)f(1)f(p^\alpha)+\mu(p)f(p)f(p^{\alpha-1})+0&=0\\
+    > f(p^\alpha)+(-1)f(p)f(p^{\alpha-1})&=0\\
+    > f(p^\alpha)&=f(p)f(p^{\alpha-1})
+    > \end{align*}
+    > $$
+    > 从$\alpha\ge2$开始递推，$f(p^2)=f(p)f(p),f(p^3)=f(p)f(p^2)=f(p)^3$，所以我们证明出对所有素数$p$有$f(p^\alpha)=f(p)^\alpha$，即$f$是完全积性的。
+
+  - Th7：如果$f$是积性的，那么有：$\sum\limits_{d|n}\mu(d)f(d)=\prod\limits_{p|n}(1-f(p))$
+
+    > **Proof：**
+    >
+    > 令$g(n)=\sum\limits_{d|n}\mu(d)f(d)$，$g$是积性的，利用算术基本定理，我们只需要计算$g(p^\alpha)$即可。
+    > $$
+    > \begin{align*}
+    > g(p^\alpha)&=\sum_{d|p^\alpha}\mu(d)f(d)\\
+    > &=\mu(1)f(1)+\mu(p)f(p)+0+\cdots+0\\
+    > &=f(1)-f(p)\\
+    > &=1-f(p)
+    > \end{align*}
+    > $$
+    > 所以对于由若干素数幂乘积组成的$n$，我们有
+    > $$
+    > g(n)=g(p_1^{\alpha1}p_2^{\alpha2}\cdots p_r^{\alpha r})=(1-f(p_1))(1-f(p_2))\cdots(1-f(p_r))=\prod_{p|n}(1-f(p))
+    > $$
+
+
+## Chapter2 广义卷积
+
+- **Definition**：$F$表示一个定义在正实轴$(0,\infty)$上的实数函数，对$0<x<1$,有$F(x)=0$。我们定义出一个新函数$G$,表示为
+  $$
+  G = \sum_{n\le{x}}\alpha(n)F(\dfrac{x}{n})
+  $$
+  其中，$\alpha$是任意数论函数。对于$0<x<1$,也有$G(x)=0$。$\alpha,F,G$的关系可以表示为：
+  $$
+  (\alpha\circ F)(x) = \sum_{n\le{x}}\alpha(x)F(\dfrac{x}{n})
+  $$
+
+- **Theorem:**
+
+  - Th1：关于$\circ$和$*$的结合性，单独的运算$\circ$是可交换但是不可以结合的，配合狄利克雷乘积和任意数论函数$\alpha$和$\beta$我们有
+    $$
+    \alpha \circ (\beta \circ F) = (\alpha * \beta)\circ F
+    $$
+
+  > **Proof**：
+  >
+  > 对于$x>0$有：
+  > $$
+  > \begin{align*}
+  > \{\alpha \circ (\beta \circ F)\}(x)&=\sum_{n\le x}\alpha(n)\sum_{m\le\dfrac{x}{n}}\beta(m)F(\dfrac{x}{mn})\\
+  > &=\sum_{mn\le x}\alpha(n)\beta(m)F(\dfrac{x}{mn})\\
+  > &=\sum_{k\le x}(\sum_{n|k}\alpha(n)\beta(\dfrac{k}{n}))F(\dfrac{x}{k})\\
+  > &=\sum_{k\le x}(\alpha*\beta)(k)F(\dfrac{x}{k})\\
+  > &=\{(\alpha*\beta)\circ F\}(x)
+  > \end{align*}
+  > $$
+  >
+
+  - Th2：（广义反转公式）如果$\alpha$有一个狄利克雷逆函数$\alpha^{-1}$，那么有：
+
+  $$
+  G(x) = \sum_{n\le{x}}\alpha(n)F(\dfrac{x}{n})\\
+  \Updownarrow \\
+  F(x) = \sum_{n\le{x}}\alpha^{-1}(n)G(\dfrac{x}{n})
+  $$
+
+  > **Proof：**
+  >
+  > 已知$G= \sum_{n\le{x}}\alpha(n)F(\dfrac{x}{n})=\alpha \circ F \\$，
+  > $$
+  > \alpha^{-1}\circ G=\alpha^{-1}\circ(\alpha \circ F)=(\alpha^{-1}*\alpha)\circ F=I\circ F=F\\
+  > F=\alpha^{-1}\circ G= \sum_{n\le{x}}\alpha^{-1}(n)G(\dfrac{x}{n})
+  > $$
+  > 已知$F= \sum_{n\le{x}}\alpha^{-1}(n)G(\dfrac{x}{n})=\alpha^{-1}\circ G$，
+  > $$
+  > \alpha \circ F=\alpha \circ(\alpha^{-1}\circ G)=(\alpha^{-1}*\alpha)\circ G=I \circ G = G\\
+  > G = \alpha \circ F = \sum_{n\le{x}}\alpha(n)F(\dfrac{x}{n})
+  > $$
+
+  - Th3：（广义莫比乌斯反转）如果$\alpha$是完全积性的，那么有：
+
+  $$
+  G(x) = \sum_{n\le{x}}\alpha(n)F(\dfrac{x}{n})\\
+  \Updownarrow \\
+  F(x) = \sum_{n\le{x}}\mu(n)\alpha(n)G(\dfrac{x}{n})
+  $$
+
+  > **Proof：**
+  >
+  > 令$\alpha^{-1}=\alpha\mu$。
+
+
+## Chapter3 形式幂级数和数论函数的贝尔级数
+
+### Section1 形式幂级数
+
+- **Definition**：
+
+  - 我们知道，在微积分中，x的幂级数形如：
+    $$
+    \sum_{n=0}^{\infty}a(n)x^n = a(0)+a(1)x+a(2)x^2+a(3)x^3+\cdots+a(n)x^n+\cdots
+    $$
+    这样一个幂级数拥有收敛半径，在范围内会收敛或是发散。
+
+  - 而从另一个角度来说，我们使用幂级数的写作形式，但不关心x的值，不关心收敛或发散的问题，而是关心幂级数的系数序列$(a(0),a(1),a(2),\cdots,a(n),\cdots)$。这些系数序列可以由幂级数中$x^n$的$n$来定位。
+
+  - 形式幂级数就是通过这样一种角度来理解幂级数，把幂级数看作收敛的并在其上规定代数运算。
+
+- **Theorem:**
+
+  - 现在我们有两个形式幂级数，分别是$A(x)$和$B(x)$：
+    $$
+    A(x) = \sum_{n=0}^{\infty}a(n)x^n \\B(x)=\sum_{n=0}^{\infty}b(n)x^n
+    $$
+
+  - Th1：规定相等$A(x) = B(x)$，即$a(n)=b(n),n\ge0$
+
+  - Th2：规定和$A(x)+B(x)=\sum\limits_{n=0}^{\infty}(a(n)+b(n))x^n$
+
+  - Th3：规定乘积$A(x)B(x)=\sum\limits_{n=0}^{\infty}c(n)x^n$，其中$c(n) = \sum\limits_{k=0}^{\infty}a(k)b(n-k)$。序列${c(n)}$被称为序列${a(n)}$和${b(n)}$的柯西乘积。
+
+### Section2 贝尔级数
+
+- **Definition**：给定一个数论函数$f$和一个素数$p$，我们规定形式幂级数
+  $$
+  f_p(x)=\sum\limits_{n=0}^{\infty}f(p^n)x^n
+  $$
+  是$f$关于模$p$的贝尔级数。
+
+- **Examples：**
+
+  1. 莫比乌斯函数$\mu()$的贝尔级数：
+
+     > 由莫比乌斯函数的定义我们可知：$\mu(p)=-1$，对所有的$n\ge2,\mu(p^n)=0$。
+     > $$
+     > \begin{align*}
+     > \mu_p(x)&=\sum\limits_{n=0}^{\infty}\mu(p^n)x^n\\
+     > &=\mu(p^0)x^0+\mu(p^1)x^1+\cdots+\mu(p^r)x^r+\cdots\\
+     > &=\mu(1)+\mu(p)x+0 \\
+     > &=1-x
+     > \end{align*}
+     > $$
+
+  2. 欧拉函数$\varphi()$的贝尔级数：
+
+     > 由欧拉函数的性质我们可知：$\varphi(p^n)=p^n-p^{n-1}$。
+     > $$
+     > \begin{align*}
+     > \varphi_p(x)&=\sum\limits_{n=0}^{\infty}\varphi(p^n)x^n\\
+     > &=\varphi(p^0)x^0+\varphi(p^1)x^1+\cdots+\varphi(p^r)x^r+\cdots\\
+     > &=\varphi(1)+\sum\limits_{n=1}^{\infty}\varphi(p^n)x^n \\
+     > &=\varphi(1)+\sum\limits_{n=1}^{\infty}(p^n-p^{n-1})x^n \\
+     > &=\varphi(1)+\sum\limits_{n=1}^{\infty}p^nx^n-\sum\limits_{n=1}^{\infty}p^{n-1}x^n \\
+     > &=\sum\limits_{n=0}^{\infty}p^nx^n-x\sum\limits_{n=0}^{\infty}p^nx^n \\
+     > &=(1-x)\sum\limits_{n=0}^{\infty}p^nx^n \\
+     > &=\dfrac{1-x}{1-px}
+     > \end{align*}
+     > $$
+
+  3. 如果$f$是完全积性的，那么对所有的$n\ge0$，都有$f(p^n)=f(p)^n$，所以其贝尔级数是几何级数：
+     $$
+     f_p(x)=\sum\limits_{n=0}^{\infty}f(p)^nx^n=\dfrac{1}{1-f(p)x}
+     $$
+
+     > 对于恒等函数$I$,单位函数$u$，幂函数$N^\alpha$，刘维尔函数$\lambda$这些完全积性函数来说：
+     > $$
+     > I_p(x)=1 \\
+     > u_p(x)=\dfrac{1}{1-x} \\
+     > N_p^\alpha(x)=\dfrac{1}{1-p^\alpha x} \\
+     > \lambda_p(x)=\dfrac{1}{1-(-x)}
+     > $$
+
+- **Theorem：**
+
+  - Th1：令$f$和$g$是积性函数，则$f=g \Leftrightarrow f_p(x)=g_p(x)$对所有的素数$p$
+
+    > **Proof：**
+    >
+    > 证明$\Rightarrow$：我们想要证明贝尔级数$f_p(x)=g_p(x)$，在形式幂级数中我们知道，两个形式幂级数$A(x)，B(x)$相等也就是$a(n)=b(n),n\ge0$。在此处也就是$f(p^n)=g(p^n)$。而$f=g$正好使得$f(p^n)=g(p^n)$。
+    >
+    > 证明$\Leftarrow$：如果贝尔级数$f_p(x)=g_p(x)$，那也就是说$f(p^n)=g(p^n)$。而$f$和$g$都是积性的，同时对所有素数$p$都有相等，配合算术基本定理，得出结论$f=g$。
+
+  - Th2：任意两个数论函数$f$和$g$，令$h=f*g$，则对任意的素数$p$，我们有
+    $$
+    h_p(x)=f_p(x)g_p(x)
+    $$
+
+    > **Proof：**
+    >
+    > 对于$p^n$，他的因子只能有$1,p,p^2,\cdots,p^n$，所以对于狄利克雷卷积我们有：
+    > $$
+    > h(p^n)=\sum\limits_{d|p^n}f(d)g(\dfrac{p^n}{d})=\sum_{k=0}f(p^k)g(p^n-k)
+    > $$
+    > 这是柯西乘积的形式，符合形式幂级数乘积的运算规则，所以证明
+    > $$
+    > h_p(x)=f_p(x)g_p(x)
+    > $$
+    >
+
+- **Node：**
+
+  > 当$f$是积性函数时，贝尔级数特别有用。
+  >
+  > 等比数列求和公式：
+  > $$
+  > S_n = \dfrac{a_nq-a_1}{q-1} = \dfrac{a_1(1-q^n)}{1-q} \\
+  > S_\infty= \dfrac{a_1}{1-q}\quad(|q|<1,n\rightarrow\infty)
+  > $$
+  >
+
+## Chapter4 数论函数的导数
+
+- **Definition**：对任一数论函数$f$我们定义它的导数$f^{'}$由下面给出：
+  $$
+  f'(n)=f(n)log{n} \quad对n\ge1
+  $$
+
+- **Examples**:
+
+  1. 对所有的$n,I(n)logn=0$，所以有$I'=0$.
+
+  2. 塞尔伯格等式：$n\ge1$，我们有：
+     $$
+     \Lambda(n)logn+\sum_{d|n}\Lambda(d)\Lambda(\dfrac{n}{d})=\sum_{d|n}\mu(d)log^2\dfrac{n}{d}
+     $$
+
+     > 首先有$\Lambda*u=u'$,对其求导有
+     > $$
+     > \Lambda'*u+\Lambda*u'=u'' \\
+     > \Lambda'*u+\Lambda*(\Lambda*u)=u''
+     > $$
+     > 用$\mu=u^{-1}$去乘
+     > $$
+     > \Lambda'*u*u^{-1}+\Lambda*(\Lambda*u)*u^{-1}=u''*u^{-1} \\
+     > \Lambda'+\Lambda*\Lambda=u''*\mu \\
+     > \Lambda(n)logn+\sum_{d|n}\Lambda(d)\Lambda(\dfrac{n}{d})=\sum_{d|n}\mu(d)log^2\dfrac{n}{d}
+     > $$
+
+- **Theorem:**
+
+  - Th1:如果$f$和$g$是数论函数，我们有：
+    - $(f+g)'=f'+g'$
+    - $(f*g)'=f'*g+f*g'$
+    - $(f^{-1})'=-f'*(f*f)^{-1}$
+
+  > **Proof**:
+  >
+  > 1.1：对所有的n，有$(f+g)(n)=f(n)+g(n)$
+  >
+  > 1.2：
+  > $$
+  > \begin{align*}
+  > (f*g)'&=(\sum_{d|n}f(d)g(\dfrac{n}{d}))'\\
+  > &=\sum_{d|n}f(d)g(\dfrac{n}{d})log(n)\\
+  > (logn=\\logd+log\dfrac{n}{d}=\\logd+logn-logd)
+  > &=\sum_{d|n}f(d)g(\dfrac{n}{d})log(d) + \sum_{d|n}f(d)g(\dfrac{n}{d})log(\dfrac{n}{d})\\
+  > &=\sum_{d|n}f(d)log(d)g(\dfrac{n}{d}) + \sum_{d|n}f(d)g(\dfrac{n}{d})log(\dfrac{n}{d})\\
+  > &=\sum_{d|n}f'(d)g(\dfrac{n}{d}) + \sum_{d|n}f(d)g'(\dfrac{n}{d})\\
+  > &=(f'*g)+(f*g')
+  > \end{align*}
+  > $$
+  > 1.3：对公式$I'=0$使用Th1.2，由$I=f*f^{-1}$,我们有
+  > $$
+  > \begin{align*}
+  > I'&=(f*f^{-1})' \\
+  > 0&=(f*f^{-1})'\\
+  > &=f'*f^{-1}+f*(f^{-1})'\\
+  > f*(f^{-1})'&=-f'*f^{-1}\\
+  > f^{-1*}f*(f^{-1})'&=-f'*f^{-1}*f^{-1}\\
+  > (f^{-1})'&=-f'*f^{-1}*f^{-1}=-f'*(f*f)^{-1}
+  > \end{align*}
+  > $$
+
+</textarea>
+</body>
+</html>

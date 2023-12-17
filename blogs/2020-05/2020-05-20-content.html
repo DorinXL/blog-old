@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<script src="https://cdn.jsdelivr.net/npm/texme@1.2.2"></script>
+<meta name="referrer" content="no-referrer">
+<head>
+    <meta charset="UTF-8">
+    <title>2020/5/30 BUU_[FlareOn4]IgniteMe</title>
+</head>
+<body>
+<p><img src="https://img2020.cnblogs.com/blog/1858293/202005/1858293-20200520173125662-2059497393.png" alt=""/>
+</p><p><span style="font-family:黑体; font-size:14pt">查壳：
+</span></p><p><img src="https://img2020.cnblogs.com/blog/1858293/202005/1858293-20200520173126145-1674202376.png" alt=""/><span style="font-family:黑体; font-size:14pt">
+		</span></p><p><span style="font-family:黑体; font-size:14pt">没壳，跑一下看看：
+</span></p><p><img src="https://img2020.cnblogs.com/blog/1858293/202005/1858293-20200520173126499-1428322788.png" alt=""/><span style="font-family:黑体; font-size:14pt">
+		</span></p><p><span style="font-family:黑体; font-size:14pt">经典输入处理判断，扔进IDA看一看：
+</span></p><p><img src="https://img2020.cnblogs.com/blog/1858293/202005/1858293-20200520173126771-120795258.png" alt=""/><span style="font-family:黑体; font-size:14pt">
+		</span></p><p><span style="font-family:黑体; font-size:14pt">框架比较简单，但是简单的框架内容可不一定简单。
+</span></p><p><span style="font-family:黑体; font-size:14pt">一些API函数，念着英文就知道什么意思了。看一下读取数据的函数：
+</span></p><p><img src="https://img2020.cnblogs.com/blog/1858293/202005/1858293-20200520173127073-1740793258.png" alt=""/><span style="font-family:黑体; font-size:14pt">
+		</span></p><p><span style="font-family:黑体; font-size:14pt">中规中矩的，把读入的'\n'和'\r'过滤一下。
+</span></p><p><span style="font-family:黑体; font-size:14pt">看一下处理和判断的函数：<br/><img src="https://img2020.cnblogs.com/blog/1858293/202005/1858293-20200520173127350-128573595.png" alt=""/>
+		</span></p><p><span style="font-family:黑体; font-size:14pt">大体逻辑是这样的：
+</span></p><p><span style="font-family:黑体; font-size:14pt">v0是长度，v4是一个给定的数值。循环处理flag，将其倒序与v4亦或的结果保存，替换v4内容，继续下一位。
+</span></p><p><span style="font-family:黑体; font-size:14pt">由于结果已经给出了，我们要做的就是逆向写一遍这个算法。但是我们缺少v4的内容，不知道v4就不知道其他位置的flag。
+</span></p><p><span style="font-family:黑体; font-size:14pt">关于v4的这个函数sub_401000，我们不能立马得到结果：
+</span></p><p><img src="https://img2020.cnblogs.com/blog/1858293/202005/1858293-20200520173127688-1688310486.png" alt=""/><span style="font-family:黑体; font-size:14pt">
+		</span></p><p><span style="font-family:黑体; font-size:14pt">这是一个没见过的函数，具体处理也不是很懂。
+</span></p><p><span style="font-family:黑体; font-size:14pt">这里其实可以用od看一下运算结果，但是我用不熟od，好歹拖进去看一下：
+</span></p><p><img src="https://img2020.cnblogs.com/blog/1858293/202005/1858293-20200520173128339-891064326.png" alt=""/><span style="font-family:黑体; font-size:14pt">
+		</span></p><p><span style="font-family:黑体; font-size:14pt">这里调用了401000函数，然后把al存了起来。
+</span></p><p><span style="font-family:黑体; font-size:14pt">手动计算401000：
+</span></p><p><img src="https://img2020.cnblogs.com/blog/1858293/202005/1858293-20200520173128616-2039023577.png" alt=""/><span style="font-family:黑体; font-size:14pt">
+		</span></p><p><span style="font-family:黑体; font-size:14pt">Eax和edx存入0x80070057。Ax异或，eax左移4，ax右移1。
+</span></p><p><span style="font-family:黑体; font-size:14pt">这里注意eax是32位而ax是16位，ax取0x0057，rol循环左移不舍弃，shr右移舍弃高位0补足。得到的结果是0x0x700004
+</span></p><p><span style="font-family:黑体; font-size:14pt">然后al是8位，也就是04，所以v4 = 4；（老实说我并不明白这里为什么v4就是al的值）
+</span></p><p><span style="font-family:黑体; font-size:14pt">逆向算法：
+</span></p><p><img src="https://img2020.cnblogs.com/blog/1858293/202005/1858293-20200520173128947-511825330.png" alt=""/>
+</p><p><span style="font-family:黑体; font-size:14pt">结果：
+</span></p><p><img src="https://img2020.cnblogs.com/blog/1858293/202005/1858293-20200520173129212-1935170789.png" alt=""/>
+</p><p>R_y0u_H0t_3n0ugH_t0_1gn1t3@flare-on.com
+</p>
+</body>
+</html>

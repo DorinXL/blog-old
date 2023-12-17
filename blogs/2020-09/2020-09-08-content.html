@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<script src="https://cdn.jsdelivr.net/npm/texme@1.2.2"></script>
+<meta name="referrer" content="no-referrer">
+<head>
+    <meta charset="UTF-8">
+    <title>2020年“安洵杯”四川省大学生信息安全技术大赛  部分WRITEUP</title>
+</head>
+<body>
+<p style="text-align: center;"><span style="font-size: 18pt;"><strong>2020年"安洵杯"四川省大学生信息安全技术大赛 </strong></span></p>
+<p style="text-align: center;"><span style="font-size: 18pt;"><strong>部分 WRITEUP</strong></span></p>
+<p style="text-align: left;"><strong><span style="font-size: 14pt;">一、战队信息</span></strong></p>
+<p><span style="font-family: 宋体; font-size: 14pt;">战队名称：</span><span style="font-size: 18pt;"><strong>成都理工大学二队</strong></span></p>
+<p><span style="font-family: 宋体; font-size: 14pt;">战队排名：第八名 743分 </span></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h2><span style="font-size: 18px;">二、解题情况</span></h2>
+<p>&nbsp;</p>
+<p>第一天：web两道、misc一道、pwn一道</p>
+<p>第二天：攻下两处、misc一到、密码一道</p>
+<p>&nbsp;</p>
+<p><strong><span style="font-size: 18px;">三、解题过程</span></strong></p>
+<p><strong>由于我是逆向选手，而这次逆向完全没有做出来，倒是做出来个pwn，剩下的时间就是钻misc和密码，所以我仅列出我个人做出来的题目。还望各位大佬轻喷。 </strong></p>
+<h3>1 北二街恰醉鸡（fakepwn）</h3>
+<h3>操作内容：</h3>
+<p><span style="font-size: 12pt;">IDA进入main函数，找到granblue()函数，进入。 </span></p>
+<p><img src="https://img2020.cnblogs.com/blog/1858293/202009/1858293-20200908223206966-1352347785.png" alt="" /></p>
+<p><span style="font-size: 12pt;">里面有很多数据，其中一串最显眼： </span></p>
+<p><img src="https://img2020.cnblogs.com/blog/1858293/202009/1858293-20200908223212418-1381951914.png" alt="" /></p>
+<p><span style="font-size: 12pt;">转换成字符格式： </span></p>
+<p><img src="https://img2020.cnblogs.com/blog/1858293/202009/1858293-20200908223213209-2001509690.png" alt="" /></p>
+<p><span style="font-size: 12pt;">得到flag </span></p>
+<h3>flag值：</h3>
+<h3><span style="color: #a6a6a6; font-size: 12pt;">flag{ac3850d256c1842f } </span></h3>
+<p>&nbsp;</p>
+<h3>2 开始抑郁</h3>
+<h3>操作内容：</h3>
+<p><span style="font-size: 12pt;">我是真的抑郁了。 </span></p>
+<p><span style="font-size: 12pt;">开局一张图： </span></p>
+<p><img src="https://img2020.cnblogs.com/blog/1858293/202009/1858293-20200908223214262-269041328.png" alt="" /></p>
+<p><span style="font-size: 12pt;">一张图片这么大，必有蹊跷： </span></p>
+<p><img src="https://img2020.cnblogs.com/blog/1858293/202009/1858293-20200908223214911-218836370.png" alt="" /></p>
+<p><span style="font-size: 12pt;">本来是用binwalk看看里面是什么东西，后来发现把后缀直接zip来得更快： </span></p>
+<p><img src="https://img2020.cnblogs.com/blog/1858293/202009/1858293-20200908223215933-133268883.png" alt="" /></p>
+<p><span style="font-size: 12pt;">里面是一个包和一张图，先看看图片： </span></p>
+<p><img src="https://img2020.cnblogs.com/blog/1858293/202009/1858293-20200908223216321-1352765408.png" alt="" /></p>
+<p><span style="font-size: 12pt;">用010打开看看，果不其然文件头需要修复： </span></p>
+<p><img src="https://img2020.cnblogs.com/blog/1858293/202009/1858293-20200908223220866-33298590.png" alt="" /></p>
+<p><span style="font-size: 12pt;">修复后： </span></p>
+<p><img src="https://img2020.cnblogs.com/blog/1858293/202009/1858293-20200908223222524-872433129.png" alt="" /></p>
+<p><span style="font-size: 12pt;">我们再次打开看看，图片变成了二维码： </span></p>
+<p><img src="https://img2020.cnblogs.com/blog/1858293/202009/1858293-20200908223224295-892476376.png" alt="" /></p>
+<p><span style="font-size: 12pt;">扫码后得到brainfuck加密的东西： </span></p>
+<p><img src="https://img2020.cnblogs.com/blog/1858293/202009/1858293-20200908223239085-1224956947.png" alt="" /></p>
+<p><span style="font-size: 12pt;">接着再用jsfuck解密： </span></p>
+<p><img src="https://img2020.cnblogs.com/blog/1858293/202009/1858293-20200908223240625-873175990.png" alt="" /></p>
+<p><span style="font-size: 12pt;">得到一个时间：20200824152800 </span></p>
+<p><span style="font-size: 12pt;">至此，TIME.png里隐藏的信息已经被发现 </span></p>
+<p><span style="font-size: 12pt;">我们再来看另一个包，里面有一张图，还有一个加密的图片： </span></p>
+<p><img src="https://img2020.cnblogs.com/blog/1858293/202009/1858293-20200908223241641-885765990.png" alt="" /></p>
+<p><span style="font-size: 12pt;">考虑到刚刚得到的时间，我们把这段数字输入尝试是否正确，可惜并不对。 </span></p>
+<p><span style="font-size: 12pt;">由于我们看出这是一段时间，索性尝试一下与时间最接近的时间戳： </span></p>
+<p><img src="https://img2020.cnblogs.com/blog/1858293/202009/1858293-20200908223242730-1047340798.png" alt="" /></p>
+<p><span style="font-size: 12pt;">这次正确了，拿出图片： </span></p>
+<p><img src="https://img2020.cnblogs.com/blog/1858293/202009/1858293-20200908223248137-830046858.png" alt="" /></p>
+<p><img src="https://img2020.cnblogs.com/blog/1858293/202009/1858293-20200908223249266-2145451.png" alt="" /></p>
+<p><span style="font-size: 12pt;">大小很大的一张图，图片是跳舞的小人，是福尔摩斯跳舞人像的密码，解读之后是： </span></p>
+<p><span style="font-size: 12pt;">WATCHTHEVIDEO </span></p>
+<p><span style="font-size: 12pt;">Video?哪里来的video让我看？ </span></p>
+<p><span style="font-size: 12pt;">这次需要从binwalk中取出来了，直接修改后缀不管用。 </span></p>
+<p><span style="font-size: 12pt;">从binwalk中可以提取出一张图片和一个文件夹： </span></p>
+<p><img src="https://img2020.cnblogs.com/blog/1858293/202009/1858293-20200908223250574-1657543504.png" alt="" /></p>
+<p><span style="font-size: 12pt;">确实，这个flag.png需要修复，跟上面一样，修复之后是这个样子： </span></p>
+<p><img src="https://img2020.cnblogs.com/blog/1858293/202009/1858293-20200908223258584-766429684.png" alt="" /></p>
+<p><span style="font-size: 12pt;">文件夹里是这个样子： </span></p>
+<p><img src="https://img2020.cnblogs.com/blog/1858293/202009/1858293-20200908223302522-745318003.png" alt="" /></p>
+<p><span style="font-size: 12pt;">这里卡了很久，我完全搞不懂你的名字和篮球和狗有什么联系。 </span></p>
+<p><span style="font-size: 12pt;">抑郁了，这次真的抑郁了。在中午吃饭的时候还想着球员衣服上的数字是不是和你的名字的时间轴有关系： </span></p>
+<p><img src="https://img2020.cnblogs.com/blog/1858293/202009/1858293-20200908223306285-2018811376.png" alt="" /></p>
+<p><span style="font-size: 12pt;">看得出来大家也挺抑郁的。 </span></p>
+<p>&nbsp;</p>
+<p><span style="font-size: 12pt;">后来在队友的帮助下，把这只狗图的高调大，看到了了不得的东西： </span></p>
+<p><img src="https://img2020.cnblogs.com/blog/1858293/202009/1858293-20200908223312262-473349276.png" alt="" /></p>
+<p><span style="font-size: 12pt;">我直接就把这个交了，结果不对，从希望的边缘掉了下去。 </span></p>
+<p><span style="font-size: 12pt;">冷静了一下，这个如果是flag格式，球员衣服数字是时间轴，那么是不是应该在你的名字电影里找找线索呢？ </span></p>
+<p><span style="font-size: 12pt;">然后就找到了： </span></p>
+<p><img src="https://img2020.cnblogs.com/blog/1858293/202009/1858293-20200909142801071-1003634076.png" alt="" loading="lazy" /></p>
+<p>&nbsp;</p>
+<p><img src="https://img2020.cnblogs.com/blog/1858293/202009/1858293-20200909142810631-467160458.png" alt="" loading="lazy" /></p>
+<p>&nbsp;</p>
+<p><img src="https://img2020.cnblogs.com/blog/1858293/202009/1858293-20200909142817059-1077779911.png" alt="" loading="lazy" /></p>
+<p>&nbsp;</p>
+<p><img src="https://img2020.cnblogs.com/blog/1858293/202009/1858293-20200909142824025-194202023.png" alt="" loading="lazy" /></p>
+<p>&nbsp;</p>
+<p>&nbsp;<img src="https://img2020.cnblogs.com/blog/1858293/202009/1858293-20200909142836401-1091204569.png" alt="" loading="lazy" /></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="font-size: 12pt;">连起来就好了，注意大小写 </span></p>
+<h3>flag值：</h3>
+<h3><span style="color: #a6a6a6; font-size: 12pt;">flag{0725-2016-GRANDMENU-RCHITECTURE-1335} </span></h3>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h3>3 国王与小麦</h3>
+<h3>操作内容：</h3>
+<p>&nbsp;<img src="https://img2020.cnblogs.com/blog/1858293/202009/1858293-20200909143005163-1698602118.png" alt="" loading="lazy" /></p>
+<p><span style="font-size: 12pt;">Base91加密，解密之后： </span></p>
+<p>&nbsp;<img src="https://img2020.cnblogs.com/blog/1858293/202009/1858293-20200909143017215-1376531072.png" alt="" loading="lazy" /></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="font-size: 12pt;">得到一堆数字，考虑是摩斯密码，找个牛逼网站解密：<br />
+		</span></p>
+<p><span style="font-size: 12pt;"><img src="https://img2020.cnblogs.com/blog/1858293/202009/1858293-20200910222159490-1434376006.png" alt="" loading="lazy" /></span></p>
+<p>&nbsp;</p>
+<p><span style="font-size: 12pt;"></span></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="font-size: 12pt;">想想国王与小麦讲的故事，第一个格子放一袋米，第二个放前面一个格子的两倍，六十四个个子是放不完的。所以这些数字是2的各个次方！
+</span></p>
+<p><span style="font-size: 12pt;">于是转换为：
+</span></p>
+<p><span style="font-size: 12pt;">25,38,49,33,25,55,45,53, 12,23,12,49,23,51,5,51,23,55,13,47,28,53,60,49,25,22, 5,25,23,54,9,33,13,35,17,61
+</span></p>
+<p><span style="font-size: 12pt;">显然这也不是flag，比赛最后十分钟的时候灵感爆发，觉得这些和base64的转换表有关系，于是手动转换：
+</span></p>
+<p><span style="font-size: 12pt;">ZmxhZ3t1MXMxXzFzX3Nvc18xZWFZX2JhNjR9
+</span></p>
+<p><span style="font-size: 12pt;">扔进在线网站：<br /><img src="https://img2020.cnblogs.com/blog/1858293/202009/1858293-20200908223530008-608748964.png" alt="" />
+		</span></p>
+<p><span style="font-size: 12pt;">可真是有够刺激的。
+</span></p>
+<h3>flag值：
+</h3>
+<p><span style="color: #a6a6a6; font-size: 12pt;">flag{u1s1_1s_sos_1eaY_ba64}
+</span></p>
+<p>
+    &nbsp;</p>
+<p>
+    &nbsp;</p>
+<h3>4 yang
+</h3>
+<h3>操作内容：
+</h3>
+<p><span style="font-size: 12pt;">这个我感觉做到最后就差一步了，然鹅没做出来，就很可惜。
+</span></p>
+<p><span style="font-size: 12pt;">这个歌曲是用MP3Stego写入内容了，那就用这个程序解密。
+</span></p>
+<p><span style="font-size: 12pt;">然而解密需要密码，其实很简单，密码的问题已经写出来了：
+</span></p>
+<p><img src="https://img2020.cnblogs.com/blog/1858293/202009/1858293-20200908223530574-2101931936.png" alt="" /></p>
+<p><span style="font-size: 12pt;">在属性里，有个i-soon chengli time，也就是在问安洵公司成立的时间，百度可以知道是2015年3月31日，也就是20150331。
+</span></p>
+<p><span style="font-size: 12pt;">然后我们去解密：<br /><img src="https://img2020.cnblogs.com/blog/1858293/202009/1858293-20200908223531873-1977256982.png" alt="" />
+		</span></p>
+<p><img src="https://img2020.cnblogs.com/blog/1858293/202009/1858293-20200908223537304-982656963.png" alt="" /></p>
+<p><span style="font-size: 12pt;">得到与佛论禅：
+</span></p>
+<p><img src="https://img2020.cnblogs.com/blog/1858293/202009/1858293-20200908223538978-446374792.png" alt="" /></p>
+<p>
+    &nbsp;</p>
+<p><span style="font-size: 12pt;">一看是504B0304开头的，下意识感觉是个zip的压缩包数据，于是用16进制编辑器打开看看。这里折磨了半天，不知道怎么把十六进制导入，后来看着英文搞懂了，先复制好，然后再点这个：
+</span></p>
+<p><img src="https://img2020.cnblogs.com/blog/1858293/202009/1858293-20200908223541214-12625370.png" alt="" /></p>
+<p><span style="font-size: 12pt;">就产生了zip的压缩包:
+</span></p>
+<p><img src="https://img2020.cnblogs.com/blog/1858293/202009/1858293-20200908223542780-1040344603.png" alt="" /></p>
+<p><span style="font-size: 12pt;">这个包是真的加密不是伪加密，用爆破工具爆破开了，然而&hellip;
+</span></p>
+<p><img src="https://img2020.cnblogs.com/blog/1858293/202009/1858293-20200908223543561-402124339.png" alt="" />
+</p>
+<p><span style="font-size: 12pt;">给了提示我还是不懂啊！
+</span></p>
+<p><span style="font-size: 12pt;">呜呜呜</span></p>
+</body>
+</html>

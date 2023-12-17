@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<script src="https://cdn.jsdelivr.net/npm/texme@1.2.2"></script>
+<meta name="referrer" content="no-referrer">
+<head>
+    <meta charset="UTF-8">
+    <title>吾爱破解培训第一课个人笔记</title>
+</head>
+<body>
+<p><span style="color:black; font-family:微软雅黑; font-size:13pt"><strong><span style="background-color:aqua">【个人笔记】</span>
+			</strong></span></p><p><span style="color:black"><span style="font-family:微软雅黑; font-size:13pt; background-color:aqua"><strong>《吾爱<a href="https://www.52pojie.cn" target="_blank">破解</a>培训第一课：破解基础知识之介绍常见工具和壳的特征》讲师：Hmily</strong></span>
+		</span></p><p>
+     </p><p style="text-align: center"><span style="font-family:微软雅黑; font-size:16pt"><strong>0x00 前提
+</strong></span></p><p>目的：认识、辨别普通的壳，不同的壳有不同的目的。
+</p><p>网站内资源准备好：吾爱破解虚拟机环境、脱壳例子下载、视频课程。
+</p><p>
+     </p><p><img src="https://img2018.cnblogs.com/blog/1858293/202001/1858293-20200131183758481-919337006.png" alt=""/>
+</p><p>l是日志，e是模块信息，包含程序加载的完整模块和路径，m是内存和地址，t是线程，w是窗口，h是句柄信息，c是反汇编窗口，p记录管理员修改信息，k是调用的堆栈，b断点。
+</p><p>
+     </p><p>把exe文件拖入exeinfope中查看是哪种语言编译的，是否加壳。
+</p><p>全文仅供个人记录使用，如有疏漏敬请包容。
+</p><p>
+     </p><p style="text-align: center"><span style="font-family:微软雅黑; font-size:15pt"><strong>0x01  程序是什么语言编译的</strong>
+		</span></p><p><span style="font-family:微软雅黑"><br/>从目前国内接触到程序看，比较流行的编译器有：VC系列、易语言、.NET、Delphi，一些曾经用的很多但渐渐少了有：VB、ASM、BC++，还有一些用的比较少的有：AutoIt、PB、QT等，下面提供一些由论坛同学编译出来的试炼品，结合实例来看看"入口点代码"、"程序区段"和"加载模块"等特征。<br/><br/><span style="font-size:14pt"><strong>VC6编译无壳程序 </strong></span>
+		</span></p><p><span style="font-family:微软雅黑">查看入口点代码如下：<br/><img src="https://img2018.cnblogs.com/blog/1858293/202001/1858293-20200131183758971-458056123.png" alt=""/>
+		</span></p><p><span style="font-family:微软雅黑"><br/><a href="https://www.52pojie.cn/thread-12865-1-1.html" target="_blank"><span style="color:black">PEID</span></a><span style="color:black">查看区段如下：</span><br/><img src="https://img2018.cnblogs.com/blog/1858293/202001/1858293-20200131183759396-603458269.png" alt=""/><br/><br/><strong><em>VC6特点：入口点代码是固定的代码，入口调用的API也是相同的，其中有的push地址不同程序可能不同；区段有四个也是固定的.text、.rdata、.data和.rsrc。</em></strong><br/><br/><span style="font-size:14pt"><strong>VS2008和VS2013编译无壳程序<em>
+					</em></strong></span><br/>OllyDbg查看入口点代码如下：<br/><img src="https://img2018.cnblogs.com/blog/1858293/202001/1858293-20200131183759667-1066491298.png" alt=""/><br/><br/><img src="https://img2018.cnblogs.com/blog/1858293/202001/1858293-20200131183759961-1780110399.png" alt=""/><br/><br/>PEID查看区段如下：<br/><img src="https://img2018.cnblogs.com/blog/1858293/202001/1858293-20200131183800374-334226634.png" alt=""/><br/><br/><strong><em>VS特点：入口点只有两行代码，一个CALL后直接JMP，第一个CALL进去后调用的API也是相同的；区段相对于VC6多了一个.reloc。</em></strong><br/><br/><span style="font-size:14pt"><strong>易语言编译无壳程序（独立编译和非独立编译）
+</strong></span></span></p><p><span style="font-family:微软雅黑">（由于易语言独立编译是调用VC的链接程序编译的，所以从区段和入口代码特征和VC相同，下图为非独立编译带运行库）<br/>OllyDbg查看入口点代码如下：<br/><img src="https://img2018.cnblogs.com/blog/1858293/202001/1858293-20200131183800682-574510489.png" alt=""/><br/><br/>查看模块：<br/><img src="https://img2018.cnblogs.com/blog/1858293/202001/1858293-20200131183801053-960458476.png" alt=""/><br/><br/>查看核心代码：<br/><img src="https://img2018.cnblogs.com/blog/1858293/202001/1858293-20200131183801368-1699294464.png" alt=""/><br/><br/><strong><em>易语言特点：可以从程序里找一些call的调用最终都会走到上面核心代码图位置（文字不太好表达），这个方法可以区分和VC的区别，非独立编译比较容易识别，入口特征和模块特征都有krnln.fnr。</em></strong>
+		</span></p><p>
+     </p><p><span style="font-family:微软雅黑; font-size:14pt"><strong>Delhpi编译无壳程序
+</strong></span></p><p><img src="https://img2018.cnblogs.com/blog/1858293/202001/1858293-20200131183801775-2021952330.png" alt=""/><span style="font-family:微软雅黑">
+		</span></p><p>
+     </p><p><img src="https://img2018.cnblogs.com/blog/1858293/202001/1858293-20200131183802124-1320926933.png" alt=""/>
+</p><p>
+     </p><p>
+     </p><p>
+     </p><p>
+     </p><p>
+    <span style="font-family:微软雅黑; font-size:14pt"><strong> .net特征</strong></span>：<strong><em>看模块，加载了很多的.net库
+</em></strong></p><p><img src="https://img2018.cnblogs.com/blog/1858293/202001/1858293-20200131183802480-349220270.png" alt=""/>
+</p><p>
+     </p><p>
+     </p><p style="text-align: center"><span style="font-family:微软雅黑; font-size:16pt"><strong>0x02 部分壳的特征
+</strong></span></p><p><strong>Aspack
+</strong></p><p>区段：<img src="https://img2018.cnblogs.com/blog/1858293/202001/1858293-20200131183802808-2086261593.png" alt=""/>
+</p><p>入口特征：
+</p><p><img src="https://img2018.cnblogs.com/blog/1858293/202001/1858293-20200131183803217-167301300.png" alt=""/>
+</p><p>
+     </p><p>
+     </p><p><strong>UPX
+</strong></p><p>
+     </p><p>区段：被压缩过，压缩结果是UPX0和UPX1，名称可以随便改，基本就是三个<img src="https://img2018.cnblogs.com/blog/1858293/202001/1858293-20200131183803439-1146347486.png" alt=""/>
+</p><p>入口特征：
+</p><p><img src="https://img2018.cnblogs.com/blog/1858293/202001/1858293-20200131183803650-100543327.png" alt=""/>
+</p><p>
+     </p><p>
+     </p><p>
+     </p><p><strong>Themida
+</strong></p><p>区段：后两个名称随机
+</p><p><img src="https://img2018.cnblogs.com/blog/1858293/202001/1858293-20200131183803870-1986245239.png" alt=""/>
+</p><p>
+     </p><p>
+     </p><p>
+     </p><p><strong>Vmprotect：
+</strong></p><p>主要看区段特征：
+</p><p><img src="https://img2018.cnblogs.com/blog/1858293/202001/1858293-20200131183804160-1002734420.png" alt=""/>
+</p><p>入口特征显得杂乱无章
+</p><p>
+     </p><p><strong>Shielden
+</strong></p><p>区段：
+</p><p><img src="https://img2018.cnblogs.com/blog/1858293/202001/1858293-20200131183804403-1254491279.png" alt=""/>
+</p><p>入口（经跳转和分析过的）：
+</p><p><img src="https://img2018.cnblogs.com/blog/1858293/202001/1858293-20200131183804604-2077683305.png" alt=""/>
+</p><p>
+     </p><p>
+     </p><p>
+     </p><p>加壳技术可以方便我们对程序进行保护、压缩等措施，而脱壳技术则方便我们对程序进行更大程度上的修改。
+</p><h1>附：【初学者教程】破解基础知识之认识壳与程序的特征（本文有摘抄）
+</h1><h1>https://www.52pojie.cn/thread-234739-1-1.html
+</h1>
+</body>
+</html>

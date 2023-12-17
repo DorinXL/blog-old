@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<script src="https://cdn.jsdelivr.net/npm/texme@1.2.2"></script>
+<meta name="referrer" content="no-referrer">
+<head>
+    <meta charset="UTF-8">
+    <title>【攻防世界】对于parallel-comparator-200的理解的感想</title>
+</head>
+<body>
+<p><span style="font-size:14pt">这是一道代码审计的题
+</span></p><p><span style="font-size:14pt">pthread.h库函数涉及到UNIX内核了，一些关于线程的函数现在还读不太懂。但是不妨碍我们做题。
+</span></p><p><img src="https://img2020.cnblogs.com/blog/1858293/202004/1858293-20200418171027323-1835635121.png" alt=""/>
+</p><p><span style="font-size:14pt">主函数告诉我们输入flag到user_string函数中。然后is_ok是函数high_optimized_parallel_comparsion的返回值。我们要做的是让这个函数的返回值为1。
+</span></p><p>
+     </p><p><span style="font-size:14pt">进入函数high_optimized_parallel_comparsion：
+</span></p><p><img src="https://img2020.cnblogs.com/blog/1858293/202004/1858293-20200418171027839-1488161047.png" alt=""/>
+</p><p><span style="font-size:14pt">函数的一部分是在告诉我们：
+</span></p><p><span style="font-size:14pt">声明了两个变量：initialization_number和first_letter，这两个变量下面都要用到。
+</span></p><p><span style="font-size:14pt">initialization_number是一个大于64的随机数，而first_letter是前面那个数对26取模再加97；
+</span></p><p><span style="font-size:14pt">一个数对26取模，取模后的数的范围是0-25，所以我们反推initialization_number的范围是97-122；
+</span></p><p>
+     </p><p><span style="font-size:14pt">接下来的pthread_create函数用到了checking函数，我们先往下看。
+</span></p><p>
+     </p><p><img src="https://img2020.cnblogs.com/blog/1858293/202004/1858293-20200418171028276-412563873.png" alt=""/>
+</p><p>
+     </p><p><span style="font-size:14pt">这里声明了result，根据最后的函数我们可以得知，reault必须为0。
+</span></p><p>
+     </p><p><span style="font-size:14pt">而恰好checking函数会返回result的值：
+</span></p><p><img src="https://img2020.cnblogs.com/blog/1858293/202004/1858293-20200418171028689-235432473.png" alt=""/>
+</p><p>
+     </p><p><span style="font-size:14pt">将checking函数和high_optimized_parallel_comparsion函数中的pthread_create函数相结合，我们可以分析出来：argument[0] 是first_letter，argument[1] 是数组differences中对应下标的值，而argument[2]就是我们要输入的对应位置的字符。
+</span></p><p>
+     </p><p><span style="font-size:14pt">经过一番逆向推导，result的值要保持为0，那么0^任何数都是这个数本身，所以我们有：
+</span></p><p>
+     </p><p><span style="font-size:16pt; text-decoration:underline"><strong>argument[2] = argument[0] + argument[1]
+</strong></span></p><p>
+     </p><p><span style="font-size:14pt">既有：我们输入的字符由first_letter和数组differences组成。
+</span></p><p><span style="font-size:14pt">换句话说，我们只要知道first_letter，知道initialization_number是多少，就可以了。
+</span></p><p><span style="font-size:14pt">initialization_number的范围我们在上文已经推测出，是一个定值。
+</span></p><p><span style="font-size:14pt">经过爆破我们可以得到自己想要的答案：
+</span></p><p>
+     </p><p><img src="https://img2020.cnblogs.com/blog/1858293/202004/1858293-20200418171029038-2119885714.png" alt=""/>
+</p><p>
+     </p><p><span style="font-size:14pt">实际上涉及到的进程函数我还是很想搞明白的，但是要搞明白的话就需要了解更多的知识。慢慢来吧，从语言到操作系统到内核，一口可吃不成个胖子。
+</span></p><p><span style="font-size:14pt">虽然我想说C语言天下第一，但是不得不承认有些时候C还是比较折磨人的。</span></p>
+</body>
+</html>

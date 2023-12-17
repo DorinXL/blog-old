@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<script src="https://cdn.jsdelivr.net/npm/texme@1.2.2"></script>
+<meta name="referrer" content="no-referrer">
+<head>
+    <meta charset="UTF-8">
+    <title>2020/5/30 [FlareOn6]Overlong</title>
+</head>
+<body>
+<p><img src="https://img2020.cnblogs.com/blog/1858293/202005/1858293-20200530183323659-1542257090.png" alt=""/>
+</p><p><span style="font-family:黑体; font-size:14pt">Flare-on第六届挑战赛的题，
+</span></p><p><img src="https://img2020.cnblogs.com/blog/1858293/202005/1858293-20200530183324158-697008300.png" alt=""/><span style="font-family:黑体; font-size:14pt">
+		</span></p><p><span style="font-family:黑体; font-size:14pt">挺迷的，这个挑战赛的题都挺有水平。
+</span></p><p><span style="font-family:黑体; font-size:14pt">IDA打开就仨函数：
+</span></p><p><img src="https://img2020.cnblogs.com/blog/1858293/202005/1858293-20200530183324483-1018243791.png" alt=""/><span style="font-family:黑体; font-size:14pt">
+		</span></p><p><span style="font-family:黑体; font-size:14pt">Main函数也挺简单：
+</span></p><p><img src="https://img2020.cnblogs.com/blog/1858293/202005/1858293-20200530183324765-1108276765.png" alt=""/><span style="font-family:黑体; font-size:14pt">
+		</span></p><p><span style="font-family:黑体; font-size:14pt">对v4处理，存到text，输出，没了。
+</span></p><p><span style="font-family:黑体; font-size:14pt">然而疑惑的地方是，v4有这么长：
+</span></p><p><img src="https://img2020.cnblogs.com/blog/1858293/202005/1858293-20200530183325172-534356750.png" alt=""/><span style="font-family:黑体; font-size:14pt">（比这个还长）
+</span></p><p><span style="font-family:黑体; font-size:14pt">但是<img src="https://img2020.cnblogs.com/blog/1858293/202005/1858293-20200530183325454-80048503.png" alt=""/>这里指处理了28，即0x1C的长度。
+</span></p><p><span style="font-family:黑体; font-size:14pt">结合他运行时跑出的数据：
+</span></p><p><img src="https://img2020.cnblogs.com/blog/1858293/202005/1858293-20200530183325767-741460890.png" alt=""/><span style="font-family:黑体; font-size:14pt">
+		</span></p><p><span style="font-family:黑体; font-size:14pt">数了数算上空格正好是这么长，我有理由怀疑他没有处理后面的字符。
+</span></p><p><span style="font-family:黑体; font-size:14pt">所以我们要做的就是把处理长度从0x1C延长到整个长度，数了数是0xAF个字符。
+</span></p><p><span style="font-family:黑体; font-size:14pt">从：<img src="https://img2020.cnblogs.com/blog/1858293/202005/1858293-20200530183326009-79468711.png" alt=""/>到<img src="https://img2020.cnblogs.com/blog/1858293/202005/1858293-20200530183326290-1651864204.png" alt=""/>
+		</span></p><p><span style="font-family:黑体; font-size:14pt; text-decoration:underline">B6 – 08 + 1= B8 – 08 - 1 = B0 – 1 = AF
+</span></p><p><span style="font-family:黑体; font-size:14pt">所以我下意识打开OD去改数据。
+</span></p><p><span style="font-family:黑体; font-size:14pt">为什么不用IDA改？因为我改了之后不会保存成二进制文件。
+</span></p><p><span style="font-family:黑体; font-size:14pt">然鹅打开OD之后我发现，根本找不到这段数据，好像直接进入dll了：
+</span></p><p><img src="https://img2020.cnblogs.com/blog/1858293/202005/1858293-20200530183326525-197095771.png" alt=""/><span style="font-family:黑体; font-size:14pt">
+		</span></p><p><span style="font-family:黑体; font-size:14pt">然后我想了想，怎么修改呢？
+</span></p><p><span style="font-family:黑体; font-size:14pt">文件的本质就是二进制啊！那我直接找个十六进制修改器，找到对应的机器码不就行了：
+</span></p><p><img src="https://img2020.cnblogs.com/blog/1858293/202005/1858293-20200530183326714-677728669.png" alt=""/><span style="font-family:黑体; font-size:14pt">这里本来是<span style="color:red">6A 1C 68</span> ，改成了<span style="color:red">6A AF 68</span>，再次运行：</span><br/><img src="https://img2020.cnblogs.com/blog/1858293/202005/1858293-20200530183326936-1235356863.png" alt=""/>
+</p><p><img src="https://img2020.cnblogs.com/blog/1858293/202005/1858293-20200530183327116-691585667.png" alt=""/><span style="font-family:宋体; font-size:12pt">（其实也可以按照程序逻辑写一遍代码，但是我觉得太麻烦了）
+</span></p><p>
+     </p><p>
+     </p>
+</body>
+</html>

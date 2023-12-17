@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<script src="https://cdn.jsdelivr.net/npm/texme@1.2.2"></script>
+<meta name="referrer" content="no-referrer">
+<head>
+    <meta charset="UTF-8">
+    <title>2020/5/31 [GKCTF2020]Chelly’s identity</title>
+</head>
+<body>
+<p><img src="https://img2020.cnblogs.com/blog/1858293/202005/1858293-20200531185445118-547101262.png" alt=""/>
+</p><p><span style="font-family:黑体; font-size:14pt">这是一道当时比赛没做出来的题，沉迷口袋妖怪。
+</span></p><p><span style="font-family:黑体; font-size:14pt">没做出来是因为看着这花里胡哨的IDA就不想做了【不是】
+</span></p><p><span style="font-family:黑体; font-size:14pt">事后冷静分析一波，挺多干扰的。
+</span></p><p><img src="https://img2020.cnblogs.com/blog/1858293/202005/1858293-20200531185445601-104923569.png" alt=""/><span style="font-family:黑体; font-size:14pt">
+		</span></p><p><span style="font-family:黑体; font-size:14pt">简单来讲就是输入之后进行处理然后对比。IDA反编译出来的语句太迷了看的我头都大了。
+</span></p><p><img src="https://img2020.cnblogs.com/blog/1858293/202005/1858293-20200531185445900-928219626.png" alt=""/><span style="font-family:黑体; font-size:14pt">
+		</span></p><p><span style="font-family:黑体; font-size:14pt">↑这个是处理输入位数的，要16位。
+</span></p><p><img src="https://img2020.cnblogs.com/blog/1858293/202005/1858293-20200531185446358-1239293453.png" alt=""/><span style="font-family:黑体; font-size:14pt">
+		</span></p><p><span style="font-family:黑体; font-size:14pt">↑这个是对输入的字符出进行处理，这个for可有点东西，以下是我个人理解：
+</span></p><p><span style="font-family:黑体; font-size:14pt">首先取值i，i的范围是0-v8，v8一开始是0，通过下面的v9语句进行自增，也就是说这个i的范围是数组v12从开始到某个值的一段。(对那个sub_411325其实是返回数组内容)
+</span></p><p><span style="font-family:黑体; font-size:14pt">这个值的判断标准就是中间的 *i  &lt;  *v11,也就是说，<span style="color:red">把所有v12数组中小于v11的值取出来累加得到v9，再和v11异或保存。而v11恰好就是我们输入的字符串，也就是flag</span>。
+</span></p><p><span style="font-family:黑体; font-size:14pt">那么现在有个问题，我们知道v11是输入，那v12是啥？
+</span></p><p><span style="font-family:黑体; font-size:14pt">寻找最先出现v12的位置，sub_4112F8：
+</span></p><p><img src="https://img2020.cnblogs.com/blog/1858293/202005/1858293-20200531185446810-406975578.png" alt=""/><span style="font-family:黑体; font-size:14pt">
+		</span></p><p><span style="font-family:黑体; font-size:14pt">那个判断条件是这样的：
+</span></p><p><img src="https://img2020.cnblogs.com/blog/1858293/202005/1858293-20200531185447184-987702409.png" alt=""/><span style="font-family:黑体; font-size:14pt">
+		</span></p><p><span style="font-family:黑体; font-size:14pt">如果是质数，那么保存。
+</span></p><p><span style="font-family:黑体; font-size:14pt">如此一来我们就可以知道，整个算法是<span style="color:red">将1-128的质数保存在数组，然后依次遍历每个flag的字符，将比字符小的质数累加的和与该字符异或，最后对比</span>：
+</span></p><p><img src="https://img2020.cnblogs.com/blog/1858293/202005/1858293-20200531185447550-1062530294.png" alt=""/>
+</p><p><span style="font-family:黑体; font-size:14pt">C代码：
+</span></p><p><img src="https://img2020.cnblogs.com/blog/1858293/202005/1858293-20200531185448071-628776074.png" alt=""/>
+</p><p><img src="https://img2020.cnblogs.com/blog/1858293/202005/1858293-20200531185448400-914752966.png" alt=""/>
+</p><p>有一说一，我是真的看着这些个sub函数顶的不行，还是见识太少。
+</p><p>
+     </p>
+</body>
+</html>

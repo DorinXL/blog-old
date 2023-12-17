@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<script src="https://cdn.jsdelivr.net/npm/texme@1.2.2"></script>
+<meta name="referrer" content="no-referrer">
+<head>
+    <meta charset="UTF-8">
+    <title>HANDLER进行堆叠注入</title>
+</head>
+<body>
+<textarea>
+    # HANDLER进行堆叠注入
+
+## [GYCTF2020]Blacklist
+
+![image-20201120161425003](https://img2020.cnblogs.com/blog/1858293/202011/1858293-20201120171802685-2439628.png)
+
+过滤了很多的关键词
+
+![image-20201120161508722](https://img2020.cnblogs.com/blog/1858293/202011/1858293-20201120171803161-38417002.png)
+
+你可以尽情堆叠，但是令人难过的是你读不出来，也不能像强网杯那样alert改名字。
+
+但是我们还有**handler**这个东西
+
+> mysql除可使用select查询表中的数据，也可使用handler语句，这条语句使我们能够一行一行的浏览一个表中的数据，不过handler语句并不具备select语句的所有功能。它是mysql专用的语句，并没有包含到SQL标准中。
+>  HANDLER语句提供通往表的直接通道的存储引擎接口，可以用于MyISAM和InnoDB表。
+
+```
+HANDLER tbl_name OPEN [ [AS] alias]
+
+HANDLER tbl_name READ index_name { = | <= | >= | < | > } (value1,value2,...)
+    [ WHERE where_condition ] [LIMIT ... ]
+HANDLER tbl_name READ index_name { FIRST | NEXT | PREV | LAST }
+    [ WHERE where_condition ] [LIMIT ... ]
+HANDLER tbl_name READ { FIRST | NEXT }
+    [ WHERE where_condition ] [LIMIT ... ]
+
+HANDLER tbl_name CLOSE
+
+通过HANDLER tbl_name OPEN打开一张表，无返回结果，实际上我们在这里声明了一个名为tb1_name的句柄。
+通过HANDLER tbl_name READ FIRST获取句柄的第一行，通过READ NEXT依次获取其它行。最后一行执行之后再执行NEXT会返回一个空的结果。
+通过HANDLER tbl_name CLOSE来关闭打开的句柄。
+
+通过索引去查看的话可以按照一定的顺序，获取表中的数据。
+通过HANDLER tbl_name READ index_name FIRST，获取句柄第一行（索引最小的一行），NEXT获取下一行，PREV获取前一行，LAST获取最后一行（索引最大的一行）。
+
+通过索引列指定一个值，可以指定从哪一行开始。
+通过HANDLER tbl_name READ index_name = value，指定从哪一行开始，通过NEXT继续浏览。
+```
+
+![image-20201120162237893](https://img2020.cnblogs.com/blog/1858293/202011/1858293-20201120171803597-447007445.png)
+
+使用：
+
+```
+?inject=1';HANDLER `FlagHere` OPEN;HANDLER `FlagHere` READ FIRST;
+```
+
+来读取内容，get到flag
+
+同时，这种解法也适用于强网杯
+
+## [强网杯 2019]随便注
+
+show tables看看都有什么表。
+
+![image-20201120165436885](https://img2020.cnblogs.com/blog/1858293/202011/1858293-20201120171803962-1630637127.png)
+
+网上的wp有改表名的，也有预处理的，在此不再赘述，我们直接使用handler：
+
+![image-20201120170055119](https://img2020.cnblogs.com/blog/1858293/202011/1858293-20201120171804463-748046346.png)
+
+#### 数据库真是太美妙了
+</textarea>
+</body>
+</html>

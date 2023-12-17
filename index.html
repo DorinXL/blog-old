@@ -71,11 +71,13 @@
                             </a>
                         </li>
                         <li>
-<!--                            <a href="https://www.cnblogs.com/DorinXL/" target="_blank" class="pt-link">-->
-<!--                                    <span class="nav-menu-icon"><i class="lnr lnr-book"></i></span>Blog-->
-<!--                            </a>-->
                             <a href="#blog" class="pt-link">
-                                <span class="nav-menu-icon"><i class="lnr lnr-briefcase"></i></span>Blog
+                                <span class="nav-menu-icon"><i class="lnr lnr-book"></i></span>Blog
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#blog-content" class="pt-link" style="display: none">
+                                <span class="nav-menu-icon"><i class="lnr lnr-book"></i></span>Blog-Content
                             </a>
                         </li>
                         <li>
@@ -470,16 +472,54 @@
         </section>
         <!--Blog Section End-->
 
-<!--        test start-->
-<!--        <div id="blog-posts" class="blog-posts">-->
-<!--            &lt;!&ndash; 这里将会通过 JavaScript 动态添加博客文章 &ndash;&gt;-->
-<!--        </div>-->
-<!--        <div class="pagination">-->
-<!--            <button id="prevPage">Previous</button>-->
-<!--            <button id="nextPage">Next</button>-->
-<!--        </div>-->
 
-        <!--        test end-->
+        <!--Blog Section Start-->
+        <section id="blog-content" class="blog-content-section pt-page">
+            <style>
+                #iframeContainer {
+                    width: 100%;
+                    height: 500px; /* 初始高度 */
+                    overflow: hidden; /* 隐藏滚动条 */
+                    position: relative;
+                }
+                #iframeContainer iframe {
+                    width: 100%;
+                    height: 100%;
+                    border: none;
+                }
+            </style>
+            <div class="section-container">
+                <div class="blog-page">
+                    <div class="blog-image">
+                        <img src="img/blog/blog-page-img.jpg" alt="" />
+                    </div>
+                    <div class="blog-container">
+                        <div class="row" >
+                            <!--Blog Heading Start-->
+                            <div class="blog-heading col-md-8 offset-md-2">
+                                <span class="cat" id="blogCategory"></span>
+                                <h1 id="blogTitle"></h1>
+                                <span class="blog-date" id="blogDate"></span>
+                            </div>
+                            <!--Blog Heading Start-->
+                            <!--Blog Content Start-->
+                            <div class="blog-content">
+                                <div id="note">
+                                    <!-- 这里将会加载note文件中的内容 -->
+                                </div>
+                                <blockquote>
+                                    如遇到排版问题，可能是由于页面加载未完成，请尝试手动刷新页面以确保内容显示正常。
+                                    您可以使用浏览器的刷新按钮或者按下 F5 键来进行刷新。如果问题仍然存在，请联系我~
+                                </blockquote>
+                                <div id="iframeContainer">
+                                    <iframe id="markdownPage" src="" frameborder="0"></iframe>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
     </div>
     <!--Main End-->
 
@@ -512,5 +552,78 @@
     });</script>
 
 <script src="js/blog.js"></script>
+
+<script>
+    function loadBlogContent(noteSrc) {
+        if (noteSrc === null || noteSrc === undefined) return;
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState === 4 && this.status === 200) {
+                var parser = new DOMParser();
+                var xmlDoc = parser.parseFromString(this.responseText, "text/html");
+                var htmlContent = xmlDoc.documentElement.innerHTML;
+
+                // 将另一个 HTML 文件的内容插入到当前页面中的指定位置
+                document.getElementById("note").innerHTML = htmlContent;
+            }
+        };
+        xhttp.open("GET", "noteSrc", true);
+        xhttp.send();
+    }
+
+    function adjustIframeSize() {
+        var iframeContainer = document.getElementById('iframeContainer');
+        var markdownPage = document.getElementById('markdownPage');
+
+        // 获取内部页面的宽度和高度
+        var contentWidth = markdownPage.contentWindow.document.body.scrollWidth;
+        var contentHeight = markdownPage.contentWindow.document.body.offsetHeight;
+
+        console.log(contentHeight)
+        // 设置 iframe 的宽度和高度
+        iframeContainer.style.height = contentHeight*1.008 + 'px';
+        iframeContainer.style.width = contentWidth + 'px';
+
+        // 让内部页面居中显示
+        markdownPage.style.position = 'absolute';
+        markdownPage.style.left = '50%';
+        markdownPage.style.top = '50%';
+        markdownPage.style.transform = 'translate(-50%, -50%)';
+    }
+
+    // 加载note
+    loadBlogContent();
+
+    // 调整 iframe 大小（可以根据需要触发调整大小的事件来调用此函数）
+    adjustIframeSize();
+
+    // 当 iframe 内部页面加载完毕时再次调整大小
+    document.getElementById('markdownPage').onload = function() {
+        adjustIframeSize();
+    };
+
+    function qiehuan(contentSrc,noteSrc,imageSrc,category,title,date)
+    {
+        // console.log("切换咯"+contentSrc);
+        // 获取 iframe 元素
+        const iframe = document.getElementById('markdownPage');
+        // 获取当前的属性值
+        const currentSrc = iframe.src;
+        const catElement = document.getElementById('blogCategory');
+        const titleElement = document.getElementById('blogTitle');
+        const dateElement = document.getElementById('blogDate');
+        // 修改 属性值
+        iframe.src = contentSrc; // 替换 'new_source.html' 为你想要的新链接
+        catElement.textContent = category;
+        titleElement.textContent = title;
+        dateElement.textContent = date;
+        // 加载note
+        loadBlogContent(noteSrc);
+        // 调整 iframe 大小（可以根据需要触发调整大小的事件来调用此函数）
+        adjustIframeSize();
+
+
+    }
+</script>
 </body>
 </html>

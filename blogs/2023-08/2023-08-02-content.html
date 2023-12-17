@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<script src="https://cdn.jsdelivr.net/npm/texme@1.2.2"></script>
+<meta name="referrer" content="no-referrer">
+<head>
+    <meta charset="UTF-8">
+    <title>解析数论之原根</title>
+</head>
+<body>
+<textarea>
+    # 解析数论之原根
+
+## 目录
+
+- Chapter1 什么是整数的次数，什么是原根
+- Chapter2 谁有原根？
+
+## Chapter1 什么是整数的次数，什么是原根
+
+- **Definition**：
+
+  对于$(a,m)=1,m\ge1$，考虑所有$a,a^2,a^3,\cdots$，我们通过欧拉定理知道有$a^{\varphi(m)}\equiv1\mod{m}$。
+
+  而满足$a^f\equiv1\mod{m}$的最小正整数$f$称为$a\mod{m}$的次数，记作
+  $$
+  f=\exp_m(a)
+  $$
+  如果$\exp_m(a)=\varphi(m)$,那么$a$叫做模$m$的一个原根。
+
+- **Theorem:**
+
+  - **Th1：**如果$\exp_m(a)=l;a^n\equiv1\mod{m};n$是正整数，那么$l|n$。
+
+  > **Proof**:
+  >
+  > 使用反证法，如果$l$不能整除$n$，那么有$n=ql+r,0\le r\le l$，那么
+  > $$
+  > a^n\equiv a^{ql+r}\equiv1\mod{m}\\
+  > 而\exp_m(a)=l意味着a^l\equiv1\mod{m}\\
+  > 所以a^{ql+r}\equiv a^r\equiv1\mod{m}\\
+  > $$
+  > 在上面的式子中$0\le r\le l$，但是根据$\exp_m(a)=l$的定义，不可能存在$0< r\le l$的数r使$a^r\equiv1\mod{m}$，出现矛盾，于是反证成功。
+  >
+  > 或者$r=0$，这样一来就会出现$l|n$。
+
+  推论：如果$\exp_m(a)=l$，一定有$l|\varphi(m)$
+
+  - **Th2：**如果$\exp_m(a)=l$，那么$\{1,a,a^2,\cdots,a^{l-1}\}$中的元素两两不同余
+
+  > 假设$a^m\equiv a^n\mod{m}, 0\le n\le m\le l-1$，那么根据$(a,m)=1$，我们有$a^{m-n} \equiv 1\mod{m}$，但是$0\le m-n \le l-1$，出现矛盾，反证成功。
+
+  - **Th3：**如果$\exp_m(a)=l$，那么$a^k\equiv a^h\mod{m}$，当且仅当$k \equiv h\mod{l}$。
+
+  > 证明$\Rightarrow$：
+  >
+  > 如果$a^k\equiv a^h\mod{m}$，那么根据$(a,m)=1$有$a^{k-h}\equiv1\mod{m}$。
+  >
+  > 根据Th1有$k-h=ql+r,0\le r\le l$，使用Th1的方式我们可以推导出$r=0$，从而有$k-h=ql \Rightarrow l|(k-h) \Rightarrow k\equiv h\mod{l}$
+  >
+  > 证明$\Leftarrow$：
+  >
+  > 如果$k\equiv h\mod{l}$，那么$k-h=ql$，所以$a^{k-h}\equiv1\mod{m}$，于是$a^k\equiv a^h\mod{m}$。
+
+  Th3还可以用于证明Th2，$k$和$h$选自$\{0,1,2\cdots,l-1\}$中的不同元素，于是$\{1,a,a^2,\cdots,a^{l-1}\}$中的元素两两互不同余。
+
+  推论：如果$\exp_m(a)=l$，那么$a^k\equiv 1\mod{m}$，当且仅当$k \equiv 0\mod{f}$。所以有$l|\varphi(m)$
+
+  - **Th4：**令$(a.m)=1$，则$a$是模$m$的一个原根，当且仅当，$\{a,a^2,\cdots,a^{\varphi(m)}\}$构成模$m$的一个简化剩余系。
+
+  > 证明$\Rightarrow$：
+  >
+  > 如果$a$是一个原根，那么有$a^{\varphi(m)} \equiv \mod{m}$,那么根据Th2，我们有$\{1,a,a^2,\cdots,a^{\varphi(m)-1}\}$，即$\{a,a^2,\cdots,a^{\varphi(m)}\}$两两互不同余，而这样的数正好有$\varphi(m)$个，于是构成$m$的一个简化剩余系。
+  >
+  > 证明$\Leftarrow$：
+  >
+  > 有$(a,m)=1$，那么根据欧拉定理有$a^{\varphi(m)} \equiv \mod{m}$，而$\{a,a^2,\cdots,a^{\varphi(m)}\}$构成简化剩余系，且其中的元素两两互不同余，那么不会出现比$\varphi(m)$更小的方幂同余1。
+
+  - **Th5：**已知$(a.m)=1$，令$\exp_m(a)=f$，则有
+    $$
+    \exp_m(a^k)=\dfrac{\exp_m(a)}{(k,f)}
+    $$
+    特别的，$\exp_m(a^k)=\exp_m(a)$当且仅当$(k,f)=1$。
+
+  > 从定义我们知道，$\exp_m(a^k)$即是$a^k$的次数，也就是满足$a^{xk}\equiv1\mod{m}$的最小的$x$，使$xk\equiv1\mod{f}$。
+  >
+  > $xk\equiv1\mod{f}$等价于$x\equiv0\mod{\dfrac{f}{d}}，d=(k,f)$。这个同余式的最小正整数解为$x=\dfrac{f}{d}$，所以$\exp_m(a^k)=\dfrac{f}{d}=\dfrac{\exp_m(a)}{(k,f)}$
+
+  - **Th6：**令$g$是模$p$的一个原根，使$g^{p-1}\not\equiv1(\mod{p^2})$，那么对每个$\alpha\ge2$，我们有$g^{\varphi(p^{\alpha-1})}\not\equiv1(\mod{p^\alpha})$
+
+
+  > 使用归纳法证明，对$\alpha=2$，左式就是右式。
+  >
+  > 假设该定理对$\alpha={2，\cdots,}n$都成立，现在我们要证明对于$\alpha=n+1$也成立。
+  >
+  > 根据欧拉定理，我们有$g^{\varphi(p^{\alpha-1})}\equiv1(\mod{p^{\alpha-1}})$，因此$g^{\varphi(p^{\alpha-1})}=kp^{\alpha-1}+1$。
+  >
+  > 而对于$\alpha=n$满足$g^{\varphi(p^{\alpha-1})}\not\equiv1(\mod{p^\alpha})$，也就是$g^{\varphi(p^{\alpha-1})}-1\not\equiv0(\mod{p^\alpha})$,也就是$k$的因子不能含有$p$，即$p\not|k$。
+  >
+  > 接着我们将$g^{\varphi(p^{\alpha-1})}=kp^{\alpha-1}+1$左右各自乘$p$次：
+  > $$
+  > \begin{align*}
+  > (g^{\varphi(p^{\alpha-1})})^p&=(kp^{\alpha-1}+1)^p\\
+  > (g^{p^{\alpha-1}-p^{\alpha-2}})^p&=1+kp^\alpha+k^2\dfrac{p(p-1)}{2}p^{2(\alpha-1)+rp^{3(\alpha-1)}}\\
+  > 因为\alpha\ge2,所以&2\alpha-1\ge\alpha+1,3\alpha-3\ge\alpha+1\\
+  > g^{\varphi(p^\alpha)}&\equiv1+kp^\alpha(\mod{p^{\alpha+1}})
+  > \end{align*}
+  > $$
+  > 而前面证明了$k$中不含因子$p$，所以$kp^\alpha\not\equiv0(\mod{p^{\alpha+1}})$，所以$g^{\varphi(p^\alpha)}-1\not\equiv0(\mod{p^{\alpha+1}})$。
+  >
+  > 所以我们证明了对于$\alpha=n+1$这个结论也成立，归纳证明完毕。
+
+## Chapter2 谁有原根？
+
+- **Definition**：
+
+不是所有的模都有原根：
+
+只有当$m=1,2,4,p^\alpha,2p^\alpha$的时候，模才有原根。
+
+前三种情形容易确定：
+
+> 1的原根是0，2的原根是1，4的原根3：$3^2\equiv 1 \mod{4}$。
+
+- **Theorem:**
+
+  - **1.证明对奇素数$p$，模$p$的原根存在：**
+
+    Th：令$p$是一个奇素数，$d|p-1$，在模$p$的每一个简化剩余系中，恰有$\varphi(d)$个$a$使得$\exp_p(a)=d$。
+
+  > 使用在第二章中用到过的证明，将$d$分为若干个集合$A(d)=\{x|1\le x\le p-1,\exp_p(x)=d\}$
+  >
+  > 令$f(d)$表示$A(d)$中元素的个数。对每一个$d$有$f(d)\ge0$，我们要证明$f(d)=\varphi(d)$
+  >
+  > 首先，$A(d)$是互不相交的，所以$\sum_{d|p-1}f(d)=p-1$
+  >
+  > 然后，根据欧拉函数的性质，我们有$\sum_{d|p-1}\varphi(d)=p-1$
+  >
+  > 于是有$\sum_{d|p-1}|\varphi(d)-f(d)|=0$，
+  >
+  > 其中每一项加起来的和为0，所以我们要证明有$f(d)\ge\varphi(d)$就足够了。
+  >
+  > 如果$f(d)=0$，那么显然满足$f(d)\ge\varphi(d)$；
+  >
+  > 如果$f(d)\not=0$，也就是$A(d)$非空，那么从$A(d)$中选取一个$a$，满足$\exp_p(a)=d$，即$a^d\equiv1(\mod{p})$
+  >
+  > 对于选择的这个$a$来说，他的任意方幂都满足$a^d\equiv1(\mod{p})$，也就是说
+  >
+  > ${a,a^2,\cdots,a^d}$都是$x^d-1\equiv0(\mod{p})$的解。
+  >
+  > 根据拉格朗日定理，$p$是素数，那么上面这个式子最多只有$d$个解，于是${a,a^2,\cdots,a^d}$是$x^d-1\equiv0(\mod{p})$的**全部**解。
+  >
+  > 于是我们扩大范围，既然$A(d)$不为空，那么$A(d)$这个集合中的所有数$\{1\le a \le p-1\}$，都有$a^k,k=1,2,\cdots$
+  >
+  > 但不是所有的$a^k$都满足$(a^k)^d\equiv1(\mod{p})$，我们要找到有多少这样的$a$能够满足这个式子。
+  >
+  > 换言之，什么时候$\exp_p(a^k)=d$呢？
+  >
+  > 我们有Th5的推论可以知道，想要$\exp_p(a^k)=\exp_p(a)=d$，那就需要$(k,d)=1$。
+  >
+  > 换言之，${a,a^2,\cdots,a^d}$中只有$\varphi(d)$个数，满足$(a^k)^d\equiv1(\mod{p})$.
+  >
+  > 所以，在模$p$的每一个简化剩余系中，恰有$\varphi(d)$个$a$使得$\exp_p(a)=d$。
+  - **2.证明对模$p^\alpha$的原根存在：**
+
+  令$p$是一个奇素数，则有：
+
+  1）如果$g$是模$p$的一个原根，那么对所有的$\alpha\ge1$，$g$是模$p^\alpha$的原根 $\Leftrightarrow$ $g^{p-1}\not\equiv1(\mod{p^2})$
+
+  2）模$p$至少有一个原根$g$满足$g^{p-1}\not\equiv1(\mod{p^2})$，于是当$\alpha\ge2$的时候，模$p^\alpha$至少有一个原根。
+
+  > 证明2）：
+  >
+  > 令$g$是模$p$的一个原根，有$g^\varphi(p)\equiv1(\mod{p})$
+  >
+  > 如果$g^{p-1}\equiv1(\mod{p^2})$，我们能证明有另一个原根$g_1=g+p$满足$g_1^{p-1}\not\equiv1(\mod{p^2})$
+  >
+  > 我们展开$g_1^{p-1}$：
+  > $$
+  > g_1^{p-1}=(g+p)^{p-1}=g^{p-1}+(p-1)g^{p-2}p+tp^2\\
+  > \equiv g^{p-1}+(p^2-p)g^{p-2}(\mod{p^2})\\
+  > \equiv 1-pg^{p-2}(\mod{p^2})
+  > $$
+  > 不能有$pg^{p-2}\equiv0(\mod{p^2}) $，因为这样会出现$g^{p-2}\equiv0(\mod{p})$与$g$是模$p$的一个原根矛盾。
+  >
+  > 于是$g_1^{p-1}\not\equiv1(\mod{p^2})$。
+  >
+  > 证明1）：$\Rightarrow$
+  >
+  > 如果$g$是模$p$的一个原根，那么对所有的$\alpha\ge1$，$g$是模$p^\alpha$的原根.
+  >
+  > 那么我们让$\alpha=2$，就满足b的定义。
+  >
+  > 反过来，$g$是模$p$的一个原根，$g^{p-1}\not\equiv1(\mod{p^2})$。要证明$g$是模$p^\alpha$的原根：
+  >
+  > 令$t=\exp_{p^\alpha}(g)$，现在要证明$t=\varphi(p^\alpha)$
+  >
+  > 因为$g^t\equiv1(\mod{p^\alpha})$，我们有$g^t\equiv1(\mod{p})$，所以$\varphi(p)|t,t=q\varphi(p)$
+  >
+  > 而$t|\varphi(p^\alpha)$，所以$q\varphi(p)|\varphi(p^\alpha)=p^{\alpha-1}(p-1)$，所以$q(p-1)|p^{\alpha-1}(p-1),q|p^{\alpha-1}$，所以$q=p^\beta,(\beta\le\alpha-1)$
+  >
+  > 于是$t=q\varphi(p)=p^\beta(p-1)$
+  >
+  > 如果我们能证明$\beta=\alpha-1$，那么就是说$t=p^{\alpha-1}(p-1)=\varphi(p^{\alpha})$
+  >
+  > 假设法证明，如果$\beta<\alpha-1$，那么$\beta\le\alpha-2，t=p^\beta(p-1)|p^{\alpha-2}(p-1)=\varphi(p^{\alpha-1})$
+  >
+  > 我们有$t=\exp_{p^\alpha}(g)$，而$\varphi(p^{\alpha-1})$是$t$的倍数，所以$g^{\varphi(p^{\alpha-1})}\equiv1(\mod{p^\alpha})$
+  >
+  > Th6证明了这个式子是不成立的，所以出现矛盾，证明完毕。
+
+  - **模$2p^\alpha$的原根存在：**
+
+    如果$p$是一个奇素数并且$\alpha\ge1$，那么存在模$p^\alpha$的一个奇数原根$g$，每一个这样的$g$也是模$2p^\alpha$的原根。
+
+  > 如果$g$是模$p^\alpha$的一个原根，那么$g+p^\alpha$也是一个原根。$g$和$g+p^\alpha$必有一个是奇数。所以必然存在奇数原根。
+  >
+  > 令$g$是模$p^\alpha$的一个奇数原根，令$f=\exp_{2p^\alpha}(g)$，有$f|\varphi(2p^\alpha)$，现在要证明$f=\varphi(2p^\alpha)$。
+  >
+  > $\varphi(2p^\alpha)=\varphi(2)\varphi(p^\alpha)=\varphi(p^\alpha)$，所以$f|\varphi(p^\alpha)$，证明$f=\varphi(2p^\alpha)$变成了证明$f=\exp_{p^\alpha}(g)$。
+  >
+  > 而$g^f\equiv1(\mod{2p^\alpha})$，所以$g^f\equiv1(\mod{p^\alpha})$。(定义)
+  >
+  > 所以根据Th1：$\varphi(p^\alpha)|f$。
+  >
+  > 所以$f=\varphi(p^\alpha)=\varphi(2p^\alpha)$
+
+  - **$2^\alpha$没有原根**
+
+    令$x$是一个奇数，对$\alpha\ge3$，我们有$x^{\dfrac{\varphi(2^\alpha)}{2}}\equiv1(\mod{2^\alpha})$，所以$2^\alpha$没有原根。
+
+    > 用归纳法证明：
+    >
+    > 首先，当$\alpha=3$，命题即是说$x^2\equiv1(\mod{8}),x=1,3,5,7$。所以没有原根。
+    >
+    > 假设对$\alpha$成立，只要证明对$\alpha+1$成立，命题就成立。
+    >
+    > 对$\alpha$成立的话，$x^{\dfrac{\varphi(2^\alpha)}{2}}=t2^\alpha+1$。
+    >
+    > 平方得到$x^{\varphi(2^\alpha)}=1+t^22^{2\alpha}+t2^{\alpha+1} \equiv 1(\mod{2^{\alpha+1}})$
+    >
+    > 又因为$\varphi(2^\alpha)=2^{\alpha-1}=\dfrac{\varphi(2^{\alpha+1})}{2}$
+    >
+    > 所以$x^{\varphi(2^\alpha)} \equiv x^{\dfrac{\varphi(2^\alpha)}{2}}\equiv 1(\mod{2^{\alpha+1}})$
+
+  - **其他情况下原根不存在：**
+
+    给定$m\ge1$，$m\not=\{1,2,4,p^\alpha,2p^\alpha\}$，其中$p$是奇素数。对于任何一个与$m$互素的$a$，我们有$a^{\dfrac{\varphi(m)}{2}}\equiv1(\mod{m})$。于是m没有原根
+
+    > 因为当$\alpha\ge3$的时候，模$2^\alpha$没有原根，所以我们假设$m$分解为
+    > $$
+    > m=2^\alpha p_1^{\alpha_1}p_2^{\alpha_2} \cdots p_s^{\alpha_s}\\
+    > \varphi(m)=\varphi(2^\alpha)\varphi(p_1^{\alpha_1})\cdots\varphi(p_s^{\alpha_s})
+    > $$
+    > 其中$p_i$是奇素数，$s\ge1,\alpha\ge0$。
+    >
+    > 由于$m\not=\{1,2,4,p^\alpha,2p^\alpha\}$，所以：
+    >
+    > 当$s=1$，有$\alpha\ge2$；
+    >
+    > 当$\alpha=0或1$，有$s\ge2$。
+    >
+    > 我们希望$a^{\dfrac{\varphi(m)}{2}}\equiv1(\mod{m})$，令$g$是模$p_1^{\alpha_1}$的一个原根，选k使$a\equiv g^k(\mod{p_1^{\alpha_1}})$.
+    >
+    > 于是$a^{\dfrac{\varphi(m)}{2}}\equiv g^{\dfrac{\varphi(m)k}{2}}\equiv g^{t\varphi(p_1^{\alpha_1})}(\mod{p_1^{\alpha_1}})$
+    >
+    > 其中，$t=k\varphi(2^\alpha)\varphi(p_1^{\alpha_1})\cdots\varphi(p_s^{\alpha_s})\dfrac{1}{2}$
+    >
+    > 如果$\alpha\ge2$，那么因子$\varphi(2^\alpha)$是偶数；
+    >
+    > 如果$\alpha=0,1$则$s\ge2$，那么因子$\varphi(p_2^{\alpha_2})$也是偶数，（欧拉函数性质算出来变成$p_2^{\alpha_2}(p_2-1)$，后面括号里面的会提供一个2​）
+    >
+    > 所以$t$是一个整数。 $a^{\dfrac{\varphi(m)}{2}} \equiv g^{t\varphi(p_1^{\alpha_1})}\equiv 1 (\mod{p_1^{\alpha_1}})$
+    >
+    > 扩展成$a^{\dfrac{\varphi(m)}{2}} \equiv  1 (\mod{p_i^{\alpha_i}})$
+    >
+    > 目前为止，我们还需要证明这个同余式对模$2^\alpha$也成立。
+    >
+    > 根据模$2^\alpha$不存在原根的定理，我们有
+    > $$
+    > a^{\dfrac{\varphi(2^\alpha)}{2}}\equiv 1(\mod{2^\alpha}),(\alpha\ge3)
+    > $$
+    > 而$\varphi(2^\alpha)|\varphi(m)$，所以$a^{\dfrac{\varphi(m)}{2}}\equiv 1(\mod{2^\alpha}),(\alpha\ge3)$
+    >
+    > 接下来只剩下$\alpha\le2$的情况了，对于这种情况，根据定义我们有
+    > $$
+    > a^{\varphi(2^\alpha)}\equiv1(\mod{2^\alpha})
+    > $$
+    > 我们想要将$\varphi(2^\alpha)$转换成$\dfrac{\varphi(m)}{2}$，就需要$\varphi(2^\alpha)|\dfrac{\varphi(m)}{2}$，实际上这是成立的，因为既然$m$中$s\ge1$，那么$\varphi(m)=\varphi(2^\alpha)\varphi(p_1^{\alpha_1})\cdots\varphi(p_s^{\alpha_s})$中就肯定能分出一个$2r\varphi(2^\alpha)$，其中$r$是整数。
+    >
+    > 于是对所有的$\alpha$都成立：
+    > $$
+    > a^{\dfrac{\varphi(2^\alpha)}{2}}\equiv 1(\mod{2^\alpha}),(\alpha\ge3)
+    > $$
+    > 最后我们乘在一起，得到
+    > $$
+    > a^{\dfrac{\varphi(m)}{2}}\equiv1(\mod{m})
+    > $$
+    > 这证明，$a$不能是模$m$的原根。
+
+</textarea>
+</body>
+</html>

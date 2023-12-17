@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<script src="https://cdn.jsdelivr.net/npm/texme@1.2.2"></script>
+<meta name="referrer" content="no-referrer">
+<head>
+    <meta charset="UTF-8">
+    <title>【个人记录】BUU_刮开有奖解题记录</title>
+</head>
+<body>
+<p>记录一次比较难受的解题过程
+</p><p>Re小白慢慢刷题路，遇到一道目前对我来说稍有难度但却很适合提升的一道题
+</p><p>做题过程比较痛苦，没有前面切题的快感
+</p><p>在网上看了些师傅的wp做完的，仅用于记录，不算wp。
+</p><p>大师傅们看到了图一乐就好。
+</p><p>
+     </p><p><img src="https://img2020.cnblogs.com/blog/1858293/202004/1858293-20200412120021815-1569991091.png" alt=""/>
+</p><p>
+     </p><p>关于函数sub_4010F0:
+</p><p><img src="https://img2020.cnblogs.com/blog/1858293/202004/1858293-20200412120022256-823111513.png" alt=""/>
+</p><p>
+     </p><p>粗略浏览大致可以推测是对v7-v17的数据进行变更替换。把这些数据放在数组中，Int型的数据占4位，所以可以把乘4的变量看作数组下标。
+</p><p>
+     </p><p>阅读读不出结果，写一份代码自己跑结果：
+</p><p>
+     </p><p>打开sub_401000函数，在里面找到了base64字符串，推断这是个加密函数，于是不再分析内部结构。
+</p><p><img src="https://img2020.cnblogs.com/blog/1858293/202004/1858293-20200412120022527-2068064584.png" alt=""/>
+</p><p>
+     </p><p>对最后的分析：
+</p><p><img src="https://img2020.cnblogs.com/blog/1858293/202004/1858293-20200412120022802-263903511.png" alt=""/>
+</p><p>
+     </p><p>在函数sub_4010F0处理之后，字符串变味了，变成了3CEHJNSZagn，v7-v17的值也相应变化。
+</p><p>String是我们输入的内容，将v4v5base64解密放到正确的位置即可。
+</p><p>
+     </p><p>flag{UJWPWP1jMp}</p>
+</body>
+</html>

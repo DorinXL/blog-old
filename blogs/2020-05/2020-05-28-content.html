@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<script src="https://cdn.jsdelivr.net/npm/texme@1.2.2"></script>
+<meta name="referrer" content="no-referrer">
+<head>
+    <meta charset="UTF-8">
+    <title>2020/5/28 BUU_[WUSTCTF2020]level4</title>
+</head>
+<body>
+<p><img src="https://img2020.cnblogs.com/blog/1858293/202005/1858293-20200528211726511-339082420.png" alt=""/>
+</p><p><span style="font-family:黑体; font-size:14pt">武科大re第五题，无壳：
+</span></p><p><img src="https://img2020.cnblogs.com/blog/1858293/202005/1858293-20200528211727061-1286857489.png" alt=""/><span style="font-family:黑体; font-size:14pt">
+		</span></p><p><span style="font-family:黑体; font-size:14pt">拖进IDA，看到了关键词【数据结构】，还有关键函数，大致猜了一下估计是遍历树，kali跑一跑看看
+</span></p><p><img src="https://img2020.cnblogs.com/blog/1858293/202005/1858293-20200528211727466-257635199.png" alt=""/>
+</p><p><img src="https://img2020.cnblogs.com/blog/1858293/202005/1858293-20200528211727751-232430662.png" alt=""/>
+</p><p><img src="https://img2020.cnblogs.com/blog/1858293/202005/1858293-20200528211728176-1903654041.png" alt=""/>
+</p><p><span style="font-family:黑体; font-size:14pt">果然，第一行和第二行第一个都是2，那估计是后序和中序的遍历。联想前面做的题都是wctf开头的，可以推出来第二行是后序，因为后序最后一个字母是根节点。
+</span></p><p><span style="font-family:黑体; font-size:14pt">手动算前序，其中有两个下划线连在一起了，于是我把那一枝分别写了出来（但是问题不大）：
+</span></p><p><img src="https://img2020.cnblogs.com/blog/1858293/202005/1858293-20200528211728599-137089107.png" alt=""/>
+</p><p>wctf2020{This_IS_A_7reE}
+</p><p>
+</body>
+</html>

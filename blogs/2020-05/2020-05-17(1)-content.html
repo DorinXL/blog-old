@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<script src="https://cdn.jsdelivr.net/npm/texme@1.2.2"></script>
+<meta name="referrer" content="no-referrer">
+<head>
+    <meta charset="UTF-8">
+    <title>2020/5/17 BUU_[BJDCTF2020]BJD hamburger competition</title>
+</head>
+<body>
+<p><img src="https://img2020.cnblogs.com/blog/1858293/202005/1858293-20200517162206946-1646269906.png" alt=""/><span style="font-size:1pt">
+		</span></p><p><span style="font-family:黑体; font-size:14pt">下载下来解压后发现是一个unity的···游戏？
+</span></p><p><img src="https://img2020.cnblogs.com/blog/1858293/202005/1858293-20200517162207263-1211339565.png" alt=""/>
+</p><p><span style="font-family:黑体; font-size:14pt">由于unity是用C#开发，这里我们就不去用IDA了，用dnspy看源码就够了。
+</span></p><p><span style="font-family:黑体; font-size:14pt">在BJD hamburger competition_Data\Managed文件夹中找到Assembly-CSharp.dll<img src="https://img2020.cnblogs.com/blog/1858293/202005/1858293-20200517162207458-2108081414.png" alt=""/>
+		</span></p><p><span style="font-family:黑体; font-size:14pt">这个dll文件是程序的源码，用来存放C#工程。
+</span></p><p><span style="font-family:黑体; font-size:14pt">把它拖进dnspy：找到有用的ButtonSpawnFruit类：
+</span></p><p><img src="https://img2020.cnblogs.com/blog/1858293/202005/1858293-20200517162207781-212275625.png" alt=""/>
+</p><p><span style="font-family:黑体; font-size:14pt">在里面发现了有关flag的判断条件：
+</span></p><p><img src="https://img2020.cnblogs.com/blog/1858293/202005/1858293-20200517162208265-1648412496.png" alt=""/>
+</p><p><span style="font-family:黑体; font-size:14pt">总的来说就是选择五个小憨包的原料，然后构成str，这个str的sha1哈希值有了，扔进在线解密网站解出来是1001。
+</span></p><p><span style="font-family:黑体; font-size:14pt">下一步就是把1001进行MD5一下，最初我把md5直接提交发现不对，于是点进函数内看了看：
+</span></p><p><img src="https://img2020.cnblogs.com/blog/1858293/202005/1858293-20200517162208651-2066780171.png" alt=""/>
+</p><p><span style="font-family:黑体; font-size:14pt">MD5加密后改成大写，取0-20位输出：
+</span></p><p>B8C37E33DEFDE51CF91E</p>
+</body>
+</html>

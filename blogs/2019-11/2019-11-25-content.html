@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<script src="https://cdn.jsdelivr.net/npm/texme@1.2.2"></script>
+<meta name="referrer" content="no-referrer">
+<head>
+    <meta charset="UTF-8">
+    <title>第一届“信安杯”部分WriteUp</title>
+</head>
+<body>
+
+第一届“信安杯”部分WriteUp------OooooohLeeGay队！
+---
+###### *小队成员（按姓氏）：郭泽坤、李江川、赵乐祺*
+###### *以下这部分是做出来的*
+*2019.11.23-24*
+---
+
+### ++Re1：++
+
+*解题：李江川，郭泽坤*
+
+##### 打开题目链接，压缩包解压后有一个.exe,打开后是一个让你点灯的游戏，所有灯点亮后就会得到flag
+
+![image](https://note.youdao.com/yws/public/resource/c94ef626065989178543611da5817f6f/xmlnote/6F3AD6AA5D864B73BB1F77E39D62BA63/1319)
+
+##### 直接一路输入1~8，发现全部灯被点亮，得到flag。
+
+![image](https://note.youdao.com/yws/public/resource/c94ef626065989178543611da5817f6f/xmlnote/01E4B64893194FB89D3A388EBC4F0A19/1322)
+
+### ++Re2：++
+
+*解题：赵乐祺*
+
+##### 下载下来之后是开源文件，c语言，读一下：
+
+![image](https://note.youdao.com/yws/public/resource/c94ef626065989178543611da5817f6f/xmlnote/8D234A0E374D478A8DDE29ADA57A579C/1221)
+
+##### 可以知道，first是十六进制的0xcafe，second是一个数，这个数不能满足(second % 5 == 3 || second % 17 != 8)，那么最小的这个数17+8=25满足；同时strlen是指字符串长度，也就是7，我们把这些数值算出来再用十六进制表示即可得到一个长得很奇怪的flag；
+
+![image](https://note.youdao.com/yws/public/resource/c94ef626065989178543611da5817f6f/xmlnote/41C922C14D7246BC876CE72043176C65/1224)
+
+##### 我还是要吐槽一遍长的是真的奇怪，应该是我见过的太少了。
+
+![image](https://note.youdao.com/yws/public/resource/c94ef626065989178543611da5817f6f/xmlnote/63DAB0990DCB43BAA3B029E1B0336845/1226)
+
+### ++Re3++：
+
+*解题：赵乐祺*
+
+##### 打开后发现了py的字样，是提示，这是一份py文件，用python反编译之后是个迷宫（maze）：
+
+![image](https://note.youdao.com/yws/public/resource/c94ef626065989178543611da5817f6f/xmlnote/0DC4DF3CE1824DBFBEAB45D8B3763D84/1229)
+
+##### 把迷宫从一维变为二维：
+
+![image](https://note.youdao.com/yws/public/resource/c94ef626065989178543611da5817f6f/xmlnote/39597E430AF44F889F5A65E199EC2FA2/1239)
+
+##### 按照代码给出的位置移动的输入方法，输入了一堆字符串。flag里就是我们input的这些字符串。
+
+### ++Re5：++
+
+*解题：赵乐祺*
+
+##### 冰菓大法好！咳咳。
+
+##### 打开这个exe让我们输入flag，随便瞎点两下，找到了提示，让我们把这个exe扔进dnspy看看：
+
+![image](https://note.youdao.com/yws/public/resource/c94ef626065989178543611da5817f6f/xmlnote/1D8F414E9DFF418A87C90AE639924821/1211)
+
+##### 一页一页的点下来后发现了这么一大串看起来像是ascii的东西，直觉告诉我们这就是flag了（其实英文好可以看出来encryptstr是一个复合单词，加密字符串）
+
+![image](https://note.youdao.com/yws/public/resource/c94ef626065989178543611da5817f6f/xmlnote/5E3F3414781646ADB7681E49FC49BC60/1214)
+
+##### 自己写个解密的c：
+
+![image](https://note.youdao.com/yws/public/resource/c94ef626065989178543611da5817f6f/xmlnote/ECE72F25276140FCAFAA8EED69EB85FE/1216)
+
+##### 运行得出结果：
+
+![image](https://note.youdao.com/yws/public/resource/c94ef626065989178543611da5817f6f/xmlnote/3278D6CD8FED481098CCE55503B9CED3/1218)
+---
+
+### ++Misc1漫漫长路签到题：++
+
+*解题：赵乐祺、李江川*
+
+##### 打开后说有两张图：
+
+![image](https://note.youdao.com/yws/public/resource/c94ef626065989178543611da5817f6f/xmlnote/E11B82EA415E4404AE26CF9ACBAC34FD/1269)
+
+##### 看了一下内存大小，挺大的，在010editor中找到了【50 4B 01 02】等zip的头文件字样，大胆的把后缀改为zip，amazing！：
+
+![image](https://note.youdao.com/yws/public/resource/c94ef626065989178543611da5817f6f/xmlnote/1027A354E9E646B3A18A8045DA721A33/1272)
+
+##### 打开之后就是社工大法好：
+
+![image](https://note.youdao.com/yws/public/resource/c94ef626065989178543611da5817f6f/xmlnote/79D55B7659444751A53FC19603D1C99C/1275)
+
+##### 然后由不愿意透露姓名的官方提供：
+
+![image](https://note.youdao.com/yws/public/resource/c94ef626065989178543611da5817f6f/xmlnote/9253CF9582F14D899C84DF5782BB4FE2/1277)
+
+### ++Misc2 很简单的Hex：++
+
+*解题：李江川*
+
+##### 开幕暴击:
+
+![image](https://note.youdao.com/yws/public/resource/c94ef626065989178543611da5817f6f/xmlnote/546D84D0815F41F7AAC702DB692CD1C2/1249)
+
+##### 打开题目链接，下载压缩包，是一张图片，可能是有隐写，但是用stegsolve并没有发现在图层之间有隐藏信息
+
+![image](https://note.youdao.com/yws/public/resource/c94ef626065989178543611da5817f6f/xmlnote/36CA6ABF7098461197F77A28A7F6C61D/1336)
+
+![image](https://note.youdao.com/yws/public/resource/c94ef626065989178543611da5817f6f/xmlnote/67B106C40B494A9892B6948212BBBA10/1338)
+
+##### 那就考虑查看文件格式，发现flag：
+
+![image](https://note.youdao.com/yws/public/resource/c94ef626065989178543611da5817f6f/xmlnote/7FCDC1E0D48A40A38AE3F6151B2FEDB5/1340)
+
+### ++Misc3不想让你打开：++
+
+*解题：赵乐祺*
+
+##### zip伪加密：
+
+![image](https://note.youdao.com/yws/public/resource/c94ef626065989178543611da5817f6f/xmlnote/D10543F00EF5497DBE5F59AD514D377F/1254)
+
+##### 把伪加密改回00 00，解压之后有这些东西：
+
+![image](https://note.youdao.com/yws/public/resource/c94ef626065989178543611da5817f6f/xmlnote/21921D23D81B4F53A1A2AA107CB58C7B/1256)
+
+##### 下意识的把zip扔进010：
+
+![image](https://note.youdao.com/yws/public/resource/c94ef626065989178543611da5817f6f/xmlnote/77D8AFEFD833407BB505E8F484AE79FB/1258)
+
+##### 改了之后发现并没有什么卵用：
+
+![image](https://note.youdao.com/yws/public/resource/c94ef626065989178543611da5817f6f/xmlnote/3C507CF417C0463C88E24377175BBD17/1260)
+
+##### 折返去看没想到吧.txt【确实没想到】把这串很像密码的东西转码试试，十六进制转字符串：
+
+![image](https://note.youdao.com/yws/public/resource/c94ef626065989178543611da5817f6f/xmlnote/6064BDAEADB84BD9B39B4D2F85A06F10/1262)
+
+![image](https://note.youdao.com/yws/public/resource/c94ef626065989178543611da5817f6f/xmlnote/B6185233844C4234B92176F451547AD6/1264)
+
+![image](https://note.youdao.com/yws/public/resource/c94ef626065989178543611da5817f6f/xmlnote/663706598B3E450EB14A50360B6EA056/1266)
+---
+
+### ++Web1 easyjs：++
+
+*解题：郭泽坤*
+
+##### 打开网页发现一直刷新，提示我们让网页停止刷新就可以拿到flag，想到用Burp拦截。
+
+![image](https://note.youdao.com/yws/public/resource/c94ef626065989178543611da5817f6f/xmlnote/D3BA238211204AB186F25014A2B3C96E/1328)
+
+##### 拦截之后并未发现什么有价值信息，尝试发送给中继器，直接运行，发现flag：Flag: flag{0k_u_hav3_caught_m3_}
+
+![image](https://note.youdao.com/yws/public/resource/c94ef626065989178543611da5817f6f/xmlnote/8CDA81643407466A802E115E100A5C95/1331)
+
+##### ~~没了，web就做出来一道，嘤。~~
+---
+
+### ++Crypto1我混乱了：++
+
+*解题：李江川*
+
+![image](https://note.youdao.com/yws/public/resource/c94ef626065989178543611da5817f6f/xmlnote/37C49EEF6BA24996B5AFD3EE21735D71/1450)
+##### 是长的挺乱的，但是依稀可见rxms像是flag的字样，凯撒密码转换器转换一下得到flag：
+![image](https://note.youdao.com/yws/public/resource/c94ef626065989178543611da5817f6f/xmlnote/75F1DE60646A43DF9AE2EE585662A4F5/1477)
+
+### ++Crypto2很基础的大礼包：++
+
+*解题：李江川*
+
+![image](https://note.youdao.com/yws/public/resource/c94ef626065989178543611da5817f6f/xmlnote/EFD9897DE5114471913F5E59CF6DFEE0/1296)
+
+##### 辗转相转法，爱的flag转圈圈：
+##### 首先16转文本：
+
+![image](https://note.youdao.com/yws/public/resource/c94ef626065989178543611da5817f6f/xmlnote/A5293AF2591F45E1BFF7D79BF45DC123/1300)
+
+##### 接着base32：
+
+![image](https://note.youdao.com/yws/public/resource/c94ef626065989178543611da5817f6f/xmlnote/470AFFF2F5D245CF826AB3480830DDF7/1302)
+
+##### 然后两次base64：
+
+![image](https://note.youdao.com/yws/public/resource/c94ef626065989178543611da5817f6f/xmlnote/D3913DEE5AC84185A575684CD2761688/1305)
+
+##### 第二次：
+
+![image](https://note.youdao.com/yws/public/resource/c94ef626065989178543611da5817f6f/xmlnote/1E29C0521B15421A8B5AE46C01D1C557/1308)
+
+### ++Crypto3暴力的RSA：++
+
+*解题：赵乐祺*
+
+##### 题目说的很明白了，RSA加密算法：
+
+##### txt打开是这个样子的：
+
+![image](https://note.youdao.com/yws/public/resource/c94ef626065989178543611da5817f6f/xmlnote/AA16830FEBDF4C16A651CDAE00FF1285/1279)
+
+##### 想着能不能转换成可以看懂的东西的想法，尝试把后缀名改成了c，希望得到代码什么的，结果得到了：
+
+![image](https://note.youdao.com/yws/public/resource/c94ef626065989178543611da5817f6f/xmlnote/52F123F8E1E747D6B9E2B5CB20E3D270/1282)
+
+##### 从网上找一下算法步骤：
+
+![image](https://note.youdao.com/yws/public/resource/c94ef626065989178543611da5817f6f/xmlnote/018A5378939D49E49D75710D20598B44/1288)
+
+##### 密匙有了，大数位运算，py来得方便【比c高精度友好多了】
+
+![image](https://note.youdao.com/yws/public/resource/c94ef626065989178543611da5817f6f/xmlnote/012160767D1C44DD99F28D7AECE122C9/1294)
+---
+
+###### *以上，就是我们OooooohLeeGay小队做出来的题目，至于剩下的，大多是做一半卡死了*。
+
+###### *以下是做一半的思路*
+---
+
+### ++Web2奥里给：++
+
+##### 放进burp里查了半天，李江川同学查出来个页面：
+
+![image](https://note.youdao.com/yws/public/resource/d14a0ae72c7870d2a05d407d8091b9e9/xmlnote/70D836A434FC421DB6305584D56A6112/1531)
+
+##### 然后无果，无奈。
+##### 其他的web也试了试，皆无果而终。
+
+### ++Re4&&6：++
+
+##### re4在找各种蛛丝马迹【因为ida用的不熟】：
+
+![image](https://note.youdao.com/yws/public/resource/d14a0ae72c7870d2a05d407d8091b9e9/xmlnote/16049CF688C048DDB2B68C9A70D66749/1537)
+
+##### 当我发觉到flag被分为各个部分的时候，我就意识到八成找不全了。
+
+##### 至于re6同样在各种软件中检测一番无果而终
+
+### ++Misc：++
+
+##### 喵喵的思考，一只猫愣是把我盯得无能狂怒。
+##### Dance，看着word文档，改成了zip文件解压之后就不会了。
+
+---
+###### *以上。*
+</body>
+</html>

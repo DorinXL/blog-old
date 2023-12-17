@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<script src="https://cdn.jsdelivr.net/npm/texme@1.2.2"></script>
+<meta name="referrer" content="no-referrer">
+<head>
+    <meta charset="UTF-8">
+    <title>华为ensp设备管理</title>
+</head>
+<body>
+<textarea>
+
+目的：如何设置账号密码供远程登陆。
+
+设备管理的对象可以是交换机、路由器或者防火墙，都是通用的
+
+
+
+### 通过cloud桥接到虚拟设备：
+
+对cloud右键：
+
+安装好vm之后会有两个虚拟网卡：![image-20220621224601949](https://img2022.cnblogs.com/blog/1858293/202206/1858293-20220622095102515-900931532.png)
+
+一开始默认UDP，我们直接增加：
+
+![image-20220621224627744](https://img2022.cnblogs.com/blog/1858293/202206/1858293-20220622095103149-1814345062.png)
+
+然后我们增加另一个：
+
+![image-20220622090711537](https://img2022.cnblogs.com/blog/1858293/202206/1858293-20220622095103668-1574273448.png)
+
+然后我们增加端口映射：
+
+![image-20220621224728339](https://img2022.cnblogs.com/blog/1858293/202206/1858293-20220622095104135-1298083139.png)
+
+现在我们的这个cloud就绑定到网卡是vm1的虚拟机上了
+
+![image-20220621224850903](https://img2022.cnblogs.com/blog/1858293/202206/1858293-20220622095104629-286520116.png)
+
+### 给路由器设置IP地址，网段与云网段一致
+
+如何配置IP：
+
+`SYS进入配置模式`
+
+```
+<Huawei>sys
+Enter system view, return user view with Ctrl+Z.
+```
+
+`interface 【接口编号】`
+
+```
+[Huawei]int g0/0/0
+[Huawei-GigabitEthernet0/0/0]
+```
+
+`ip add [xxx.xxx.xxx.xxx] 24`
+
+```
+[Huawei-GigabitEthernet0/0/0]ip add 192.168.87.10 24
+Jun 22 2022 09:10:21-08:00 Huawei %%01IFNET/4/LINK_STATE(l)[1]:The line protocol
+ IP on the interface GigabitEthernet0/0/0 has entered the UP state.
+```
+
+
+
+配置远程连接设置：
+
+![image-20220613104913441](https://img2022.cnblogs.com/blog/1858293/202206/1858293-20220622095105071-2137724951.png)
+
+```
+[Huawei] user-interface vty 0 4	//配置0-4五个终端
+[Huawei-ui-vty0-4] authentication-mode password/aaa	//启用密码验证或AAA验证
+[Huawei-ui-vty0-4] set authentication password simple/cipher abc123 	//以明文或密文方式加密
+[Huawei-ui-vty0-4] set authentication password cipher abc123	//此为路由器配置命令，路由器只能是密文加密
+[Huawei-ui-vty0-4] user privilege level 3	//设置远程登录vty用户权限为3，表示可以使用所有命令
+```
+
+*命令级别为0-3共四个级别，区别如下：*
+*0参观，ping、tracert、telnet、rsh、super、language-mode、display、quit*
+ *1 监控，0级命令、msdp-tracert、mtracert、reboot、reset、send、terminal、undo、upgrade、debugging*
+*2 配置，所有配置命令（管理级的命令除外）和0、1级命令*
+*3 管理，所有命令*
+
+配置 Telnet以用户名+密码方式登录时的密码：
+进入AAA模式命令行下：
+[Huawei]aaa 添加新用户为：huawei 密码为：abc123 加密模式为：cipher  密文加密,用户级别为3
+
+```
+[Huawei-aaa]local-user huawei level 3 password cipher abc123
+[Huawei-aaa]local-user huawei privilege level 3 password cipher 123456
+```
+
+设置哪些服务可以通过此test用户进行验证，设置telnet 服务
+
+```
+[Huawei-aaa]local-user huawei service-type http ssh telnet web
+[Huawei-aaa]local-user huawei privilege level 3	//远程登录时能够使用的级别命令
+```
+
+实际操作：
+
+```
+[Huawei] user-interface vty 0 4	//配置0-4五个终端
+[Huawei-ui-vty0-4] authentication-mode aaa
+[Huawei-ui-vty0-4] user privilege level 3
+[Huawei-aaa]local-user huawei level 3 password cipher abc123
+[Huawei-aaa]local-user huawei service-type http ssh telnet web
+```
+
+在centOS7上安装telnet所需组件之后：
+
+![image-20220622093257810](https://img2022.cnblogs.com/blog/1858293/202206/1858293-20220622095105484-1182022682.png)
+
+### 3A认证设置
+
+![image-20220622085244141](https://img2022.cnblogs.com/blog/1858293/202206/1858293-20220622095105992-1122719151.png)
+
+### SSH连接
+
+```
+[Huawei]aaa
+[Huawei-aaa]local-user zhangsan password cipher abc123 privilege level 3
+[Huawei-aaa]local-user zhangsan service-type ssh
+[Huawei]ssh user huawei authentication-type password*********
+[Huawei]stelnet server enable **********
+[Huawei]rsa local-key-pair create 	//生成密钥对信息，可省略。
+[Huawei]user-interface vty 0 4
+[Huawei-ui-vty0-4]authentication-mode aaa
+[Huawei-ui-vty0-4]protocol inbound ssh
+```
+
+### 总结：
+
+**路由器和交换机的作用？**
+
+交换机：汇聚能力，相同网段通信
+
+路由器：实现不同网段通信
+
+**为什么我们需要不同网段**
+
+不划网段，广播信号浪费资源。
+
+**路由器的远程连接认证配置**
+
+网络设备常见连接协议：telnet、ssh/stelnet、web
+</textarea>
+</body>
+</html>

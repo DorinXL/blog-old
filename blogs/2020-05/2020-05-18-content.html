@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<script src="https://cdn.jsdelivr.net/npm/texme@1.2.2"></script>
+<meta name="referrer" content="no-referrer">
+<head>
+    <meta charset="UTF-8">
+    <title>2020/5/18 BUU_ [GWCTF 2019]xxor</title>
+</head>
+<body>
+<p><img src="https://img2020.cnblogs.com/blog/1858293/202005/1858293-20200518221746974-732109876.png" alt=""/>
+</p><p><span style="font-family:黑体; font-size:12pt">下载后是个elf文件，直接扔进IDA分析：
+</span></p><p><span style="font-family:黑体; font-size:12pt">Main的代码也比较简单：
+</span></p><p><img src="https://img2020.cnblogs.com/blog/1858293/202005/1858293-20200518221747356-391040727.png" alt=""/>
+</p><p><span style="font-family:黑体; font-size:12pt">根据提示，我们需要输入六个数据，在经过两处处理之后得到一段数据，最后将其转换为十六进制在转成字符串。
+</span></p><p><span style="font-family:黑体; font-size:12pt">第一部分处理：<br/><img src="https://img2020.cnblogs.com/blog/1858293/202005/1858293-20200518221747644-2037851907.png" alt=""/>
+		</span></p><p><span style="font-family:黑体; font-size:12pt">这里是将输入的六个数据第一次处理，三次循环，每次取两个数据出来存到dword_601078和dword_60107C中。
+</span></p><p><span style="font-family:黑体; font-size:12pt">sub_400686对每次取出的第一个数据进行再处理，byte_601060里面存放的是四个数据：2，2，3，4。
+</span></p><p><span style="font-family:黑体; font-size:12pt">我们进去sub_400686函数内部：
+</span></p><p><img src="https://img2020.cnblogs.com/blog/1858293/202005/1858293-20200518221747846-1008997915.png" alt=""/>
+</p><p><span style="font-family:黑体; font-size:12pt">需要注意的地方是，a3取到了a1[0]，a4取到了a1[1]，其实就是在外面循环中每次取入的两个数据。
+</span></p><p><span style="font-family:黑体; font-size:12pt">在函数内部经过六十四次运算之后，将得到的结果存入a1[0]和a1[1]，返回外面的循环。
+</span></p><p><span style="font-family:黑体; font-size:12pt">在之后便是把这两个处理过的数据放进v11数组中。这个地方的第二个数据其实已经发生了变化，地址存放的数据已经改变了。
+</span></p><p><span style="font-family:黑体; font-size:12pt">第二个处理便是：
+</span></p><p><img src="https://img2020.cnblogs.com/blog/1858293/202005/1858293-20200518221748025-2033079780.png" alt=""/><span style="font-family:黑体; font-size:12pt">
+		</span></p><p><span style="font-family:黑体; font-size:12pt">这里需要进入sub_400770内部查看：
+</span></p><p><img src="https://img2020.cnblogs.com/blog/1858293/202005/1858293-20200518221748253-40301534.png" alt=""/>
+</p><p><span style="font-family:黑体; font-size:12pt">这里比较简单了，用计算器算一下这六个数，这六个数就是上面一层数据处理之后应该得到的结果。
+</span></p><p><span style="font-family:黑体; font-size:12pt">那么需要我们逆向的就是通过这六个数反推我们应该输入的六个数，大体流程比较简单（不会贴代码只好放图）：
+</span></p><p><img src="https://img2020.cnblogs.com/blog/1858293/202005/1858293-20200518221748657-1189668752.png" alt=""/>
+</p><p><span style="font-family:黑体; font-size:12pt">我在写程序的时候发现对数据定义的不同会造成不同的结果。比如我对数组a[6]定义成unsigned int 和long int就完全不一样。
+</span></p><p><span style="font-family:黑体; font-size:12pt">之前学C的时候没怎么注意过数据范围，搞算法竞赛的时候也只是随手丢一个long long，为什么会出现差别呢？我觉得其中的细节值得深究一下。
+</span></p><p><span style="font-family:黑体; font-size:12pt">跑出来的结果：</span><br/><img src="https://img2020.cnblogs.com/blog/1858293/202005/1858293-20200518221748926-1450179145.png" alt=""/>
+</p><p>666c61677b72655f69735f6772656174217d
+</p><p><span style="font-family:黑体; font-size:12pt">用在线网站转化一下：
+</span></p><p><img src="https://img2020.cnblogs.com/blog/1858293/202005/1858293-20200518221749148-1186555577.png" alt=""/>
+</p><p>flag{re_is_great!}
+</p><p>好了今天的思修笔记还没写，已经十点多了应该来得及。</p>
+</body>
+</html>

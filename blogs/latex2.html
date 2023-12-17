@@ -2,6 +2,7 @@
 <html lang="en">
 <title>Notes on Euler's Identity</title>
 <script src="https://cdn.jsdelivr.net/npm/texme@1.2.2"></script>
+
 <textarea>
 
 # 解析数论之数论函数（函数介绍、狄利克雷乘积、莫比乌斯反转）
@@ -476,9 +477,9 @@ $$
 $$
 \begin{align*}
 (f*f^{-1})(n)=\sum_{d|n}f(d)f^{-1}(\dfrac{n}{d})&=0\\
-f(1)f^{-1}(n)+\sum_{d|n\\d<n}f(\dfrac{n}{d})f^{-1}(d)&=0\\
+f(1)f^{-1}(n)+\sum_{d|n,d\le n}f(\dfrac{n}{d})f^{-1}(d)&=0\\
+f^{-1}(n)=\dfrac{-1}{f(1)}\sum_{d|n,d/le n}f(\dfrac{n}{d})f^{-1}(d)
 \end{align*}
-\\f^{-1}(n)=\dfrac{-1}{f(1)}\sum_{d|n\\d<n}f(\dfrac{n}{d})f^{-1}(d)
 $$
 
 - Th2：$(f*g)^{-1}=f^{-1}*g^{-1}$

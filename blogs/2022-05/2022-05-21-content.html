@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<script src="https://cdn.jsdelivr.net/npm/texme@1.2.2"></script>
+<meta name="referrer" content="no-referrer">
+<head>
+    <meta charset="UTF-8">
+    <title>【2022javaweb课设】基于购物系统的游戏原型设计</title>
+</head>
+<body>
+<textarea>
+    ## 会议记录
+
+### Day1 2022/5/20 晚
+
+确定小组成员。
+
+确定立项题目与方向：基于商城系统的游戏原型设计。
+
+### Day2 2022/5/21 早
+
+#### 	今日任务：
+
+1. 确定开发环境
+
+   前端：html+css+js,使用Bootstrap框架
+
+   后端：MVC开发模式，JSP+JavaBean+Servlet
+
+   Web应用服务器：tomcat 9.0.30
+
+   数据库：MySQL
+
+2. 功能需求分析
+
+   1. 前端页面需求：
+      1. 网站欢迎页面：介绍网站作用，提供登录和注册的窗口。
+      2. 注册和登录界面：传递用户信息到后端服务器与数据库交互。
+      3. 商店页面：作为主界面显示各种道具供玩家选择，提供进入战斗页面的入口，同时可以查看个人资料、购物车。
+      4. 个人资料页面：弹出展示，表现一些个人信息。
+      5. 购物车页面：弹窗展示，展示玩家已选择的道具与效果。
+      6. 战斗页面：游戏在该页面展示，玩家通过购买道具增强自己的属性或是削弱对手的属性，从而赢得胜利，进入下一关卡。
+   2. 后端需求：
+      1. 设计数据库内容：
+         1. 需要两个库，库PlayerAccount存放用户登陆数据与游戏数据，库GameSetting存放道具信息与敌人信息。
+         2. 库PlayerAccount中需要表players共一张表，表players中共number、name、password、hp、attack、defense，money七列。
+         3. 库GameSetting中需要prop、enemy两张表，表prop中共number、name、type、variation、cost五列，表enemy中共number、name、hp、attack、defense、gold五列。
+
+3. 技术难点预处理
+   1. 同页面内弹出小窗
+      1. 使用Bootstrap框架实现模态框。
+   2. servlet与jsp相互跳转时的路径
+      1. 使用web.xml与绝对路径解决。
+
+4. 熟悉使用Github的协同工作
+   1. 在Github上创建私人项目并邀请小组成员进入。
+   2. 小组使用Github Desktop图形化界面进行代码的协同工作。
+
+#### 遗留问题：
+
+1. 将样例代码修改为所需代码。
+2. 数据库更新，添加花费、金钱等重要选项。
+3. 显示个人信息。
+4. 购买道具后实现增益效果。
+5. 开始着手对战。
+   1. 界面构筑。
+   2. 玩家点击对战——提交数据到servlet——服务端返回数据——客户端表现完毕后结算。
+   3. 胜利则保存数据，失败则重新来过。
+
+### Day3 2022/5/22
+
+#### 今日任务：
+
+1. 修复昨日遗留bug。
+2. 构建并丰富数据库表项。
+3. 开始分析核心代码思路并编写。
+4. 后端实现验证码注册登录、与数据库交互并实现保存登录信息。
+5. 前端实现登录与主界面的实现与优化。
+
+#### 未处理：
+
+1. 实现战斗
+2. 实现购买
+
+### Day4 2022/5/23
+
+#### 今日任务：
+
+战斗环节初步完成：
+
+战斗思路：用户登陆后创建一个临时tmpPlayer用来供玩家修改属性，每次战斗获得胜利后才会修改保存原本数据库中的数据，这样实现存档功能。
+
+#### 未处理：
+
+1. 实现ajax传json，本地根据传值结果做出相应界面变化。
+2. 按钮的开关操作。
+3. 循环调用js，目的是为了点一次按钮就开始执行战斗环节。
+
+### Day5 2022/5/24
+
+#### 今日任务：
+
+**现在开始使用bootstrap框架重构前端**
+
+1. index欢迎界面完成。
+2. 注册与登录通过模态框实现。
+3. 两个模态框分别刷新验证码，出错提示，重新打开刷新提示
+4. 将注册与登录同欢迎页面在一起，使用ajax实现登录、注册以及登录状态保存。同时可以跳转到游戏主界面。
+
+![登录](https://img2022.cnblogs.com/blog/1858293/202206/1858293-20220604154345852-1297586329.png)
+
+遗留问题：注册失败
+
+### Day6 2022/5/25
+
+#### 今日任务：
+
+1. url导入背景图片，改变其背景透明，透明度通过rgba（）实现。
+2. 界面布局高度不一致，尝试用flex修改
+
+![进入商店](https://img2022.cnblogs.com/blog/1858293/202206/1858293-20220604154347919-1098005980.png)
+
+### Day7 2022/5/26
+
+#### 今日任务：
+
+1. 完成装备的刷新机制。
+
+2. js获取div内容、克隆div，修改div各项属性及其子属性。、
+
+3. 装备刷新使用正态分布生成概率5% 12% 25% 28% 30%（线性）
+
+   500 500~1700 1700~4200 4200~7000 7000~10000
+
+   整体流程：Store.jsp->GachaServlet->DAO->Servlet->Store.jsp
+
+   ![image-20220604150807588](C:\Users\97478\AppData\Roaming\Typora\typora-user-images\image-20220604150807588.png)
+
+   ![刷新商店](C:\Users\97478\OneDrive\桌面\刷新商店.gif)
+
+### Day8 2022/5/27
+
+#### 今日任务：
+
+1. 重新编写了购买、修改购物车的逻辑
+2. 添加刷新玩家信息的函数，请求玩家数据的方法。
+3. 完成了战斗页面的构建，添加了逻辑。
+4. 两侧card，中间是ui以及展示区域。
+5. 完成PPT，完成视频展示，丰富数据库，找背景图以及怪物图。
+6. 顺利完成答辩。
+
+![战斗](C:\Users\97478\OneDrive\桌面\战斗.gif)
+
+### 一些自己编的数据库：
+
+![image-20220604151755876](C:\Users\97478\AppData\Roaming\Typora\typora-user-images\image-20220604151755876.png)
+
+### 使用的素材：
+
+怪物图片：https://pixeljoint.com/pixelart/41620.htm
+
+道具图片：https://cheekyinkling.itch.io/shikashis-fantasy-icons-pack
+
+人物图片：https://craftpix.net/freebies/free-halfing-avatar-icons/
+
+背景图片：
+
+https://yangsh.artstation.com/projects/mq5GNd
+
+https://www.artstation.com/artwork/A95vPo
+</textarea>
+</body>
+</html>

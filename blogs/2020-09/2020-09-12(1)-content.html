@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<script src="https://cdn.jsdelivr.net/npm/texme@1.2.2"></script>
+<meta name="referrer" content="no-referrer">
+<head>
+    <meta charset="UTF-8">
+    <title>IDA 调整栈帧 (411A04:positive sp value has been found)</title>
+</head>
+<body>
+<textarea>
+
+有时候，或者说经常，我们会在F5的时候遇到栈帧不平衡的问题。每每这种时候就需要我们手动alt+k调整栈帧。
+&nbsp;
+我曾经非常苦恼，这是个什么玩意，我到底该怎么调整栈帧。网上查了很多资料很多博客，但我都觉得难以理解，而且难以操作。
+&nbsp;
+后来我无意间看到一篇博客，说只要用他的方法，调整栈帧是很容易的一件事，我尝试了，确实如此。但是我忘了这篇博客是哪位师傅写的，也找不到了。于是我决定记录一下，留给像我这样的小白看。
+&nbsp;
+调整栈帧遇到的必然是这样一张图：
+
+![image-20200912182406526](https://img2020.cnblogs.com/blog/1858293/202009/1858293-20200912183237850-1976271514.png)
+&nbsp;
+# 第一步 打开Options->General->Stack pointer
+
+![image-20200912182601339](https://img2020.cnblogs.com/blog/1858293/202009/1858293-20200912183238181-117707568.png)
+&nbsp;
+
+# 第二步 找红色的区域
+
+### 如果遇到栈帧不平衡而F5不能的情况，我们需要在图形视图找到这样一处(或几处)红色的区域：
+
+![image-20200912182820710](https://img2020.cnblogs.com/blog/1858293/202009/1858293-20200912183238544-1591647099.png)
+&nbsp;
+
+# 第三步 按空格识别代码块
+
+![image-20200912182838735](https://img2020.cnblogs.com/blog/1858293/202009/1858293-20200912183238756-1398928788.png)
+&nbsp;
+
+# 第四步 ALT+K 盘他
+
+![image-20200912182929387](https://img2020.cnblogs.com/blog/1858293/202009/1858293-20200912183238990-1993466945.png)
+
+### 如果不知道改成多少的话，可以一次一次尝试，反正把最下面的-04改成0以上就能F5了。
+
+</textarea>
+</body>
+</html>

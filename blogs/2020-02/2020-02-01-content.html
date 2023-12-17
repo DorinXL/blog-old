@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<script src="https://cdn.jsdelivr.net/npm/texme@1.2.2"></script>
+<meta name="referrer" content="no-referrer">
+<head>
+    <meta charset="UTF-8">
+    <title>【欢乐向】攻防世界新手逆向刷题被虐哭日常记录</title>
+</head>
+<body>
+<p style="text-align: justify"><h1>2.1【欢乐向】逆向刷题被虐哭日常记录
+</h1></p><p><span style="font-size:14pt">前面好多题之前做了也没记录，懒得整了，直接从剩下的几个开始：
+</span></p><p style="text-align: justify"><h1>Getit
+</h1></p><p><span style="font-family:微软雅黑; font-size:14pt">这一段是解密的关键，后面的是把flag写入文档又给删了。
+</span></p><p><span style="font-family:微软雅黑; font-size:14pt">其实可以修改程序逻辑让他别删，<em>但是我不会</em>。
+</span></p><p><img src="https://img2018.cnblogs.com/blog/1858293/202002/1858293-20200201215008912-1404937321.png" alt=""/>
+</p><p>
+     </p><p><span style="font-family:微软雅黑; font-size:14pt">逆着来推一边，不会写py，用c写个。
+</span></p><p><img src="https://img2018.cnblogs.com/blog/1858293/202002/1858293-20200201215009376-248646515.png" alt=""/>
+</p><p>
+     </p><p><img src="https://img2018.cnblogs.com/blog/1858293/202002/1858293-20200201215009647-1393044750.png" alt=""/>
+</p><p>
+     </p><p><span style="font-family:微软雅黑; font-size:14pt">？不应当，我大概是忘了加括号。
+</span></p><p><img src="https://img2018.cnblogs.com/blog/1858293/202002/1858293-20200201215009900-2042628758.png" alt=""/>
+</p><p>
+     </p><p><span style="font-family:微软雅黑; font-size:14pt">？？？我觉得我的没啥问题，去网上查了查相关的：
+</span></p><p>
+     </p><p><img src="https://img2018.cnblogs.com/blog/1858293/202002/1858293-20200201215010127-1510435553.png" alt=""/>
+</p><p>
+     </p><p>
+     </p><p><span style="font-size:14pt"><span style="font-family:微软雅黑">在IDA里没看到有S，咱也不知道咋回事</span>。
+</span></p><p>
+     </p><p><img src="https://img2018.cnblogs.com/blog/1858293/202002/1858293-20200201215010357-1232752420.png" alt=""/>
+</p><p>
+     </p><p>
+     </p><p>
+     </p><p>
+     </p><p style="text-align: justify"><h1>no-strings-attached
+</h1></p><p><span style="font-family:微软雅黑; font-size:14pt">直接扔IDA瞅瞅：
+</span></p><p>
+     </p><p><img src="https://img2018.cnblogs.com/blog/1858293/202002/1858293-20200201215010586-438035929.png" alt=""/>
+</p><p>
+     </p><p><span style="font-family:微软雅黑; font-size:14pt">挨个函数筛，筛出最后一个有、东西。
+</span></p><p>
+     </p><p>
+     </p><p>
+     </p><p><img src="https://img2018.cnblogs.com/blog/1858293/202002/1858293-20200201215010800-573591045.png" alt=""/>
+</p><p>
+     </p><p><span style="font-family:微软雅黑; font-size:14pt">有个叫decrypt的函数，看起来像是加密函数，去gdb里下个断点看看。
+</span></p><p>
+     </p><p><img src="https://img2018.cnblogs.com/blog/1858293/202002/1858293-20200201215011038-1672786927.png" alt=""/>
+</p><p>
+     </p><p><span style="font-size:14pt">r运行，n单步走。
+</span></p><p>
+     </p><p>
+     </p><p><img src="https://img2018.cnblogs.com/blog/1858293/202002/1858293-20200201215011406-454661810.png" alt=""/>
+</p><p>
+     </p><p><span style="font-family:微软雅黑; font-size:14pt">中间那一大坨大概是没设置好，现学gdb怎么用先不管了。
+</span></p><p><span style="font-family:微软雅黑; font-size:14pt">查内存找字符串，
+</span></p><p><span style="font-family:微软雅黑; font-size:14pt">加密好的东西放进了寄存器eax里：
+</span></p><p>
+     </p><p>
+     </p><p><img src="https://img2018.cnblogs.com/blog/1858293/202002/1858293-20200201215011797-1256265585.png" alt=""/>
+</p><p>
+     </p><p><span style="font-family:微软雅黑; font-size:14pt">翻翻寄存器里的东西，找到第一个0x00结尾的是字符串的结尾。
+</span></p><p>
+     </p><p><img src="https://img2018.cnblogs.com/blog/1858293/202002/1858293-20200201215012095-1579571095.png" alt=""/>
+</p><p>
+     </p><p><span style="font-family:微软雅黑; font-size:14pt">x:就是用来查看内存中数值的，后面的200代表查看多少个，wx代表是以word字节查看看，$eax代表的eax寄存器中的值
+</span></p><p><span style="font-family:微软雅黑; font-size:14pt">在这里我们看到0x00000000，这就证明这个字符串结束了，因为，在C中，代表字符串结尾的就是"\0",那么前面的就是经过decrypt函数生成的falg
+</span></p><p><span style="font-family:微软雅黑; font-size:14pt">C：按字符格式显示，把这些十六进制的换成好看一点的。
+</span></p><p>
+     </p><p>
+     </p><p><img src="https://img2018.cnblogs.com/blog/1858293/202002/1858293-20200201215012467-137796143.png" alt=""/>
+</p><p>
+     </p><p>
+     </p><p>
+     </p><p style="text-align: justify">
+     </p><p style="text-align: justify"><h1>python-trade：
+</h1></p><p><span style="font-family:微软雅黑; font-size:14pt">Pyc文件，网页反编译一下：https://tool.lu/pyc/
+</span></p><p>。<img src="https://img2018.cnblogs.com/blog/1858293/202002/1858293-20200201215012802-1394148728.png" alt=""/>
+</p><p>
+     </p><p><img src="https://img2018.cnblogs.com/blog/1858293/202002/1858293-20200201215013079-1835085025.jpg" alt=""/>
+</p><p style="text-align: center">
+     </p><p><span style="font-family:微软雅黑; font-size:14pt">翻译翻译，这堆字母让我们输入一串字符串，然后经过encode函数一系列操作之后和correct比较，正确了就算是输对了flag。
+</span></p><p>
+     </p><p><span style="font-family:微软雅黑; font-size:14pt">那咱们就反其道而行之。
+</span></p><p><span style="font-family:微软雅黑; font-size:14pt">先给他把correct给base64解密了。
+</span></p><p>
+     </p><p><img src="https://img2018.cnblogs.com/blog/1858293/202002/1858293-20200201215013293-855770514.png" alt=""/>
+</p><p>
+     </p><p><span style="font-family:微软雅黑; font-size:14pt">完事了之后在逆着走一遍。
+</span></p><p><img src="https://img2018.cnblogs.com/blog/1858293/202002/1858293-20200201215013545-1695020831.png" alt=""/>
+</p><p>
+     </p><p>
+     </p><p>
+     </p><p><img src="https://img2018.cnblogs.com/blog/1858293/202002/1858293-20200201215013791-679408725.png" alt=""/>
+</p><p>
+     </p><p>
+     </p><p>
+     </p><p>
+     </p><p><img src="https://img2018.cnblogs.com/blog/1858293/202002/1858293-20200201215013987-932579790.jpg" alt=""/>
+</p><p>
+     </p><p><span style="font-family:微软雅黑; font-size:14pt">再次被自己菜哭，我觉得没啥问题咋就不给我过？
+</span></p><p><span style="font-family:微软雅黑; font-size:14pt">又上网查了查，去评论转了一圈，发现有人说可能是base64解码的问题，我用的网页解码，不应该有差才对的，怪事。
+</span></p><p><span style="font-size:14pt"><span style="font-family:微软雅黑">补上了几个字符然后过了，正确的是这个：</span><strong>nctf{d3c0mpil1n9_PyC}</strong>
+		</span></p><p style="text-align: justify">
+     </p><p>
+     </p><p>
+     </p><p style="text-align: justify">
+     </p><p style="text-align: justify"><h1>Maze
+</h1></p><p><span style="font-family:微软雅黑; font-size:14pt">题目给的叫迷宫，运行了一下也没啥东西，扔进ida看看：
+</span></p><p><img src="https://img2018.cnblogs.com/blog/1858293/202002/1858293-20200201215014212-580978843.png" alt=""/>
+</p><p>
+     </p><p><span style="font-family:微软雅黑; font-size:14pt">看起来像是四个字符：0oO.
+</span></p><p>
+     </p><p><img src="https://img2018.cnblogs.com/blog/1858293/202002/1858293-20200201215014489-1369557358.png" alt=""/>
+</p><p><span style="font-family:微软雅黑; font-size:14pt">其实在IDA里把光标选择ASCII码按R键就可以把ASCII码变成字符了。
+</span></p><p>
+     </p><p><img src="https://img2018.cnblogs.com/blog/1858293/202002/1858293-20200201215014748-1879100391.png" alt=""/>
+</p><p><span style="font-family:微软雅黑; font-size:14pt">然后这几个是坐标移动
+</span></p><p><span style="font-family:微软雅黑; font-size:14pt">v9是一个二维数组，用来控制上下和左右这两种方向的。
+</span></p><p><span style="font-family:微软雅黑; font-size:14pt">两种可能：
+</span></p><p><span style="font-family:微软雅黑; font-size:14pt">1.v9代表横向、&amp;v9+1代表竖向
+</span></p><p><span style="font-family:微软雅黑; font-size:14pt">2.v9代表竖向、&amp;v9+1代表横向
+</span></p><p><span style="font-family:微软雅黑; font-size:14pt">反正是诶个试过去了
+</span></p><p><img src="https://img2018.cnblogs.com/blog/1858293/202002/1858293-20200201215014966-1906576171.png" alt=""/>
+</p><p><span style="font-family:微软雅黑; font-size:14pt">从左上角到#，经历→↓→→↓↓←↓↓↓→→→→↑↑←←，转换为o0oo00O000oooo..OO
+</span></p><p><span style="font-family:微软雅黑; font-size:14pt">Flag：nctf{o0oo00O000oooo..OO}
+</span></p><p><span style="font-family:微软雅黑; font-size:14pt">好像是南邮的题吧...真厉害。
+</span></p><p>
+     </p><p><span style="font-family:微软雅黑; font-size:14pt">还剩一个比较难搞，明天继续。
+</span></p><p><img src="https://img2018.cnblogs.com/blog/1858293/202002/1858293-20200201215015207-925161360.png" alt=""/>
+</p>
+</body>
+</html>

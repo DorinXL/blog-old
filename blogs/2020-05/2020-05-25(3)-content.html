@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<script src="https://cdn.jsdelivr.net/npm/texme@1.2.2"></script>
+<meta name="referrer" content="no-referrer">
+<head>
+    <meta charset="UTF-8">
+    <title>2020/5/25 BUU_[WUSTCTF2020]level3</title>
+</head>
+<body>
+<p><img src="https://img2020.cnblogs.com/blog/1858293/202005/1858293-20200525184447716-1057618486.png" alt=""/>
+</p><p><span style="font-family:黑体; font-size:14pt">查壳：
+</span></p><p><img src="https://img2020.cnblogs.com/blog/1858293/202005/1858293-20200525184448196-2146322687.png" alt=""/><span style="font-family:黑体; font-size:14pt">
+		</span></p><p><span style="font-family:黑体; font-size:14pt">无壳，扔进IDA：
+</span></p><p><img src="https://img2020.cnblogs.com/blog/1858293/202005/1858293-20200525184448822-1261510711.png" alt=""/><span style="font-family:黑体; font-size:14pt">
+		</span></p><p><span style="font-family:黑体; font-size:14pt">看到关键数据，base64转一下试试：
+</span></p><p><img src="https://img2020.cnblogs.com/blog/1858293/202005/1858293-20200525184449121-1888071843.png" alt=""/><span style="font-family:黑体; font-size:14pt">
+		</span></p><p><span style="font-family:黑体; font-size:14pt">有点flag那味了，估计这是把base64表给改了，那么就需要找一下修改的函数，在函数列表找到一个O_OloolAtYou()函数，看起来有些可疑，果不其然：
+</span></p><p><img src="https://img2020.cnblogs.com/blog/1858293/202005/1858293-20200525184449361-1017951627.png" alt=""/><span style="font-family:黑体; font-size:14pt">
+		</span></p><p><span style="font-family:黑体; font-size:14pt">其实也可以交叉引用找到这个函数：
+</span></p><p><img src="https://img2020.cnblogs.com/blog/1858293/202005/1858293-20200525184449593-2120695649.png" alt=""/><span style="font-family:黑体; font-size:14pt">
+		</span></p><p><span style="font-family:黑体; font-size:14pt">这个函数主要作用呢，我们跑一下就可以知道是把A-T给调了个顺序：
+</span></p><p><img src="https://img2020.cnblogs.com/blog/1858293/202005/1858293-20200525184449777-1803394244.png" alt=""/>
+</p><p><span style="font-family:黑体; font-size:14pt">于是我们就把他反过来跑一下：
+</span></p><p><img src="https://img2020.cnblogs.com/blog/1858293/202005/1858293-20200525184450166-765666664.png" alt=""/>
+</p><p><span style="font-family:黑体; font-size:14pt">得到：</span>d2N0ZjIwMjB7QmFzZTY0X2lzX3RoZV9zdGFydF9vZl9yZXZlcnNlfQ==
+</p><p><img src="https://img2020.cnblogs.com/blog/1858293/202005/1858293-20200525184450469-374602815.png" alt=""/>
+</p><p>wctf2020{Base64_is_the_start_of_reverse}
+</p><p>吃饭去了，一会还要上课，本来说把c++大作业给写了的，一不小心有做了俩题，水了一波分数，溜了溜了；</p>
+</body>
+</html>

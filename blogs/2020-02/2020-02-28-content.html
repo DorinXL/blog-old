@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<script src="https://cdn.jsdelivr.net/npm/texme@1.2.2"></script>
+<meta name="referrer" content="no-referrer">
+<head>
+    <meta charset="UTF-8">
+    <title>i春秋web作业2.26——文件上传</title>
+</head>
+<body>
+<p style="text-align: center"><span style="font-size:22pt">Web安全工程师(入门班)
+</span></p><p style="text-align: center">【全国线上入门班53期】课后作业
+</p><p style="text-align: center">
+     </p><p style="text-align: center"><span style="font-family:宋体; font-size:12pt">2020-2-26
+</span></p><p style="text-align: center"><span style="font-family:宋体; font-size:12pt">DorinXL
+</span></p><p>
+     </p><p><span style="font-family:楷体"><strong>1）为什么说js校验是一种不安全的校验方式？
+</strong></span></p><ul style="margin-left: 42pt"><li><div style="text-align: justify"><span style="font-size:9pt">js校验不安全，是因为用户很容易通过控制台删除或是禁用js从而达到绕过校验的目的。
+</span></div></li><li><div style="text-align: justify"><span style="font-size:9pt">但是客户端的校验速度快，js可以提升用户体验，同时可以减轻服务器的压力。
+</span></div></li><li><div style="text-align: justify"><span style="font-size:9pt">虽然js并不安全，但是为了保障用户体验还是有存在的必要。
+</span></div></li><li><div style="text-align: justify"><span style="font-size:9pt">所以为了保障起见，客户端的js校验和服务端的二次校验都应存在。
+</span></div></li></ul><p><span style="font-family:楷体"><strong>2)Apache解析漏洞如何利用呢？
+</strong></span></p><ul style="margin-left: 42pt"><li><div style="text-align: justify"><span style="font-size:9pt">低版本的Apache认为，一个文件可以有多个后缀。如果有必要，Apache会从右往左，一一辨别后缀。
+</span></div></li><li><div style="text-align: justify"><span style="font-size:9pt">当Apache不认识某个后缀时，如某文件名为：warma.mp3.html.qwe.abc，Apache在处理时，先读取最后一个后缀，为".abc"，不认识，继续读取下一个后缀".qwe"，还是不认识，继续读下一个后缀".html"，认出之后会当作超文本标记语言文件进行执行。
+</span></div></li><li><div style="text-align: justify"><span style="font-size:9pt">可以通过Apache的这种特性来绕过黑名单校验。
+</span></div></li></ul>
+</body>
+</html>

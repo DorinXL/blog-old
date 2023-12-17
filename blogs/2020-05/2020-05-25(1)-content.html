@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<script src="https://cdn.jsdelivr.net/npm/texme@1.2.2"></script>
+<meta name="referrer" content="no-referrer">
+<head>
+    <meta charset="UTF-8">
+    <title>2020/5/25 BUU_[WUSTCTF2020]level2</title>
+</head>
+<body>
+<p><img src="https://img2020.cnblogs.com/blog/1858293/202005/1858293-20200525174812751-1248040622.png" alt=""/>
+</p><p><span style="font-family:黑体; font-size:14pt">一个UPX加壳题：
+</span></p><p><img src="https://img2020.cnblogs.com/blog/1858293/202005/1858293-20200525174813279-1123232370.png" alt=""/><span style="font-family:黑体; font-size:14pt">
+		</span></p><p><span style="font-family:黑体; font-size:14pt">Elf直接upx -d脱壳：<br/><img src="https://img2020.cnblogs.com/blog/1858293/202005/1858293-20200525174813579-605555843.png" alt=""/>
+		</span></p><p><span style="font-family:黑体; font-size:14pt">然后扔进IDA，刚打开就看到flag了：</span><br/><img src="https://img2020.cnblogs.com/blog/1858293/202005/1858293-20200525174813842-351225748.png" alt=""/>
+</p><p><span style="font-family:黑体; font-size:14pt">那我不脱壳直接用txt打开也能找到咯？
+</span></p><p><img src="https://img2020.cnblogs.com/blog/1858293/202005/1858293-20200525174814155-590628313.png" alt=""/>
+</p><p>确实：wctf2020{Just_upx_-d}
+</p><p>仅仅是upx -d
+</p><p>
+</body>
+</html>

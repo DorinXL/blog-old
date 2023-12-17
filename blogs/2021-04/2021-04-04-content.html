@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<script src="https://cdn.jsdelivr.net/npm/texme@1.2.2"></script>
+<meta name="referrer" content="no-referrer">
+<head>
+    <meta charset="UTF-8">
+    <title>【Unity】自制GalGame框架梳理</title>
+</head>
+<body>
+<textarea>
+    # 框架梳理
+
+目前分为五块：菜单场景、游戏场景、CG场景、存读取存档场景、场景衔接。
+&nbsp;
+未来添加的一些功能：游戏设置界面、游戏过程中的读档等UI、程序和剧情分离，供编剧测试的插件、对话回顾等。
+&nbsp;
+个人学习作品，仅供参考，两周匆忙赶出，代码水平不高，还望见笑。
+&nbsp;
+&nbsp;
+
+## 菜单场景：
+
+主要功能：作为菜单，为不同按钮绑定切换场景的事件。
+
+主要函数：
+
+Awake()：为各个button绑定事件
+
+OpenGame()：切换场景到游戏场景
+
+OpenCG()：切换场景到查看cg
+
+OpenFiles()：切换场景到读取存档
+
+ExitGame()：退出游戏
+
+
+
+## CG场景：
+
+主要功能：提供可以查看cg图像或是人物简介等游戏内容的场景，目前只能查看cg图像
+
+主要函数：
+
+存在GlobalSetting.CGShows[]变量存放在GlobalSetting.cs中，作为是否解锁cg图的参考。
+
+Start()： 通过读取GlobalSetting.cs中的全局变量来判定是否给图像解锁。
+
+Update()：检测是否打开了cg图像，如果打开了cg的话点击任意位置退出
+
+BackToMenu()：返回到主界面
+
+ShowCG()：打开panel，显示cg
+
+【暂留问题】：每次重新启动游戏时，全局变量重置，需要在其他地方另外保存数据
+&nbsp;
+&nbsp;
+
+## 游戏场景：
+
+### 游戏场景初始化.cs
+
+在Awake()中读取存档，若不为空则提前初始化gamescene
+
+### 游戏场景.cs
+
+主要功能：提供游戏界面的显示，根据剧本推进剧情。提供存档读档。有一个渐入渐出状态机。
+
+![image-20210404164741671](https://img2020.cnblogs.com/blog/1858293/202104/1858293-20210404170355093-1429446084.png)
+
+主要函数：
+
+Start()：初始化，调用Init()函数
+
+Update()：检测到点击则开始下一条剧情，同时提供图片的淡入淡出功能
+
+Init()：一些参数的定义（淡入淡出的状态等），绑定按钮事件
+
+ShowFileSave()：调用之后出现存档的panel
+
+SetBackground(string bgName)：传入名字从resources中调出背景图片并显示
+
+DelBackground()：渐出背景图片
+
+SetCharaImage(string charaName, string pos)：传入名字和位置从resources中调出人物图片并在左或右侧显示
+
+DelCharaImage(string pos)：渐出人物图片
+
+FadeInImg(Image img)：渐入图片需要调用的函数，修改渐入渐出状态机
+
+FadeOutImg(Image img)：渐出图片需要调用的函数，修改渐入渐出状态机
+
+UpdateColorAlpha()：在渐入渐出状态机执行的时候进行图片的alpha检测和切换，alpha>1或<0时切换状态
+
+UpdateColorAlphaRightNow()：在图片渐入渐出的时候如果鼠标点击，则立刻修改状态并完全渐入/渐出图片（即图片的透明度立刻变为0或1）
+
+SetDialogText(string name,string content)：对话框的姓名和内容
+
+SetTalkingChara(string pos)：调整正在说话的人物的图片透明度，突出对话的主体人物
+
+SetMusic(string bgmName)：传入名字从resources中调出音乐并播放
+
+BackToMenu()：返回主菜单
+
+SetCharaImageFromFile(string charaName, string pos)：从存档中进入时，传入名字和位置从resources中调出人物图片并在左或右侧显示
+
+SetBackgroundFromFile(string bgName)：从存档中进入时，传入名字从resources中调出背景图片并显示
+
+【存在问题】：这里十分臃肿，只有写出这个的人（我）才能理解大概。
+
+### 剧本读取与解析.cs
+
+主要功能：读取剧本存入对应的数据结构中并解析，反馈给游戏界面。有一个剧情状态机
+
+![image-20210404165526955](https://img2020.cnblogs.com/blog/1858293/202104/1858293-20210404170358188-1334500693.png)
+
+主要函数：
+
+Start()：读取剧本文件并存入到自定义数据类型ItemManager中
+
+Update()：剧情状态检测
+
+Clicked()：鼠标点击事件，可以切换状态
+
+StartAVG()：初始化状态机
+
+GoToState(STAGE next)：提供状态，切换到该状态
+
+PraseNextLine()：分析下一行剧情命令，并传入对应的函数
+
+DealWithCommand(Line tmpLine)：按照Command剧情命令执行
+
+CheckTypingFinished()：检查对话时是否说完
+
+DealWithText(Line tmpLine)：按照Text剧情命令执行
+
+UpdateContentString()：按帧更新对话框内容，实现打字机的效果
+
+UpdateAllString()：在打字机打字的过程中若是再次点击鼠标则一次性显示未说完的所有内容。
+
+### 存档管理.cs
+
+Start()：绑定按钮事件，创造文件路径
+
+ClosePanel()：关闭存档panel
+
+PackingData(SaveData sd1)：打包存档数据
+
+WriteData(StreamWriter temp)：写入存档
+
+ClickSave()：点击存档按钮即可存档。
+
+&nbsp;
+&nbsp;
+
+## 存读取存档场景：
+
+### 存档场景管理.cs
+
+主要功能：再打开存档场景时加载存档，并提供入口进入游戏。
+
+主要函数：Start()、BackToMenu()、LoadData()
+
+Start()：读取存档文件并绑定按钮事件
+
+BackToMenu()：返回主菜单
+
+LoadData()：加载存档并进入游戏
+
+### 读档.cs
+
+Awake()：单例模式
+
+WriteSceneData(List<string[]> data)：将存档写入列队，方便加载游戏场景的时候读取
+
+ReadSceneData()：在gameseceninit中读取存档列队
+
+ToGameScene(string[] SaveFile)：跳转到游戏场景
+
+### 存档.cs
+
+自定义数据结构，存放着存档和读档需要的数据，包括剧情脚本行数、对话、背景、音乐等。
+
+&nbsp;
+&nbsp;
+## 场景衔接
+
+例如背景音乐在主菜单和存档场景切换时不会停掉、画面的渐入渐出。
+
+背景音乐的控制：
+
+1. 建立一个循环音乐的预制体，这个预制体上挂载一个DontDestroyOnLoad的脚本。
+
+2. 在需要播放背景音乐的几个场景挂载另一个GlobalUIMusic.cs，这个脚本为单例模式，如果存在则不产生新的，如果不存在则实例化预制体。
+&nbsp;
+&nbsp;
+
+## 成品GIF
+![](https://img2020.cnblogs.com/blog/1858293/202104/1858293-20210404171556588-791284151.gif)
+
+</textarea>
+</body>
+</html>

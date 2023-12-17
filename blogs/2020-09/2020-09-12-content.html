@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<script src="https://cdn.jsdelivr.net/npm/texme@1.2.2"></script>
+<meta name="referrer" content="no-referrer">
+<head>
+    <meta charset="UTF-8">
+    <title>[BUU] 简单注册器</title>
+</head>
+<body>
+<textarea>
+
+###### 主要记录一下第一次使用jeb的过程，题目本身还是蛮简单的。
+&nbsp;
+
+
+# 1. 下载JEB
+
+### 在52的爱盘里就有。
+
+&nbsp;
+# 2. 配置JDK
+
+### JEB支持的JDK版本是121及以下，用最新的打开JEB会出现奇怪的问题。
+
+###### 可以百度找jdk-8u121-windows-x64.exe
+&nbsp;
+
+# 3 .修改jeb_wincon.bat的内容
+
+### 我是在windows上装的jeb，其还支持linux和mac
+
+### 只要添加一句set JAVA_HOME = 你安装jdk的路径就可
+
+![image-20200912092423703](https://img2020.cnblogs.com/blog/1858293/202009/1858293-20200912103752397-1035092193.png)
+
+&nbsp;
+# 4. 双击jeb_wincon.bat开始运行
+
+### 到这里就可以打开jeb了。
+&nbsp;
+
+# 5. 分析源码
+
+### 加载文件，把反汇编选项打开，核心内容就这一点：
+
+### ![image-20200912103521098](https://img2020.cnblogs.com/blog/1858293/202009/1858293-20200912103752698-704064669.png)
+&nbsp;
+
+# 6. 解出flag
+
+```C/C++
+#include<iostream>
+using namespace std;
+int main(){
+	int v9 = 2;
+	int v11 = 31;
+    char v5[] = "dd2940c04462b4dd7c450528835cca15";
+    v5[v9] = ((char)(v5[v9] + v5[3] - 50));
+    v5[4] = ((char)(v5[v9] + v5[5] - 48));
+    v5[30] = ((char)(v5[v11] + v5[9] - 48));
+    v5[14] = ((char)(v5[27] + v5[28] - 97));
+    int v4;
+    for(v4 = 0; v4 < 16; ++v4) {
+        char v0 = v5[31 - v4];
+        v5[31 - v4] = v5[v4];
+        v5[v4] = v0;
+    }
+    for(int i = 0;i < 32;i++){
+    	cout<<v5[i];
+	}
+}
+```
+
+flag{59acc538825054c7de4b26440c0999dd}
+
+</textarea>
+</body>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<script src="https://cdn.jsdelivr.net/npm/texme@1.2.2"></script>
+<meta name="referrer" content="no-referrer">
+<head>
+    <meta charset="UTF-8">
+    <title>【个人记录】SimpleRev解题过程中遇到的问题：数据处理和逆模运算</title>
+</head>
+<body>
+<p>关于解题过程中出现的疑惑点。
+</p><p>小白学习记录，大师傅勿喷，欢迎交流。
+</p><p>
+     </p><p><img src="https://img2020.cnblogs.com/blog/1858293/202004/1858293-20200412183333245-1665512153.png" alt=""/>
+</p><p>
+     </p><p>在该题中，join和strcat都是实现拼接字符的功能。但是在我解题的过程发现当拼接src和v9字符串时，这两个字符串应该反过来接上，也就是key3+"hadow"和key+"NDCLS"。
+</p><p>
+     </p><p>暂且认为是取出数据时是按照栈的推出来着，就像汇编里存取字节一样。学艺不精，网上没查到相关资料，姑且这样认为，且留下疑问。
+</p><p>
+     </p><p>
+     </p><p>
+     </p><p><img src="https://img2020.cnblogs.com/blog/1858293/202004/1858293-20200412183333627-1747828195.png" alt=""/>
+</p><p>
+     </p><p>此处存在模运算，如果想要解密的话需要模的逆运算。但是我还没有想到如何逆模运算，这里可能要涉及数论知识，先在这里指出来供日后修改。这里解题我是用暴力破解，每个遍历，符合条件了再break一下。</p>
+</body>
+</html>

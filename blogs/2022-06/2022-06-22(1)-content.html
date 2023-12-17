@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<script src="https://cdn.jsdelivr.net/npm/texme@1.2.2"></script>
+<meta name="referrer" content="no-referrer">
+<head>
+    <meta charset="UTF-8">
+    <title>vlan配置</title>
+</head>
+<body>
+<textarea>
+    # vlan配置
+
+将一个物理局域网在逻辑上分成多个局域网。
+
+传统模式一个设备20个接口，通过给交换机做标识，或者基于协议、基于mac等来区别开局域网。
+
+### 创建vlan（交换机）
+
+用到的命令：
+
+```
+[Huawei]vlan bat 10 20	//批量创建10和20
+[Huawei]int e0/0/1	//进入接口
+
+[Huawei-Ethernet0/0/1]port link-type access 	//指定接口类型为access
+[Huawei-Ethernet0/0/1]port default vlan 10	//将当前接口加入vlan10
+
+[Huawei-GigabitEthernet0/0/1]port link-type trunk 	//指定接口类型为trunk
+[Huawei-GigabitEthernet0/0/1]port trunk allow-pass vlan 10 20	//允许vlan 10 20通过trunk
+[Huawei-Ethernet0/0/1]undo port default vlan	//将接口从vlan中删除
+
+
+```
+
+### 布局
+
+![image-20220622100529964](https://img2022.cnblogs.com/blog/1858293/202206/1858293-20220622102855429-1533219860.png)
+
+![image-20220622100801825](https://img2022.cnblogs.com/blog/1858293/202206/1858293-20220622102856010-445080417.png)
+
+![image-20220622100812761](https://img2022.cnblogs.com/blog/1858293/202206/1858293-20220622102856473-460006994.png)
+
+对第一个交换机的第一个接口进行配置：
+
+![image-20220622102228713](https://img2022.cnblogs.com/blog/1858293/202206/1858293-20220622102856941-727216011.png)
+
+同理对其他三个进行配置之后，开始配置两个交换机之间的trunk连线：
+
+![image-20220622102616117](https://img2022.cnblogs.com/blog/1858293/202206/1858293-20220622102857462-366945484.png)
+
+配置完成之后发现PC1只可以和PC3在同一网段通信，同理PC2与PC4通信。
+
+![image-20220622102749922](https://img2022.cnblogs.com/blog/1858293/202206/1858293-20220622102858045-976951868.png)
+
+### 补充知识点：
+
+**vlan的作用：**
+
+​	隔离广播域，提升网络性能
+​	隔离不同用户或者业务，便于管理
+
+**vlan的实现方式：**
+
+​	按端口划分VLAN
+​	按MAC地址划分VLAN
+
+**交换机的端口类型**
+
+​	交换机的端口，可以分为以下三种：
+
+1. 访问链接(Access Link)
+   	访问链接，指的是“只属于一个VLAN，且仅向该VLAN转发数据帧”的端口。在大多数情况下，访问链接所连的是客户机。
+2. 汇聚链接(Trunk Link)
+   	汇聚链接(Trunk Link)可同时属于多个VLAN，且能够转发多个不同VLAN的通信的端口，汇聚链路上流通的数据帧，都被附加了用于
+   识别分属于哪个VLAN的特殊信息。
+   	通过汇聚链路时附加的VLAN识别信息，有支持标准的“IEEE 802.1Q”协议，及Cisco产品独有的“ISL(Inter Switch Link)”。
+3. 混合链接(Hybrid Link)
+   	Hybrid 类型的端口可以属于多个VLAN， 可以接收和发送多个VLAN的报文，可以用于交换机之间连接也可以用于连接用户的计算机。
+   Hybrid端口和Trunk 端口的不同之处在于：Hybrid 端口可以允许多个VLAN 的报文发送时不打标签，而Trunk 端口只允许缺省VLAN 的报文发送时不打标签。
+
+</textarea>
+</body>
+</html>

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<script src="https://cdn.jsdelivr.net/npm/texme@1.2.2"></script>
+<meta name="referrer" content="no-referrer">
+<head>
+    <meta charset="UTF-8">
+    <title>Bandit  wargame个人闯关记录上（1-10）</title>
+</head>
+<body>
+<p style="text-align: justify"><h1>Bandit  wargame闯关记录
+</h1></p><p style="text-align: justify"><h2>Level 0 —— Level 1
+</h2></p><p><span style="font-size:12pt">主要告诉我们如何SSH连接登陆服务器。
+</span></p><p><span style="font-size:12pt">这里我用的是FinalShell，输入好信息，勾上海外加速，开始做题：
+</span></p><p><img src="https://img2020.cnblogs.com/blog/1858293/202004/1858293-20200405172032332-1880627993.png" alt=""/>
+</p><p>
+     </p><p><span style="font-size:12pt">在做了几关之后发现每次进入下一个level都要修改用户名后面的数字，不然密码会匹配不上。
+</span></p><p><span style="font-size:12pt">进入第一关的密码就在用ls可以看到的一个名为readme的文件中，用命令【cat readme】可以查看并进入下一关。
+</span></p><p><img src="https://img2020.cnblogs.com/blog/1858293/202004/1858293-20200405172033107-590430074.png" alt=""/>
+</p><p style="text-align: justify"><h2>Level 1 —— Level 2
+</h2></p><p><img src="https://img2020.cnblogs.com/blog/1858293/202004/1858293-20200405172033694-1883030601.png" alt=""/>
+</p><p>
+     </p><p><span style="font-size:12pt">根据任务提示我们可以知道，下一关的密码就在home/bandit1里面。可以看到里面的文件有一个名为-的，如果我们用指令【cat -】的话，-不会被识别为名称。所以我们使用【cat ./-】来表示查看此文件夹下的-文件：
+</span></p><p><img src="https://img2020.cnblogs.com/blog/1858293/202004/1858293-20200405172034244-1794605283.png" alt=""/>
+</p><p>
+     </p><p>
+     </p><p style="text-align: justify"><h2>Level 2 —— Level 3
+</h2></p><p><img src="https://img2020.cnblogs.com/blog/1858293/202004/1858293-20200405172034743-368715074.png" alt=""/>
+</p><p>
+     </p><p>    <span style="font-size:12pt">进入level2，ls找文件，发现一个文件名字中带有空格，如果我们直接cat文件名的话是打不开的，因为空格会使系统认为这是四个不同的文件而非同一个文件：</span>
+</p><p>    <img src="https://img2020.cnblogs.com/blog/1858293/202004/1858293-20200405172035240-2015826051.png" alt=""/>
+</p><p>
+     </p><p>    <span style="font-size:12pt">如果我们想要访问这样的一个文件，可以先Google一下"spaces in filename"，然后就学会了新技能：
+</span></p><p>    
+</p><ol><li><div style="text-align: justify"><span style="font-size:12pt">使用引号：
+</span></div><p><img src="https://img2020.cnblogs.com/blog/1858293/202004/1858293-20200405172035678-1371634526.png" alt=""/>
+</p></li></ol><p><span style="font-size:12pt">看起来单双都可
+</span></p><p>
+     </p><ol><li><div style="text-align: justify"><span style="font-size:12pt">使用反斜杠\来表达原有意思：
+</span></div><p><img src="https://img2020.cnblogs.com/blog/1858293/202004/1858293-20200405172036007-1639548638.png" alt=""/>
+</p></li></ol><p>
+     </p><p style="text-align: justify"><h2>Level 3 —— Level 4
+</h2></p><p><img src="https://img2020.cnblogs.com/blog/1858293/202004/1858293-20200405172036383-746777089.png" alt=""/>
+</p><p>
+     </p><p><span style="font-size:12pt">任务目标：找出隐藏在inhere文件夹下的文件
+</span></p><p>
+     </p><p><span style="font-size:12pt">Linux中隐藏文件用的是在文件名前加. ，而我们使用【ls -a】可以显示所有文件，包括隐藏的文件。
+</span></p><p>
+     </p><p><img src="https://img2020.cnblogs.com/blog/1858293/202004/1858293-20200405172036877-1894510597.png" alt=""/>
+</p><p>
+     </p><p style="text-align: justify"><h2>Level 4 —— Level 5
+</h2></p><p>
+     </p><p><img src="https://img2020.cnblogs.com/blog/1858293/202004/1858293-20200405172037429-15893255.png" alt=""/>
+</p><p>
+     </p><p>    <span style="font-size:12pt">任务要求中提到了"human—readable"，经过ls之后，看到很多的文件，我这里一个一个打开，其中一个文件里面存着下一关的密码：
+</span></p><p><img src="https://img2020.cnblogs.com/blog/1858293/202004/1858293-20200405172038123-733743371.png" alt=""/>
+</p><p><span style="font-size:12pt">也可以用【file】命令来识别文件，【file ./*】将所有文件的格式显示出来。
+</span></p><p>
+     </p><p style="text-align: justify"><h2>Level 5 —— Level 6
+</h2></p><p><img src="https://img2020.cnblogs.com/blog/1858293/202004/1858293-20200405172038733-1303245549.png" alt=""/>
+</p><p>
+     </p><p><span style="font-size:12pt">密码藏在inhere文件夹中，是一个人类可读文件，有1033字节，不可执行。
+</span></p><p><span style="font-size:12pt">Inhere文件中有好多个文件夹，一个一个效率过于低下，这里我们使用【find】命令
+</span></p><p><span style="font-size:12pt">【find -type f -size 1033c】
+</span></p><p><img src="https://img2020.cnblogs.com/blog/1858293/202004/1858293-20200405172039117-1883945247.png" alt=""/>
+</p><p>找到文件，进入：<br/><img src="https://img2020.cnblogs.com/blog/1858293/202004/1858293-20200405172039495-900326744.png" alt=""/>
+</p><p>
+     </p><p>
+     </p><p style="text-align: justify"><h2>Level 6 —— Level 7
+</h2></p><p><img src="https://img2020.cnblogs.com/blog/1858293/202004/1858293-20200405172039929-1659318185.png" alt=""/>
+</p><p><span style="font-size:12pt">仍然使用find指令，不过这次要在全局范围寻找：
+</span></p><p><span style="font-size:12pt">【find / -user bandit7 -group bandit6 -size 33c 2&gt;/dev/null】
+</span></p><p><span style="font-size:12pt">-user用户
+</span></p><p><span style="font-size:12pt">-group 组
+</span></p><p><span style="font-size:12pt">2&gt;/dev/null 是将所有的错误信息扔进黑洞。2是错误信息，如果回显到显示屏上会影响我们的寻找结果。
+</span></p><p>
+     </p><p><img src="https://img2020.cnblogs.com/blog/1858293/202004/1858293-20200405172040336-153009074.png" alt=""/>
+</p><p>
+     </p><p style="text-align: justify"><h2>Level 7 —— Level 8
+</h2></p><p><img src="https://img2020.cnblogs.com/blog/1858293/202004/1858293-20200405172040776-1092958082.png" alt=""/>
+</p><p><span style="font-size:12pt">接下来的密码藏在data.txt中，而这个密码在单词millionth旁边。
+</span></p><p><span style="font-size:12pt">如果我们直接打开data.txt，那么会看到铺天盖地的各种密码。
+</span></p><p><img src="https://img2020.cnblogs.com/blog/1858293/202004/1858293-20200405172041467-1088801789.png" alt=""/>
+</p><p><span style="font-size:12pt">跑上一会也不一定跑的完。
+</span></p><p><span style="font-size:12pt">所以这里明显是需要我们在文件中查找特定信息的指令。
+</span></p><p>
+     </p><p><span style="font-size:12pt">【grep】命令用来查找文件中符合条件的特定字符串
+</span></p><p><span style="font-size:12pt">| 管道符，可以将前面的正确输出做为后面的输入，需要注意的是后面只接受正确的输出。
+</span></p><p>
+     </p><p><img src="https://img2020.cnblogs.com/blog/1858293/202004/1858293-20200405172042067-1076073663.png" alt=""/>
+</p><p style="text-align: justify"><h2>Level 8—— Level 9
+</h2></p><p><img src="https://img2020.cnblogs.com/blog/1858293/202004/1858293-20200405172042536-553373246.png" alt=""/>
+</p><p><span style="font-size:12pt">下一关的密码在data.txt中只出现一次的行中。
+</span></p><p><img src="https://img2020.cnblogs.com/blog/1858293/202004/1858293-20200405172042983-1377440972.png" alt=""/>
+</p><p><img src="https://img2020.cnblogs.com/blog/1858293/202004/1858293-20200405172043407-91011967.png" alt=""/>
+</p><p><span style="font-size:12pt">但是不能只用uniq命令，因为uniq命令是通过比较上下两行是否相同得出结果的。
+</span></p><p><span style="font-size:12pt">在使用uniq之前我们需要先用sort进行一次排序。
+</span></p><p><img src="https://img2020.cnblogs.com/blog/1858293/202004/1858293-20200405172043802-1528104041.png" alt=""/>
+</p><p>
+     </p><p style="text-align: justify"><h2>Level 9—— Level 10
+</h2></p><p><img src="https://img2020.cnblogs.com/blog/1858293/202004/1858293-20200405172044289-1653626373.png" alt=""/>
+</p><p><span style="font-size:12pt">下一关的密码在data.txt中，但是是分散的，以"="开头。
+</span></p><p>
+     </p><p><span style="font-size:12pt">直接打开data.txt是一堆乱码
+</span></p><p><img src="https://img2020.cnblogs.com/blog/1858293/202004/1858293-20200405172044810-2060549182.png" alt=""/>
+</p><p>
+     </p><p><span style="font-size:12pt">参考网上资料，找到了strings这个神奇的指令，它主要用来提取和显示非文本文件中的文本字符串，比如在对象文件或二进制文件中查找可打印的字符串。
+</span></p><p><span style="font-size:12pt">通过组合cat和strings【cat data.txt | strings】，得到：
+</span></p><p><img src="https://img2020.cnblogs.com/blog/1858293/202004/1858293-20200405172045257-971161013.png" alt=""/>
+</p><p>
+     </p><p style="text-align: justify"><h1>通过1-10能学到什么：
+</h1></p><ol><li><div style="text-align: justify"><span style="font-size:10pt">学会XSS连接
+</span></div></li><li><div style="text-align: justify"><span style="font-size:10pt">最基本的cat打开文件指令，包括打开一些文件名很奇怪的文件（如以. – 开头，文件名中有空格等）
+</span></div></li><li><div style="text-align: justify"><span style="font-size:10pt">ls 和部分参数的使用
+</span></div></li><li><div style="text-align: justify"><span style="font-size:10pt">file 识别文件格式
+</span></div></li><li><div style="text-align: justify"><span style="font-size:10pt">find 寻找特定的文件
+</span></div></li><li><div style="text-align: justify"><span style="font-size:10pt">2&gt;/dev/null 扔掉错误提示，知道了"黑洞"的存在
+</span></div></li><li><div style="text-align: justify"><span style="font-size:10pt">| 管道符的初步了解
+</span></div></li><li><div style="text-align: justify"><span style="font-size:10pt">grep 查找文件中符合条件的特定字符串
+</span></div></li><li><div style="text-align: justify"><span style="font-size:10pt">sort 和 uniq 的初步使用，一个排序，一个查重
+</span></div></li><li><div style="text-align: justify"><span style="font-size:10pt">strings的奇妙使用</span></div></li></ol>
+</body>
+</html>

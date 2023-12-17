@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<script src="https://cdn.jsdelivr.net/npm/texme@1.2.2"></script>
+<meta name="referrer" content="no-referrer">
+<head>
+    <meta charset="UTF-8">
+    <title>i春秋web作业2.27——SQL注入</title>
+</head>
+<body>
+<p style="text-align: center"><span style="font-size:22pt">Web安全工程师(入门班)
+</span></p><p style="text-align: center">【全国线上入门班53期】课后作业
+</p><p style="text-align: center">
+     </p><p style="text-align: center"><span style="font-family:宋体; font-size:12pt">2020-2-27
+</span></p><p style="text-align: center"><span style="font-family:宋体; font-size:12pt">DorinXL
+</span></p><p>
+     </p><p><span style="font-family:楷体"><strong>1）思考SQL注入采用什么方法植入WebShell？
+</strong></span></p><ul style="margin-left: 42pt"><li><div style="text-align: justify"><span style="font-size:9pt">可以在表中保存木马数据，然后导出库保存文件，删除新建的表。
+</span></div></li><li><div style="text-align: justify"><span style="font-size:9pt">拥有写入权限时，选择select … into outfile 语句：select A into outfile B，意思是选择a的数据导入b。通过与其他联合语句将shell写入，但是要知道路径。
+</span></div></li></ul><p><span style="font-family:楷体"><strong>2) SQL注入能否查看文件？
+</strong></span></p><ul style="margin-left: 42pt"><li><div style="text-align: justify"><span style="font-size:9pt">SQL注入可以查看文件，但是有前提条件。
+</span></div></li><li><div style="text-align: justify"><span style="font-size:9pt">要知道文件的路径，要拥有读写权限，然后通过构造合适的语句来达到查看文件的目的。
+</span></div></li><li><div style="text-align: justify"><span style="font-size:9pt">使用<strong>load_file函数</strong>读取
+</span></div></li></ul><p><span style="font-family:楷体"><strong>3）思考SQL注入盲注的原理以及利用方法
+</strong></span></p><ul style="margin-left: 42pt"><li><div style="text-align: justify"><span style="font-size:9pt">无法根据报错信息来进行注入判断的情况，称之为盲注。
+</span></div></li><li><div style="text-align: justify"><span style="font-size:9pt">盲注通过逻辑真假以及是否有返回来判断漏洞存在，然后便是猜测表名、用户名等数据。</span></div></li></ul>
+</body>
+</html>

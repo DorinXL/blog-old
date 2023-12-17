@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<script src="https://cdn.jsdelivr.net/npm/texme@1.2.2"></script>
+<meta name="referrer" content="no-referrer">
+<head>
+    <meta charset="UTF-8">
+    <title>攻防世界web新手区做题记录</title>
+</head>
+<body>
+> 学校信安协会第一次培训结束后的作业，要求把攻防世界的web新手区题目做一遍并写题解。
+
+---
+
+### 第一题 view_source
+
+###### 查看源代码右键不能用，但是F12能用，于是找到源代码
+
+![image](https://note.youdao.com/yws/public/resource/ed66c5adb6bd9f25d16328563f5b7e9d/xmlnote/53177788509D4A5891F4FD8A4602991B/950)
+输入到flag框即可
+
+##### 后来在网上看到可以在url前面插入view-source:来查看网页源代码
+
+---
+
+### 第二题 get_post
+
+题目描述点明了该题要用到关于http的两种请求方式，那么就要学习一下http的几种请求方式。
+
+查阅各种博客之后，发现get的请求方式直接在url框内输入就好，而post的请求方式需要用其他方式写入参数，有点高深。
+
+![image](https://note.youdao.com/yws/public/resource/ed66c5adb6bd9f25d16328563f5b7e9d/xmlnote/B94A2BE628854C428B30196A38CE1034/953)
+
+找到了火狐的harkbar工具包插件，学习了一下参数注入，成功过关。
+
+![image](https://note.youdao.com/yws/public/resource/ed66c5adb6bd9f25d16328563f5b7e9d/xmlnote/EE5932BB761342379AA98F1D43E4C5DC/952)
+
+---
+
+### 第三题 robots
+看到了新名词，自然要去学习这个什么robots协议，查阅资料后发现就是爬虫协议，也叫机器人协议蜘蛛协议什么的。
+
+从博客学习：[robots协议文件的写法及语法属性解释](https://blog.csdn.net/qq_40491569/article/details/83473703)
+
+```
+robots.txt文件是一个文本文件，是放置在网站根目录下，使用任何一个常见的文本编辑器，就可以创建和编辑它。
+robots.txt是搜索引擎中访问网站的时候要查看的第一个文件，其主要的作用就是告诉蜘蛛程序在服务器上什么文件是可以被查看的。
+```
+
+![image](https://note.youdao.com/yws/public/resource/ed66c5adb6bd9f25d16328563f5b7e9d/xmlnote/DE6D74705B2A4924A59A8012743E8EAD/1003)
+
+###### 在后面加上robots.txt
+
+![image](https://note.youdao.com/yws/public/resource/ed66c5adb6bd9f25d16328563f5b7e9d/xmlnote/E80A35EE7DD0474D8626E99121B3FBC8/1002)
+
+###### 出现个.php的disallow，把它放到url后面：
+
+![image](https://note.youdao.com/yws/public/resource/ed66c5adb6bd9f25d16328563f5b7e9d/xmlnote/C297BCEFD0064FF78827627269D8AB15/1001)
+输入flag，下一题。
+
+---
+
+### 第四题 backup
+涉及到备份的问题了，继续学习。发现备份的后缀是.bak，backup的缩写。
+
+![image](https://note.youdao.com/yws/public/resource/ed66c5adb6bd9f25d16328563f5b7e9d/xmlnote/D4E72A00A9784FA789EBBF15FC7FC38A/1023)
+
+###### 在url框输入index.php.bak
+![image](https://note.youdao.com/yws/public/resource/ed66c5adb6bd9f25d16328563f5b7e9d/xmlnote/E38E373DA4D64B92BFF98CB397CB7FE5/1022)
+
+![image](https://note.youdao.com/yws/public/resource/ed66c5adb6bd9f25d16328563f5b7e9d/xmlnote/FC9CF2A092E4442E8B6F12992C553EFE/1021)
+
+###### 得到flag
+
+---
+
+### 第五题 cookie
+
+###### f12找cookie，找到一个php
+
+![image](https://note.youdao.com/yws/public/resource/ed66c5adb6bd9f25d16328563f5b7e9d/xmlnote/DF49DC8DB81C4749A4574FA399C5E708/1019)
+
+###### 进入php，发现需要查看http response，费老大劲找响应头：
+
+![image](https://note.youdao.com/yws/public/resource/ed66c5adb6bd9f25d16328563f5b7e9d/xmlnote/B34808B80F204D6B807B2FA9CC201AAF/1020)
+
+---
+
+### 第六题 disable_button
+
+###### 打开链接发现一个不能按的按钮框，老办法，f12
+
+![image](https://note.youdao.com/yws/public/resource/ed66c5adb6bd9f25d16328563f5b7e9d/xmlnote/271BA8A5CC85468593CD2E5C14374DF7/1047)
+
+###### 把disabled的内容删去，把按钮变为可按状态。
+
+![image](https://note.youdao.com/yws/public/resource/ed66c5adb6bd9f25d16328563f5b7e9d/xmlnote/CC813F0F4A9743C8A6B1831E4BE311BD/1048)
+
+###### 按下按钮之后，得到flag
+
+---
+
+### 第七题
+
+###### 看到js的样式，直觉到与javascript有关。打开网页发现要输密码，啥也没想点了个确认发现换了网页，查看原代码之后发现了这个
+
+![image](https://note.youdao.com/yws/public/resource/ed66c5adb6bd9f25d16328563f5b7e9d/xmlnote/AA0E763E45D64127A493FDD64E9A4781/1078)
+
+```
+dechiffre("\x35\x35\x2c\x35\x36\x2c\x35\x34\x2c\x37\x39\x2c\x31\x31\x35\x2c\x36\x39\x2c\x31\x31\x34\x2c\x31\x31\x36\x2c\x31\x30\x37\x2c\x34\x39\x2c\x35\x30")
+```
+##### \x在c语言中是十六进制，于是转换成十进制，再用acsii码对比一下。
+
+---
+
+### 第八题 xff_referer
+
+###### 得，没见过的东西，再去继续学习。
+
+###### X-Forwarded-For:简称XFF头，它代表客户端，也就是HTTP的请求端真实的IP，只有在通过了HTTP 代理或者负载均衡服务器时才会添加该项。
+
+###### HTTP Referer：header的一部分，当浏览器向web服务器发送请求的时候，一般会带上Referer，告诉服务器我是从哪个页面链接过来的。
+
+###### 要伪造ip地址，网上查阅一下火狐浏览器可以用插件，装上之后伪造ip。
+
+![image](https://note.youdao.com/yws/public/resource/ed66c5adb6bd9f25d16328563f5b7e9d/xmlnote/FF3454F2B5254B3E8E329309CAC4DDF9/1113)
+
+###### 学习一下burp的基本操作：
+
+![image](https://note.youdao.com/yws/public/resource/ed66c5adb6bd9f25d16328563f5b7e9d/xmlnote/9C89D5F6F448436D907A39276734AC3B/1101)
+
+###### 看到一个google
+
+![image](https://note.youdao.com/yws/public/resource/ed66c5adb6bd9f25d16328563f5b7e9d/xmlnote/152649CFF88745FDB01E38FF6BAD7130/1100)
+
+---
+
+### 第九题 weak auth
+
+###### 上来就让输入信息：
+
+![image](https://note.youdao.com/yws/public/resource/ed66c5adb6bd9f25d16328563f5b7e9d/xmlnote/9CAC886955614F74BE2A3E154EE1A1D2/1112)
+
+###### 学习一下burp的爆破操作，网上找些字典，把用户名跟密码输入：
+
+![image](https://note.youdao.com/yws/public/resource/ed66c5adb6bd9f25d16328563f5b7e9d/xmlnote/A9E0171D1D4E4C5094F46B9139109E32/1104)
+
+![image](https://note.youdao.com/yws/public/resource/ed66c5adb6bd9f25d16328563f5b7e9d/xmlnote/79AA845DDAA24329B381C8D8419C6C3F/1110)
+
+---
+
+### 第十题 webshell
+
+###### 为了连接webshell专门搞个antsword
+
+![image](https://note.youdao.com/yws/public/resource/ed66c5adb6bd9f25d16328563f5b7e9d/xmlnote/2C0E3FB0628E436FB26817D99ADC159E/1109)
+
+###### 说实话我一开始不知道这个连接密码是啥，上网查了查：
+
+![image](https://note.youdao.com/yws/public/resource/ed66c5adb6bd9f25d16328563f5b7e9d/xmlnote/C5BE00174AB24367B61425FDB8135AA9/1103)
+
+###### 进去之后找到了flag.txt:
+
+![image](https://note.youdao.com/yws/public/resource/ed66c5adb6bd9f25d16328563f5b7e9d/xmlnote/1AC7E5784B474142B6A9265C84B584B6/1107)
+
+---
+
+### 第十一题 command execution
+
+###### ping？再次上网找资料，发现这个题要考windows命令操作，对照着手册缓缓地输入了127.0.0.1来进入本地，ls访问目录，然后再找flag.txt,最后把flag找出来。操作手册看得头懵。
+
+![image](https://note.youdao.com/yws/public/resource/ed66c5adb6bd9f25d16328563f5b7e9d/xmlnote/853F123CFC474810BA7C1E62EFE1F647/1105)
+
+---
+
+### 第十二题 simple_php
+
+###### 既然是php写的代码，就要看看代码的意思了。
+
+![image](https://note.youdao.com/yws/public/resource/ed66c5adb6bd9f25d16328563f5b7e9d/xmlnote/A9F73AA560734790BD0BBACD73CF0145/1106)
+
+###### 在不停的查询之后，了解到，第一个if，因为只用了两个等号，那么判定为弱比较，只要开头是0就行，而且后面不能全部为数字，那就带几个字母。
+###### 第二个if要知道这个函数判断b是否为数字。
+###### 第三个if，b是一个大于1234的数，后面还要加上一些字母。
+###### 保存一下学php的教程，然后缓缓地在url框输入点东西：
+
+![image](https://note.youdao.com/yws/public/resource/ed66c5adb6bd9f25d16328563f5b7e9d/xmlnote/72A9207618D04BB6B0AAB87B39447D9A/1102)
+
+###### 终于搞完了flag
+
+---
+##### 有一说一，要想做题，真的要学好多东西，各种各样的知识。学会好好利用网络资源很重要。
+~~一瘸一拐的在网络知识的帮助下终于懵懵懂懂的搞完了这几个题。~~
+</body>
+</html>

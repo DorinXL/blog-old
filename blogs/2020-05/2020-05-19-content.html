@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<script src="https://cdn.jsdelivr.net/npm/texme@1.2.2"></script>
+<meta name="referrer" content="no-referrer">
+<head>
+    <meta charset="UTF-8">
+    <title>2020/5/19 BUU_[ACTF新生赛2020]usualCrypt</title>
+</head>
+<body>
+<p><img src="https://img2020.cnblogs.com/blog/1858293/202005/1858293-20200519185540710-32673582.png" alt="" /></p>
+<p><span style="font-family: 黑体; font-size: 14pt;">下载下来，exe扔进去看看有没有壳： </span></p>
+<p><img src="https://img2020.cnblogs.com/blog/1858293/202005/1858293-20200519185541156-1625029507.png" alt="" /></p>
+<p><span style="font-family: 黑体; font-size: 14pt;">没有，运行一下看看是干啥的： </span></p>
+<p><img src="https://img2020.cnblogs.com/blog/1858293/202005/1858293-20200519185541494-192711794.png" alt="" /></p>
+<p><span style="font-family: 黑体; font-size: 14pt;">很普通的界面，输入flag。 </span></p>
+<p><span style="font-family: 黑体; font-size: 14pt;">扔进IDA分析一波： </span></p>
+<p><img src="https://img2020.cnblogs.com/blog/1858293/202005/1858293-20200519185541772-1359278171.png" alt="" /></p>
+<p><span style="font-family: 黑体; font-size: 14pt;">main函数主体也比较简单，输入&mdash;&mdash;处理&mdash;&mdash;判断。 </span></p>
+<p><span style="font-family: 黑体; font-size: 14pt;">我们进入sub_401080看看，这个函数是将我们输入的v10进行加密，然后存到v5里面。 </span></p>
+<p><img src="https://img2020.cnblogs.com/blog/1858293/202005/1858293-20200519185542096-1949003932.png" alt="" /></p>
+<p><span style="font-family: 黑体; font-size: 14pt;">加密主体跟base64差不多，但是注意这里有两个函数，第一个函数： </span></p>
+<p><img src="https://img2020.cnblogs.com/blog/1858293/202005/1858293-20200519185542330-1606565489.png" alt="" /></p>
+<p><span style="font-family: 黑体; font-size: 14pt;">这个函数是将base64表处理。就是一个交换位置的函数。他将整个表分成了地址相连的两个数组。把两个数组的第6-14位进行交换。 </span></p>
+<p><img src="https://img2020.cnblogs.com/blog/1858293/202005/1858293-20200519185542588-491908593.png" alt="" /></p>
+<p><span style="font-family: 黑体; font-size: 14pt;">交换完毕后是这个样子：ABCDEF<span style="color: red;">QRSTUVWXY</span>P<span style="color: red;">GHIJKLMNO</span>Zabcdefghijklmnopqrstuvwxyz0123456789+/ </span></p>
+<p><span style="font-family: 黑体; font-size: 14pt;">最后这里还有另一个函数： </span></p>
+<p><img src="https://img2020.cnblogs.com/blog/1858293/202005/1858293-20200519185542821-1542454272.png" alt="" /></p>
+<p><span style="font-family: 黑体; font-size: 14pt;">这个函数是大小写转换： </span></p>
+<p><img src="https://img2020.cnblogs.com/blog/1858293/202005/1858293-20200519185543054-122502144.png" alt="" /></p>
+<p><span style="font-family: 黑体; font-size: 14pt;">把原数据zMXHz3TIgnxLxJhFAdtZn2fFk3lYCrtPC2l9转化成： </span></p>
+<p><span style="font-family: 黑体; font-size: 14pt;">ZmxhZ3tiGNXlXjHfaDTzN2FfK3LycRTpc2L9 </span></p>
+<p><span style="font-family: 黑体; font-size: 14pt;">那么我们倒退一下，因为base64是将3个8位数据转化成4个6位数据，我们不考虑过程，只看结果即可，将被交换的18个字母代入进去： </span></p>
+<p><span style="font-family: 黑体; font-size: 14pt;">ZmxhZ3ti<span style="color: red;">GNXlX</span>j<span style="color: red;">H</span>faD<span style="color: red;">T</span>z<span style="color: red;">N</span>2Ff<span style="color: red;">K</span>3<span style="color: red;">L</span>yc<span style="color: red;">RT</span>pc2<span style="color: red;">L</span>9 </span></p>
+<p><span style="font-family: 黑体; font-size: 14pt;">ZmxhZ3ti<span style="color: red;">QXNlN</span>j<span style="color: red;">R</span>faD<span style="color: red;">J</span>z<span style="color: red;">X</span>2Ff<span style="color: red;">U</span>3<span style="color: red;">V</span>yc<span style="color: red;">HJ</span>pc2<span style="color: red;">V</span>9 </span></p>
+<p><span style="font-family: 黑体; font-size: 14pt;">找个在线网站解密一下： </span></p>
+<p><img src="https://img2020.cnblogs.com/blog/1858293/202005/1858293-20200519185543319-225422881.png" alt="" /></p>
+<p><span style="font-family: 黑体; font-size: 14pt;">最后bb两句： </span></p>
+<p><span style="font-family: 黑体; font-size: 14pt;">不学py真的不行了，c语言实现一些功能有些麻烦，需要这种更高效的语言了。 </span></p>
+<p><span style="font-family: 黑体; font-size: 14pt;">5pqX5oGL5LqG5Zub5bm055qE5Lq65oOz6Lef5oiR5Zyo5LiA6LW377yM5byA5b+D77yB5L2G5piv5rKh5aSE5aSf5LiA5bm05ZGi5bCx5Zug5Li65byC5Zyw5YiG5LqG77yM5omA5Lul5oiR5oqK6L+Z5Y+l6K+d5pS55oiQYmFzZTY05LqG77yM55yL5Yiw6L+Z5Y+l6K+d57uZ5oiR5pW056C06Ziy5LqG</span></p>
+</body>
+</html>

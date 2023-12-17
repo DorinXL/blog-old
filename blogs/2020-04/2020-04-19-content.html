@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<script src="https://cdn.jsdelivr.net/npm/texme@1.2.2"></script>
+<meta name="referrer" content="no-referrer">
+<head>
+    <meta charset="UTF-8">
+    <title>由一道逆向题而引发，IDA调试ELF文件</title>
+</head>
+<body>
+<p>
+     </p><p><span style="font-size:16pt">通过suctf-2016的一道题：serial-150而引发的一系列问题与解决方案：
+</span></p><ol><li><div style="text-align: justify"><span style="font-size:16pt"><strong>这道题目怎么解：
+</strong></span></div><p><span style="font-size:12pt">本意是想通过解决这道题来学习新知识，确实学到了。
+</span></p><p><span style="font-size:12pt">IDA打开后发现无法反编译，此时我想，如果是exe的话我可以用od动态调试，可是elf该用什么呢？linux上有专门的调试工具，可我都没怎么用过。
+</span></p><p><span style="font-size:12pt">在网上搜寻wp后发现用的是IDA通过远程连接linux来调试elf文件，那么问题来了，我不会。
+</span></p></li><li><div style="text-align: justify"><span style="font-size:16pt"><strong>IDA远程动态调试ELF文件
+</strong></span></div><p><span style="font-size:12pt">因为还没有研究《IDA Pro权威指南》，暂时跟着网上的来。
+</span></p><p><span style="font-size:12pt">综合了多家博客的方式，我也算终于摸索出来如何实现IDA远程调试ELF文件。
+</span></p><p>
+     </p><p><span style="font-size:12pt">从效果上看，IDA在我主机上运行，通过设置连接到了虚拟机的linux系统上，实现了主机调试，虚拟机运作的这么一种方式。原理暂不明白。
+</span></p><p><span style="font-size:12pt">以下是成功之后的情况：
+</span></p><p><img src="https://img2020.cnblogs.com/blog/1858293/202004/1858293-20200419181851891-1113362872.png" alt=""/>
+</p><p>
+     </p><p><img src="https://img2020.cnblogs.com/blog/1858293/202004/1858293-20200419181852351-1074976889.png" alt=""/>
+</p><p>
+     </p><p><span style="font-size:12pt">连接的第一步：
+</span></p><p><img src="https://img2020.cnblogs.com/blog/1858293/202004/1858293-20200419181852717-1851040276.png" alt=""/>
+</p><p><span style="font-size:12pt">将对应的文件复制到linux中，一个32位一个64位请自己选择。（以64位为例
+</span></p><p><span style="font-size:12pt">然后我将需要调试的文件一并复制到一个专门的文件夹：
+</span></p><p><img src="https://img2020.cnblogs.com/blog/1858293/202004/1858293-20200419181852949-2000538611.png" alt=""/>
+</p><p>
+     </p><p><span style="font-size:12pt">然后在linux中运行，这里我用了【chmod 777 linux_server64】指令打开权限，然后【./linux_server64】开启服务：
+</span></p><p><img src="https://img2020.cnblogs.com/blog/1858293/202004/1858293-20200419181853164-803567829.png" alt=""/>
+</p><p>
+     </p><p><span style="font-size:12pt">此时，linux上的步骤已经完成了。
+</span></p><p><span style="font-size:12pt">如果是第一次操作的话需要加几个步骤：
+</span></p></li></ol><p><span style="font-size:12pt">【ifconfig】来找到自己虚拟机的ip地址：
+</span></p><p style="margin-left: 18pt"><img src="https://img2020.cnblogs.com/blog/1858293/202004/1858293-20200419181853391-879678766.png" alt=""/>
+</p><p><span style="font-size:12pt">我的虚拟机在这一步出现了问题，这是后面我要说的。
+</span></p><p><span style="font-size:12pt">【pwd】记录所在位置的路径：
+</span></p><p style="margin-left: 18pt"><img src="https://img2020.cnblogs.com/blog/1858293/202004/1858293-20200419181853647-1102459947.png" alt=""/>
+</p><p>
+     </p><p style="margin-left: 18pt"><span style="font-size:12pt">然后就是主机上IDA的设置了：
+</span></p><p style="margin-left: 18pt"><span style="font-size:12pt">像之前一样将文件拖入IDA，然后打开。
+</span></p><p style="margin-left: 18pt"><span style="font-size:12pt">打开之后在菜单栏：
+</span></p><p><img src="https://img2020.cnblogs.com/blog/1858293/202004/1858293-20200419181853848-741429943.png" alt=""/>select debugger
+</p><p>
+     </p><p><img src="https://img2020.cnblogs.com/blog/1858293/202004/1858293-20200419181854079-356618477.png" alt=""/><span style="font-size:12pt">选择remote linux debugger
+</span></p><p>
+     </p><p><img src="https://img2020.cnblogs.com/blog/1858293/202004/1858293-20200419181854373-1669812308.png" alt=""/><span style="font-size:12pt">选择process options
+</span></p><p>
+     </p><p style="margin-left: 18pt"><span style="font-size:12pt">这一步就比较重要了，也比较容易出错，改写什么我都在图中标注好了。
+</span></p><p><img src="https://img2020.cnblogs.com/blog/1858293/202004/1858293-20200419181854742-821305326.png" alt=""/>
+</p><p style="margin-left: 18pt">
+     </p><p style="margin-left: 18pt"><span style="font-size:12pt">如果没有问题的话，我们按下F9就可以开始调试了，同时linux虚拟机上会显示连接成功的消息：
+</span></p><p><img src="https://img2020.cnblogs.com/blog/1858293/202004/1858293-20200419181854986-2089077480.png" alt=""/>
+</p><p>
+     </p><p style="margin-left: 18pt"><span style="font-size:12pt">之后便可以开始调试了，具体怎么调试就是另一个问题了。
+</span></p><p style="margin-left: 18pt">
+     </p><p style="margin-left: 18pt"><span style="font-size:16pt"><strong>一些问题：
+</strong></span></p><p style="margin-left: 18pt"><span style="font-size:14pt"><em>第一个问题：
+</em></span></p><p style="margin-left: 18pt"><span style="font-size:12pt">我遇到的第一个问题就是IDA反映了这么一段话：
+</span></p><p style="margin-left: 18pt"><span style="font-size:12pt">The file cant be loaded by the debugger plugin.
+</span></p><p style="margin-left: 18pt"><span style="font-size:12pt">Please verify that the parameters are valid.
+</span></p><p style="margin-left: 18pt"><span style="font-size:12pt">调试器插件无法加载文件，请验证参数是否有效。
+</span></p><p style="margin-left: 18pt"><span style="font-size:12pt">我解决这个问题的方法是关闭了防火墙，大概放开端口也可以解决。
+</span></p><p style="margin-left: 18pt"><span style="font-size:12pt">Ubuntu关闭防火墙：【sudo ufw disable】
+</span></p><p style="margin-left: 18pt"><span style="font-size:12pt">Ubuntu打开防火墙：【sudo ufw enable】
+</span></p><p style="margin-left: 18pt"><span style="font-size:12pt">Ubuntu开启端口：【sudo ufw allow 端口号】
+</span></p><p style="margin-left: 18pt">
+     </p><p style="margin-left: 18pt"><span style="font-size:14pt"><em>第二个问题：
+</em></span></p><p style="margin-left: 18pt"><span style="font-size:12pt">    <img src="https://img2020.cnblogs.com/blog/1858293/202004/1858293-20200419181855218-1177897661.png" alt=""/>
+		</span></p><p style="margin-left: 18pt"><span style="font-size:12pt">这个是因为填写的ip地址不正确，至于为什么填了个这个，是因为我第一次ifconfig的时候没有ip地址…
+</span></p><p style="margin-left: 18pt">
+     </p><p style="margin-left: 18pt"><span style="font-size:14pt"><em>第三个问题：
+</em></span></p><p style="margin-left: 18pt"><img src="https://img2020.cnblogs.com/blog/1858293/202004/1858293-20200419181855404-1080253292.png" alt=""/><span style="font-size:12pt">
+		</span></p><p style="margin-left: 18pt"><span style="font-size:12pt">这个也是因为输错了ip，不过这次不是localhost了，是我另外的虚拟机的。
+</span></p><p style="margin-left: 18pt">
+     </p><ol><li><div><span style="font-size:16pt"><strong>VMware下我的Ubuntu虚拟机没有IP地址解决方案
+</strong></span></div><p><span style="font-size:12pt">在我尝试连接虚拟机的时候，第一次并没有填写正确的ip地址，因为根本没有给我。
+</span></p><p><span style="font-size:12pt">在网上找解决方案，看到一个人的博客里写着自己修改了开机选项，关闭了一些选项，把他们开启就好了</span>：<a href="https://blog.csdn.net/qq_38222534/article/details/80635272">https://blog.csdn.net/qq_38222534/article/details/80635272</a>
+</p><p>
+     </p><p><span style="font-size:12pt">最后，你问我这题怎么做？
+</span></p><p><span style="font-size:12pt">那得等我用熟动态调试才行。</span></p></li></ol>
+</body>
+</html>

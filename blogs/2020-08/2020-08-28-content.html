@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<script src="https://cdn.jsdelivr.net/npm/texme@1.2.2"></script>
+<meta name="referrer" content="no-referrer">
+<head>
+    <meta charset="UTF-8">
+    <title>关于我的pip不听话，总是说【Fatal error in launcher: Unable to create process using '"'】这件事</title>
+</head>
+<body>
+<textarea>
+    想给pycharm加个gmpy2的库，结果不能直接从设置里安装，很气。上网搜，都是手动添加。
+
+那我也来手动添加，结果发现pip的所有指令都报【Fatal error in launcher: Unable to create process using '"'】
+
+然后又去找解决方法，卸载重装都不管事。
+
+看到一种方法是在python的安装包里选择repair修复，于是我兴冲冲的去官网下载安装包，结果根本没有选项。
+
+最后我打算卸载py重装的时候，看见了这个：
+
+![](https://img2020.cnblogs.com/blog/1858293/202008/1858293-20200828095843130-619462023.png)
+
+当机立断点进去
+
+![](https://img2020.cnblogs.com/blog/1858293/202008/1858293-20200828100038710-1016444260.png)
+
+![](https://img2020.cnblogs.com/blog/1858293/202008/1858293-20200828100007952-499211909.png)
+
+我他妈直接repair，然后就修好了，pip姬恢复了被玩坏之前的样子呢~
+
+</textarea>
+</body>
+</html>

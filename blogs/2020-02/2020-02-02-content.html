@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<script src="https://cdn.jsdelivr.net/npm/texme@1.2.2"></script>
+<meta name="referrer" content="no-referrer">
+<head>
+    <meta charset="UTF-8">
+    <title>【个人笔记】ximo早期发的脱壳教程——手脱UPX壳</title>
+</head>
+<body>
+<p><h1><span style="color:#262626"><span style="font-family:等线 Light">【个人笔记】</span><span style="font-family:Calibri Light">ximo</span><span style="font-family:等线 Light">早期发的脱壳教程——手脱</span><span style="font-family:Calibri Light">UPX</span><span style="font-family:等线 Light">壳</span><span style="font-family:Calibri Light">
+				</span></span></h1></p><p>
+     </p><p><span style="font-family:微软雅黑; font-size:14pt">壳分为两种：压缩壳和加密壳，UPX是一种很简单的压缩壳。
+</span></p><p>
+     </p><p><span style="font-family:微软雅黑; font-size:14pt">手脱UPX壳：
+</span></p><p><span style="font-family:微软雅黑; font-size:14pt">工具：ExeinfoPE、OD
+</span></p><p><span style="font-family:微软雅黑; font-size:14pt">对象：rmvbfix
+</span></p><p><img src="https://img2018.cnblogs.com/blog/1858293/202002/1858293-20200202232022335-36792305.png" alt=""/>
+</p><p style="text-align: justify"><h1>方法1：单步跟踪
+</h1></p><p><span style="font-family:微软雅黑; font-size:12pt">将要脱的exe扔进od。
+</span></p><p><img src="https://img2018.cnblogs.com/blog/1858293/202002/1858293-20200202232022674-2060347863.png" alt=""/><span style="font-family:微软雅黑; font-size:12pt">
+		</span></p><p>
+     </p><p><span style="font-family:微软雅黑; font-size:12pt">这里选择"否"，不然有些操作会出现错误。
+</span></p><p>
+     </p><p><img src="https://img2018.cnblogs.com/blog/1858293/202002/1858293-20200202232022878-439056064.png" alt=""/>
+</p><p>
+     </p><p><span style="font-family:微软雅黑; font-size:12pt">进入之后从起点开始单步执行（快捷键F8），遇到pxx注意跳跃方向，手动断点跳过往回跳的指令。
+</span></p><p>
+     </p><p><img src="https://img2018.cnblogs.com/blog/1858293/202002/1858293-20200202232023167-1749088392.png" alt=""/>
+</p><p>
+     </p><p><span style="font-family:微软雅黑; font-size:12pt">遇到这种jxx后跟call指令的一并跳过。
+</span></p><p>
+     </p><p><img src="https://img2018.cnblogs.com/blog/1858293/202002/1858293-20200202232023383-2065700252.png" alt=""/>
+</p><p>
+     </p><p><span style="font-family:微软雅黑; font-size:12pt">一直单步知道如上图这样的，跳跃跨度极大，让其跳跃后便可以到达真正的入口：
+</span></p><p>
+     </p><p><img src="https://img2018.cnblogs.com/blog/1858293/202002/1858293-20200202232023646-742488226.png" alt=""/>
+</p><p>
+     </p><p><span style="font-family:微软雅黑; font-size:12pt">在入口我们右键便可以用od内工具进行脱壳。
+</span></p><p><img src="https://img2018.cnblogs.com/blog/1858293/202002/1858293-20200202232023879-338089634.png" alt=""/>
+</p><p>
+     </p><p><img src="https://img2018.cnblogs.com/blog/1858293/202002/1858293-20200202232024239-708553624.png" alt=""/>
+</p><p><span style="font-family:微软雅黑; font-size:12pt">这里选择方式1/2都可以。
+</span></p><p><img src="https://img2018.cnblogs.com/blog/1858293/202002/1858293-20200202232024481-285253099.png" alt=""/>
+</p><p>
+     </p><p style="text-align: justify"><h1>方法2：ESP定律法
+</h1></p><p><span style="font-family:微软雅黑; font-size:12pt">一进入要先确保硬件断点是清空状态的。
+</span></p><p><img src="https://img2018.cnblogs.com/blog/1858293/202002/1858293-20200202232024879-365031608.png" alt=""/>
+</p><p><img src="https://img2018.cnblogs.com/blog/1858293/202002/1858293-20200202232025099-442787278.png" alt=""/>
+</p><p>
+     </p><p><span style="font-family:微软雅黑; font-size:12pt">我们进行push入栈之后，在右侧寄存器里可以看到ESP有了操作，右键让其进入数据窗口。
+</span></p><p>
+     </p><p><img src="https://img2018.cnblogs.com/blog/1858293/202002/1858293-20200202232025353-1485175939.png" alt=""/>
+</p><p>
+     </p><p><span style="font-family:微软雅黑; font-size:12pt">也可以在下方指令框中输入 dd/hr ESP地址
+</span></p><p>
+     </p><p><img src="https://img2018.cnblogs.com/blog/1858293/202002/1858293-20200202232025631-151688006.png" alt=""/>
+</p><p>
+     </p><p><span style="font-family:微软雅黑; font-size:12pt">设置硬件访问，word和Dword都可。
+</span></p><p>
+     </p><p><img src="https://img2018.cnblogs.com/blog/1858293/202002/1858293-20200202232025881-2081215009.png" alt=""/>
+</p><p>
+     </p><p><span style="font-family:微软雅黑; font-size:12pt">然后运行一下：
+</span></p><p>
+     </p><p><img src="https://img2018.cnblogs.com/blog/1858293/202002/1858293-20200202232026181-380409625.png" alt=""/>
+</p><p>
+     </p><p>随后就和方法1一样继续往下走。
+</p><p style="text-align: justify"><h1>方法3：二次内存镜像法
+</h1></p><p><img src="https://img2018.cnblogs.com/blog/1858293/202002/1858293-20200202232026467-1956779309.png" alt=""/>
+</p><p>
+     </p><p>
+     </p><p>可以通过菜单栏"查看—内存"或直接按m进入内存界面：
+</p><p><img src="https://img2018.cnblogs.com/blog/1858293/202002/1858293-20200202232026722-1213014504.png" alt=""/>
+</p><p>
+     </p><p><span style="font-family:微软雅黑; font-size:12pt">对区段".rsrc"下断点，下面的区段不用管，之下第一个rsrc，后面的是系统的区段。
+</span></p><p><span style="font-family:微软雅黑; font-size:12pt">下完之后运行走一步，然后回来：
+</span></p><p>
+     </p><p><img src="https://img2018.cnblogs.com/blog/1858293/202002/1858293-20200202232026989-1610571867.png" alt=""/>
+</p><p>
+     </p><p><span style="font-family:微软雅黑; font-size:12pt">回来之后在401000处再下一次
+</span></p><p><span style="font-family:微软雅黑; font-size:12pt">随后单步往下走，同方法1
+</span></p><p>
+     </p><p style="text-align: justify"><h1>方法4：直捣黄龙（适用于绝大部分的UPX壳和部分Aspack壳）
+</h1></p><p><span style="font-family:微软雅黑; font-size:12pt">众所周知，push的反义词是pop，有入栈的push，必定有出栈的pop
+</span></p><p>
+     </p><p><img src="https://img2018.cnblogs.com/blog/1858293/202002/1858293-20200202232027307-1651989000.png" alt=""/>
+</p><p>
+     </p><p><span style="font-family:微软雅黑; font-size:12pt">我们查找popad，因为是pushad所以后面的ad相同，注意不用勾选整个块，因为整个块的popad绝对不止一个。
+</span></p><p>
+     </p><p><img src="https://img2018.cnblogs.com/blog/1858293/202002/1858293-20200202232027563-1080268248.png" alt=""/>
+</p><p>
+     </p><p><span style="font-family:微软雅黑; font-size:14pt">好，找到了，单步运行，同方法1
+</span></p><p>
+     </p><p><img src="https://img2018.cnblogs.com/blog/1858293/202002/1858293-20200202232027767-604388203.png" alt=""/>
+</p><p>
+     </p><p>
+     </p><p>
+     </p><p>
+     </p><p>
+     </p><p>
+     </p><p>
+     </p>
+</body>
+</html>
